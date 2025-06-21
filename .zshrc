@@ -36,6 +36,3 @@ setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_verify
 source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
