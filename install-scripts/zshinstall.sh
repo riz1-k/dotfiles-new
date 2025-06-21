@@ -11,8 +11,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Progress tracking
-TOTAL_STEPS=7
+# Progress tracking TOTAL_STEPS=7
 CURRENT_STEP=0
 
 # Function to print progress
@@ -130,6 +129,17 @@ else
     git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git "$ZSH_CUSTOM/plugins/fast-syntax-highlighting"
     print_success "fast-syntax-highlighting installed successfully"
 fi
+
+#Step 8: Install Powerlevel10k
+print_progress "Installing Powerlevel10k..."
+if [ -d "$ZSH_CUSTOM/plugins/powerlevel10k" ]; then
+    print_warning "Powerlevel10k is already installed"
+else
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+    echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
+    print_success "Powerlevel10k installed successfully"
+fi
+
 
 echo -e "\n${GREEN}✓ Setup completed successfully!${NC}"
 
