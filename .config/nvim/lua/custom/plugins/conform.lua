@@ -18,6 +18,7 @@ return {
         vue = { "prettier" },
         svelte = { "prettier" },
         lua = { "stylua" },
+        go = { "gofumpt", "goimports-reviser", "golines" },
       },
     })
     -- Manual format keymap

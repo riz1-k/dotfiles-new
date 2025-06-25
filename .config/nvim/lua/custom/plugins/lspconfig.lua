@@ -42,6 +42,7 @@ return {
       require("mason-lspconfig").setup({
         -- Automatically install these language servers if not already installed
         ensure_installed = {
+          "gopls",       -- Go language server
           "html",        -- HTML Language Server
           "cssls",       -- CSS Language Server
           "tailwindcss", -- Tailwind CSS Language Server
@@ -52,11 +53,12 @@ return {
 
         -- Disable automatic enabling to avoid conflicts
         automatic_enable = false,
+        automatic_installation = true,
       })
 
       -- Async format after save (non-blocking)
       vim.api.nvim_create_autocmd("BufWritePost", {
-        pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.html", "*.css", "*.scss", "*.md", "*.yaml", "*.yml", "*.vue", "*.svelte" },
+        pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.html", "*.css", "*.scss", "*.md", "*.yaml", "*.yml", "*.vue", "*.svelte", "*.go" },
         callback = function()
           require("conform").format({
             async = true,
@@ -122,6 +124,27 @@ return {
             },
           },
         },
+      })
+
+      lspconfig.gopls.setup({
+        cmd = { "gopls" },
+        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        root_dir = function(fname)
+          return require("lspconfig.util").root_pattern("go.work", "go.mod", ".git")(fname)
+        end,
+        settings = {
+          gopls = {
+            analyses = {
+              unusedparams = true,
+              nilness = true,
+              shadow = true,
+              unusedwrite = true,
+              unreachable = true,
+              unused = true,
+              redeclared = true,
+            },
+          }
+        }
       })
 
       -- ESLint Language Server
