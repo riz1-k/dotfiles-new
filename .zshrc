@@ -11,15 +11,13 @@ fi
 eval "$(zoxide init zsh)"
 
 alias n="nvim"
-alias gt="git"
+alias g="git"
 alias c="clear"
 alias su="sudo"
 alias e="exit"
 alias tm="tmux"
-alias ff="fastfetch"
 alias lg="lazygit"
 alias ls="eza --icons=auto"
-alias cd="z"
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"

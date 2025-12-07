@@ -135,7 +135,7 @@ print_progress "Installing Powerlevel10k..."
 if [ -d "$ZSH_CUSTOM/plugins/powerlevel10k" ]; then
     print_warning "Powerlevel10k is already installed"
 else
-    echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
     print_success "Powerlevel10k installed successfully"
 fi
 
