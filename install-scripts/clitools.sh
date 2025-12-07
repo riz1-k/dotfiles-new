@@ -35,19 +35,40 @@ print_warning() {
     echo -e "${YELLOW}⚠ Warning: $1${NC}"
 }
 
-# 1: Install Lazygit
+#1: Install Node.js
+print_progress "Installing Node.js..."
+if command -v node >/dev/null 2>&1; then
+    print_warning "Node.js is already installed"
+else
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    \. "$HOME/.nvm/nvm.sh"
+    nvm install 24
+    print_success "Node.js installed successfully"
+fi
+
+#2: Install Bun
+print_progress "Installing Bun..."
+if command -v bun >/dev/null 2>&1; then
+    print_warning "Bun is already installed"
+else
+    curl -fsSL https://bun.sh/install | bash
+    echo "export PATH=\"$HOME/.bun/bin:\$PATH\"" >> ~/.zshrc
+    print_success "Bun installed successfully"
+fi
+
+# 3: Install Lazygit
 print_progress "Installing Lazygit..."
 if command -v lazygit >/dev/null 2>&1; then
     print_warning "Lazygit is already installed"
 else
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-   tar xf lazygit.tar.gz lazygit
-   sudo install lazygit -D -t /usr/local/bin/
-   print_success "Lazygit installed successfully"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit -D -t /usr/local/bin/
+    print_success "Lazygit installed successfully"
 fi
 
-# 2: Install Tmux and Tmux Plugin Manager
+# 4: Install Tmux and Tmux Plugin Manager
 print_progress "Installing Tmux and Tmux Plugin Manager..."
 if command -v tmux >/dev/null 2>&1; then
     print_warning "Tmux is already installed"

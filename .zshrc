@@ -12,6 +12,7 @@ eval "$(zoxide init zsh)"
 
 alias n="nvim"
 alias g="git"
+alias gcam="git commit -am"
 alias c="clear"
 alias su="sudo"
 alias e="exit"
@@ -42,3 +43,6 @@ setopt share_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_verify
+
+#bun
+export PATH="$HOME/.bun/bin:$PATH"
