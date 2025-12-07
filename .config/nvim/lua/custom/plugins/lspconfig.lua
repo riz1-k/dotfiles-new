@@ -42,7 +42,6 @@ return {
       require("mason-lspconfig").setup({
         -- Automatically install these language servers if not already installed
         ensure_installed = {
-          "gopls",       -- Go language server
           "html",        -- HTML Language Server
           "cssls",       -- CSS Language Server
           "tailwindcss", -- Tailwind CSS Language Server
@@ -126,26 +125,6 @@ return {
         },
       })
 
-      lspconfig.gopls.setup({
-        cmd = { "gopls" },
-        filetypes = { "go", "gomod", "gowork", "gotmpl" },
-        root_dir = function(fname)
-          return require("lspconfig.util").root_pattern("go.work", "go.mod", ".git")(fname)
-        end,
-        settings = {
-          gopls = {
-            analyses = {
-              unusedparams = true,
-              nilness = true,
-              shadow = true,
-              unusedwrite = true,
-              unreachable = true,
-              unused = true,
-              redeclared = true,
-            },
-          }
-        }
-      })
 
       -- ESLint Language Server
       lspconfig.eslint.setup({
