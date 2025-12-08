@@ -48,6 +48,7 @@ return {
           "lua_ls",      -- Lua Language Server
           "vtsls",       -- TypeScript/JavaScript Language Server
           "eslint",      -- ESLint
+          "biome",       -- Biome
         },
 
         -- Disable automatic enabling to avoid conflicts
@@ -120,6 +121,20 @@ return {
           javascript = {
             preferences = {
               includePackageJsonAutoImports = "auto",
+            },
+          },
+        },
+      })
+
+      -- Biome
+      lspconfig.biome.setup({
+        settings = {
+          biome = {
+            lsp = {
+              formatOnSave = true,
+              showReferences = true,
+              showSignatures = true,
+              signatureHelpOnSelect = true,
             },
           },
         },
