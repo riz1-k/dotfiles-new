@@ -1,0 +1,116 @@
+{
+	"theme": {
+		"dark": "Min Dark (Blurred)",
+		"light": "Min Light (Blurred)"
+	},
+	"ui_font_family": "JetBrains Mono",
+	"ui_font_size": 14,
+	"ui_font_weight": 600,
+	"buffer_font_family": "MonoLisa",
+	"buffer_font_size": 15,
+	"buffer_font_weight": 600,
+	"buffer_line_height": {
+		"custom": 2
+	},
+	"terminal": {
+		"font_family": "JetBrains Mono",
+		"font_size": 16,
+		"line_height": "comfortable",
+		"env": {
+			"EDITOR": "zed --wait"
+		},
+		"shell": "system",
+		"cursor_shape": "block",
+		"default_height": 1000
+	},
+	"cursor_blink": false,
+	"vim_mode": true,
+	"vim": {
+		"use_system_clipboard": "always",
+		"cursor_shape": {
+			"insert": "block",
+			"normal": "block",
+			"replace": "block",
+			"visual": "block"
+		},
+		"default_mode": "normal",
+		"toggle_relative_line_numbers": true,
+		"use_smartcase_find": true
+	},
+	"format_on_save": "on",
+	"formatter": "language_server",
+	"project_panel": {
+		"button": true,
+		"dock": "right",
+		"git_status": true,
+		"auto_fold_dirs": false
+	},
+	"toolbar": {
+		"selections_menu": false,
+		"quick_actions": false,
+		"breadcrumbs": false
+	},
+	"tab_bar": {
+		"show_nav_history_buttons": false,
+		"show_tab_bar_buttons": false
+	},
+	"status_bar": {
+		"experimental.show": false
+	},
+	"jsx_tag_auto_close": {
+		"enabled": true
+	},
+	"code_actions_on_format": {
+		"source.organizeImports": true,
+		"source.removeUnusedImports": true,
+		"source.fixAll.biome": true
+	},
+	"features" :{
+	  "edit_prediction_provider" :"supermaven"
+	},
+	"inline_code_actions": true,
+	"languages": {
+		"JavaScript": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"TypeScript": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"TSX": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"JSON": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"JSONC": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		},
+		"CSS": {
+			"formatter": {
+				"language_server": {
+					"name": "biome"
+				}
+			}
+		}
+	}
+}
