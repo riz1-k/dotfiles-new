@@ -47,6 +47,7 @@ return {
   },
   config = function(_, opts)
     require("catppuccin").setup(opts)
+    require("catppuccin").compile_into_lualine()
     vim.cmd.colorscheme "catppuccin-macchiato"
   end,
 }
