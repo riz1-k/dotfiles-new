@@ -5,36 +5,35 @@ return {
     local lualine = require "lualine"
     local lazy_status = require "lazy.status" -- to configure lazy pending updates count
     local colors = {
-      color0 = "#092236",
-      color1 = "#ff5874",
-      color2 = "#c3ccdc",
-      color3 = "#1c1e26",
-      color6 = "#a1aab8",
-      color7 = "#828697",
-      color8 = "#ae81ff",
+      bg = "#0B0E14",
+      fg = "#C5C5C5",
+      orange = "#FF8F40",
+      blue = "#55B4D4",
+      green = "#AAD94C",
+      red = "#F07178",
     }
     local my_lualine_theme = {
       replace = {
-        a = { fg = colors.color0, bg = colors.color1, gui = "bold" },
-        b = { fg = colors.color2, bg = colors.color3 },
+        a = { fg = colors.bg, bg = colors.orange, gui = "bold" },
+        b = { fg = colors.fg, bg = colors.bg },
       },
       inactive = {
-        a = { fg = colors.color6, bg = colors.color3, gui = "bold" },
-        b = { fg = colors.color6, bg = colors.color3 },
-        c = { fg = colors.color6, bg = colors.color3 },
+        a = { fg = colors.fg, bg = colors.bg, gui = "bold" },
+        b = { fg = colors.fg, bg = colors.bg },
+        c = { fg = colors.fg, bg = colors.bg },
       },
       normal = {
-        a = { fg = colors.color0, bg = colors.color7, gui = "bold" },
-        b = { fg = colors.color2, bg = colors.color3 },
-        c = { fg = colors.color2, bg = colors.color3 },
+        a = { fg = colors.bg, bg = colors.orange, gui = "bold" },
+        b = { fg = colors.fg, bg = colors.bg },
+        c = { fg = colors.fg, bg = colors.bg },
       },
       visual = {
-        a = { fg = colors.color0, bg = colors.color8, gui = "bold" },
-        b = { fg = colors.color2, bg = colors.color3 },
+        a = { fg = colors.bg, bg = colors.blue, gui = "bold" },
+        b = { fg = colors.fg, bg = colors.bg },
       },
       insert = {
-        a = { fg = colors.color0, bg = colors.color2, gui = "bold" },
-        b = { fg = colors.color2, bg = colors.color3 },
+        a = { fg = colors.bg, bg = colors.green, gui = "bold" },
+        b = { fg = colors.fg, bg = colors.bg },
       },
     }
     local mode = {
@@ -56,7 +55,7 @@ return {
       file_status = true,
       path = 0,
     }
-    local branch = { "branch", icon = { "", color = { fg = "#A6D4DE" } }, "|" }
+    local branch = { "branch", icon = { "", color = { fg = colors.orange } }, "" }
     -- LSP Diagnostics component
     local diagnostics = {
       "diagnostics",
@@ -90,7 +89,7 @@ return {
             -- cond = require("noice").api.statusline.mode.has,
             lazy_status.updates,
             cond = lazy_status.has_updates,
-            color = { fg = "#ff9e64" },
+            color = { fg = colors.orange },
           },
           -- { "encoding",},
           -- { "fileformat" },
