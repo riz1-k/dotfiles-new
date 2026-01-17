@@ -4,8 +4,8 @@ return {
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, {
-        "eslint-lsp", -- ESLint Language Server
-        "eslint_d",   -- ESLint daemon for faster formatting
+        "eslint-lsp",
+        "eslint_d",
       })
     end,
   },
@@ -38,25 +38,22 @@ return {
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      -- Setup mason-lspconfig first
-      require("mason-lspconfig").setup({
-        -- Automatically install these language servers if not already installed
-        ensure_installed = {
-          "html",        -- HTML Language Server
-          "cssls",       -- CSS Language Server
-          "tailwindcss", -- Tailwind CSS Language Server
-          "lua_ls",      -- Lua Language Server
-          "vtsls",       -- TypeScript/JavaScript Language Server
-          "eslint",      -- ESLint
-          "biome",       -- Biome
-        },
+      local lspconfig = require("lspconfig")
 
-        -- Disable automatic enabling to avoid conflicts
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "html",
+          "cssls",
+          "tailwindcss",
+          "lua_ls",
+          "vtsls",
+          "eslint",
+          "biome",
+        },
         automatic_enable = false,
         automatic_installation = true,
       })
 
-      -- Async format after save (non-blocking)
       vim.api.nvim_create_autocmd("BufWritePost", {
         pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.html", "*.css", "*.scss", "*.md", "*.yaml", "*.yml", "*.vue", "*.svelte", "*.go" },
         callback = function()
@@ -68,16 +65,11 @@ return {
         end,
       })
 
-      -- Now manually setup each server
+      lspconfig.html.setup({})
 
-      -- HTML Language Server
-      vim.lsp.config("html", {})
+      lspconfig.cssls.setup({})
 
-      -- CSS Language Server
-      vim.lsp.config("cssls", {})
-
-      -- Tailwind CSS Language Server
-      vim.lsp.config("tailwindcss", {
+      lspconfig.tailwindcss.setup({
         filetypes = {
           "html",
           "css",
@@ -88,8 +80,7 @@ return {
         },
       })
 
-      -- Lua Language Server
-      vim.lsp.config("lua_ls", {
+      lspconfig.lua_ls.setup({
         settings = {
           Lua = {
             runtime = {
@@ -109,8 +100,7 @@ return {
         },
       })
 
-      -- VTSLS (TypeScript/JavaScript Language Server)
-      vim.lsp.config("vtsls", {
+      lspconfig.vtsls.setup({
         settings = {
           typescript = {
             preferences = {
@@ -125,8 +115,7 @@ return {
         },
       })
 
-      -- Biome
-      vim.lsp.config("biome", {
+      lspconfig.biome.setup({
         settings = {
           biome = {
             lsp = {
@@ -139,9 +128,7 @@ return {
         },
       })
 
-
-      -- ESLint Language Server
-      vim.lsp.config("eslint", {
+      lspconfig.eslint.setup({
         filetypes = {
           "javascript",
           "javascriptreact",

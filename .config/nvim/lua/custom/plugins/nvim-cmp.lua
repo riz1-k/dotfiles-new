@@ -45,7 +45,6 @@ return { -- Autocompletion
       sources = {
         {
           name = 'lazydev',
-          -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
           group_index = 0,
         },
         {
@@ -60,14 +59,4 @@ return { -- Autocompletion
       },
     }
   end,
-  -- opts = function()
-  --   return {
-  --     -- ...
-  --     formatting = {
-  --       format = require('lspkind').cmp_format {
-  --         before = require('tailwind-tools.cmp').lspkind_format,
-  --       },
-  --     },
-  --   }
-  -- end,
 }
