@@ -69,16 +69,15 @@ return {
       })
 
       -- Now manually setup each server
-      local lspconfig = require("lspconfig")
 
       -- HTML Language Server
-      lspconfig.html.setup({})
+      vim.lsp.config("html", {})
 
       -- CSS Language Server
-      lspconfig.cssls.setup({})
+      vim.lsp.config("cssls", {})
 
       -- Tailwind CSS Language Server
-      lspconfig.tailwindcss.setup({
+      vim.lsp.config("tailwindcss", {
         filetypes = {
           "html",
           "css",
@@ -90,7 +89,7 @@ return {
       })
 
       -- Lua Language Server
-      lspconfig.lua_ls.setup({
+      vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
             runtime = {
@@ -111,7 +110,7 @@ return {
       })
 
       -- VTSLS (TypeScript/JavaScript Language Server)
-      lspconfig.vtsls.setup({
+      vim.lsp.config("vtsls", {
         settings = {
           typescript = {
             preferences = {
@@ -127,7 +126,7 @@ return {
       })
 
       -- Biome
-      lspconfig.biome.setup({
+      vim.lsp.config("biome", {
         settings = {
           biome = {
             lsp = {
@@ -142,7 +141,7 @@ return {
 
 
       -- ESLint Language Server
-      lspconfig.eslint.setup({
+      vim.lsp.config("eslint", {
         filetypes = {
           "javascript",
           "javascriptreact",
