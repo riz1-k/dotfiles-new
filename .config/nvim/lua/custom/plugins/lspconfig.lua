@@ -38,8 +38,6 @@ return {
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      local lspconfig = require("lspconfig")
-
       require("mason-lspconfig").setup({
         ensure_installed = {
           "html",
@@ -65,11 +63,13 @@ return {
         end,
       })
 
-      lspconfig.html.setup({})
+      vim.lsp.config("html", {})
+      vim.lsp.enable("html")
 
-      lspconfig.cssls.setup({})
+      vim.lsp.config("cssls", {})
+      vim.lsp.enable("cssls")
 
-      lspconfig.tailwindcss.setup({
+      vim.lsp.config("tailwindcss", {
         filetypes = {
           "html",
           "css",
@@ -79,8 +79,9 @@ return {
           "typescriptreact",
         },
       })
+      vim.lsp.enable("tailwindcss")
 
-      lspconfig.lua_ls.setup({
+      vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
             runtime = {
@@ -99,8 +100,9 @@ return {
           },
         },
       })
+      vim.lsp.enable("lua_ls")
 
-      lspconfig.vtsls.setup({
+      vim.lsp.config("vtsls", {
         settings = {
           typescript = {
             preferences = {
@@ -114,8 +116,9 @@ return {
           },
         },
       })
+      vim.lsp.enable("vtsls")
 
-      lspconfig.biome.setup({
+      vim.lsp.config("biome", {
         settings = {
           biome = {
             lsp = {
@@ -127,8 +130,9 @@ return {
           },
         },
       })
+      vim.lsp.enable("biome")
 
-      lspconfig.eslint.setup({
+      vim.lsp.config("eslint", {
         filetypes = {
           "javascript",
           "javascriptreact",
@@ -145,6 +149,7 @@ return {
           validate = "on",
         },
       })
+      vim.lsp.enable("eslint")
     end,
   },
 }
