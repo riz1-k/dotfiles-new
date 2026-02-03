@@ -40,20 +40,6 @@ path=(
 )
 export PATH
 
-# Lazy load NVM 
-export NVM_DIR="$HOME/.nvm"
-nvm() {
-  unset -f nvm node
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  nvm "$@"
-}
-node() { 
-  unset -f nvm node
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  node "$@"
-}
-
 # Aliases
 alias n="nvim"
 alias g="git"
