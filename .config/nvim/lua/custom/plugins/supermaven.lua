@@ -7,6 +7,9 @@ return {
       keymaps = {
         accept_suggestion = '<Tab>',
       },
+      condition = function()
+        return vim.bo.filetype ~= 'markdown'
+      end,
     }
   end,
 }

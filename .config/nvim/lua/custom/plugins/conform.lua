@@ -14,7 +14,7 @@ return {
         html = { "prettier" },
         css = { "prettier" },
         scss = { "prettier" },
-        markdown = { "prettier" },
+        markdown = {},
         yaml = { "prettier" },
         vue = { "prettier" },
         svelte = { "prettier" },
