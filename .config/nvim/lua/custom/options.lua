@@ -40,7 +40,7 @@ vim.opt.updatetime = 250
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
-vim.opt.list = true
+vim.opt.list = false
 
 vim.opt.cursorline = false
 
@@ -57,3 +57,34 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.lsp.enable('biome')
+
+-- Set transparency
+local function set_transparency()
+  local groups = {
+    "Normal",
+    "NormalFloat",
+    "NormalNC",
+    "LineNr",
+    "CursorLineNr",
+    "SignColumn",
+    "StatusLine",
+    "StatusLineNC",
+    "WinBar",
+    "WinBarNC",
+    "Folded",
+    "FoldColumn",
+    "NonText",
+    "EndOfBuffer",
+  }
+  for _, group in ipairs(groups) do
+    vim.api.nvim_set_hl(0, group, { bg = "NONE", ctermbg = "NONE" })
+  end
+end
+
+set_transparency()
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = set_transparency,
+})
+

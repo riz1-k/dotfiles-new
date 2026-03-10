@@ -1,0 +1,53 @@
+# Font Stuff
+font-family = Fira Mono 
+font-size = 14
+font-style-bold = black
+font-thicken = true
+adjust-cell-height = 20%
+
+# Window
+window-padding-x = 12
+# window-padding-y = 0
+window-decoration = false
+
+# Cursor
+shell-integration-features = no-cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Theme
+theme = dark:Ayu, light:Ayu Light
+
+# Terminal Behavior
+command = /bin/zsh
+mouse-scroll-multiplier = 3
+scrollback-limit = 10000
+mouse-hide-while-typing = true
+
+# Performance
+shell-integration-features = cursor,title
+clipboard-paste-protection = false
+
+# Visual Enhancements
+background-opacity = 1
+background-blur = true
+bold-is-bright = true
+
+# URL Handling
+link-url = true
+link-previews = true
+
+# Behavior
+scroll-to-bottom = keystroke
+
+# Keybindings
+keybind = ctrl+shift+e=new_split:down
+keybind = ctrl+shift+i=inspector:toggle
+keybind = ctrl+shift+r=reload_config
+
+# Font Features
+font-feature = calt
+font-feature = -liga
+
+# Accessibility
+working-directory = inherit
