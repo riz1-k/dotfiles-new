@@ -45,6 +45,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+export PATH="/home/riz1/.cache/.bun/bin:$PATH"
+
 # Aliases
 alias n="nvim"
 alias g="git"
@@ -55,6 +57,7 @@ alias e="exit"
 alias tm="tmux"
 alias lg="lazygit"
 alias ls="eza --icons=auto"
+alias oc="opencode"
 
 # Lazy load zoxide
 eval "$(zoxide init zsh --hook prompt)"

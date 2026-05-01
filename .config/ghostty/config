@@ -1,13 +1,11 @@
 # Font Stuff
-font-family = Fira Mono 
-font-size = 14
-font-style-bold = black
-font-thicken = true
+font-family = Cascadia Code
+font-size = 10
 adjust-cell-height = 20%
 
 # Window
 window-padding-x = 12
-# window-padding-y = 0
+window-padding-y = 12
 window-decoration = false
 
 # Cursor
