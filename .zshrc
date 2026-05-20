@@ -45,7 +45,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-export PATH="/home/riz1/.cache/.bun/bin:$PATH"
+export PATH="$PATH:/home/riz1/.cache/.bun/bin"
 
 # Aliases
 alias n="nvim"
