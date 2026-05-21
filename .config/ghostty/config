@@ -1,5 +1,5 @@
 # Font Stuff
-font-family = Cascadia Code
+font-family = MonoLisa-Black
 font-size = 10
 adjust-cell-height = 20%
 
@@ -23,13 +23,14 @@ scrollback-limit = 10000
 mouse-hide-while-typing = true
 
 # Performance
-shell-integration-features = cursor,title
+shell-integration-features = no-cursor
 clipboard-paste-protection = false
 
 # Visual Enhancements
 background-opacity = 1
 background-blur = true
 bold-is-bright = true
+unfocused-split-opacity = 1
 
 # URL Handling
 link-url = true
@@ -42,6 +43,12 @@ scroll-to-bottom = keystroke
 keybind = ctrl+shift+e=new_split:down
 keybind = ctrl+shift+i=inspector:toggle
 keybind = ctrl+shift+r=reload_config
+keybind = ctrl+shift+\=new_split:right
+keybind = ctrl+shift+-=new_split:down
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+l=goto_split:right
 
 # Font Features
 font-feature = calt
