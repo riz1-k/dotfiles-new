@@ -64,3 +64,8 @@ eval "$(zoxide init zsh --hook prompt)"
 
 # Turso
 export PATH="$PATH:/home/riz1/.turso"
+
+# >>> railway initialize >>>
+source "$HOME/.railway/env"
+# <<< railway initialize <<<
+export PATH="$HOME/go/go/bin:$PATH"

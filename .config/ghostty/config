@@ -1,5 +1,6 @@
 # Font Stuff
 font-family = MonoLisa-Black
+
 font-size = 10
 adjust-cell-height = 20%
 
@@ -9,12 +10,12 @@ window-padding-y = 12
 window-decoration = false
 
 # Cursor
-shell-integration-features = no-cursor
+# shell-integration-features = no-cursor
 cursor-style = block
 cursor-style-blink = false
 
 # Theme
-theme = dark:Ayu, light:Ayu Light
+theme = dark:Ayu, light:Gruvbox Light Hard
 
 # Terminal Behavior
 command = /bin/zsh
@@ -49,6 +50,7 @@ keybind = ctrl+shift+h=goto_split:left
 keybind = ctrl+shift+j=goto_split:down
 keybind = ctrl+shift+k=goto_split:up
 keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+m=toggle_split_zoom
 
 # Font Features
 font-feature = calt
