@@ -69,3 +69,19 @@ export PATH="$PATH:/home/riz1/.turso"
 source "$HOME/.railway/env"
 # <<< railway initialize <<<
 export PATH="$HOME/go/go/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/riz1/.local/bin:$PATH"
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<
+
+# Android / React Native / Expo development
+export ANDROID_HOME="$HOME/Android/Sdk"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export JAVA_HOME="$HOME/.local/opt/android-studio/jbr"
+export PATH="$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$HOME/.local/opt/android-studio/bin:$PATH"
