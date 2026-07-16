@@ -4,7 +4,7 @@ return {
   lazy = false,
   opts = {
     bigfile = { enabled = true },
-    scroll = { enabled = false },
+    scroll = { enabled = true },
     dashboard = {
       sections = {
         { section = "header" },

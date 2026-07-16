@@ -2,6 +2,8 @@ return {
   "stevearc/conform.nvim",
   lazy = false,
   config = function()
+    local util = require("conform.util")
+
     require("conform").setup({
       formatters_by_ft = {
         javascript = { "biome" },
@@ -22,7 +24,8 @@ return {
       },
       formatters = {
         biome = {
-          command = "biome",
+          command = util.from_node_modules("biome"),
+          cwd = util.root_file({ "biome.json", "biome.jsonc", "package.json" }),
           args = {
             "check",
             "--write",
