@@ -29,7 +29,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 vim.opt.termguicolors = true
-vim.opt.background = "dark"
+vim.opt.background = "light"
 
 vim.opt.scrolloff = 8
 
@@ -75,6 +75,11 @@ local function set_transparency()
     "FoldColumn",
     "NonText",
     "EndOfBuffer",
+    "ColorColumn",
+    "CursorLine",
+    "CursorColumn",
+    "VertSplit",
+    "WinSeparator",
   }
   for _, group in ipairs(groups) do
     vim.api.nvim_set_hl(0, group, { bg = "NONE", ctermbg = "NONE" })
