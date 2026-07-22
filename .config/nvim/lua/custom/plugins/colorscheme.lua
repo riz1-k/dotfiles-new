@@ -1,25 +1,24 @@
-local function apply_orng_light_overrides()
-  local bg_alt = "#f3eadf"
-  local fg = "#1f2328"
-  local muted = "#4b5563"
-  local orange = "#c2410c"
-  local orange_dark = "#9a3412"
-  local green = "#116329"
-  local blue = "#0550ae"
-  local purple = "#6f42c1"
-  local red = "#b42318"
-  local cyan = "#0e7490"
+local function apply_gruvbox_material_light_overrides()
+  local bg_alt = "#f9f5d7"
+  local fg = "#282828"
+  local muted = "#7c6f64"
+  local green = "#79740e"
+  local blue = "#076678"
+  local purple = "#8f3f71"
+  local red = "#9d0006"
+  local cyan = "#427b58"
+  local orange = "#af3a03"
 
   local highlights = {
     Normal = { fg = fg, bg = "NONE" },
     NormalFloat = { fg = fg, bg = "NONE" },
     NormalNC = { fg = fg, bg = "NONE" },
-    EndOfBuffer = { fg = "#9ca3af", bg = "NONE" },
-    LineNr = { fg = "#6b7280", bg = "NONE" },
+    EndOfBuffer = { fg = "#bdae93", bg = "NONE" },
+    LineNr = { fg = "#a89984", bg = "NONE" },
     CursorLineNr = { fg = orange, bg = "NONE", bold = true },
     SignColumn = { bg = "NONE" },
     FoldColumn = { bg = "NONE" },
-    NonText = { fg = "#9ca3af", bg = "NONE" },
+    NonText = { fg = "#bdae93", bg = "NONE" },
     StatusLine = { fg = fg, bg = bg_alt },
     StatusLineNC = { fg = muted, bg = bg_alt },
     WinBar = { fg = fg, bg = "NONE" },
@@ -29,28 +28,28 @@ local function apply_orng_light_overrides()
     Constant = { fg = orange },
     String = { fg = green },
     Character = { fg = green },
-    Number = { fg = orange_dark },
-    Boolean = { fg = orange_dark },
-    Float = { fg = orange_dark },
+    Number = { fg = purple },
+    Boolean = { fg = purple },
+    Float = { fg = purple },
     Identifier = { fg = fg },
     Function = { fg = blue },
     Statement = { fg = orange, bold = true },
     Conditional = { fg = orange, bold = true },
     Repeat = { fg = orange, bold = true },
     Keyword = { fg = orange, bold = true },
-    Operator = { fg = orange_dark },
+    Operator = { fg = orange },
     Type = { fg = cyan },
     Special = { fg = purple },
     Error = { fg = red },
 
     ["@variable"] = { fg = fg },
     ["@variable.builtin"] = { fg = blue },
-    ["@constant"] = { fg = orange_dark },
-    ["@constant.builtin"] = { fg = orange_dark },
+    ["@constant"] = { fg = purple },
+    ["@constant.builtin"] = { fg = purple },
     ["@string"] = { fg = green },
     ["@string.escape"] = { fg = purple },
-    ["@number"] = { fg = orange_dark },
-    ["@boolean"] = { fg = orange_dark },
+    ["@number"] = { fg = purple },
+    ["@boolean"] = { fg = purple },
     ["@function"] = { fg = blue },
     ["@function.builtin"] = { fg = blue, bold = true },
     ["@method"] = { fg = blue },
@@ -59,14 +58,23 @@ local function apply_orng_light_overrides()
     ["@parameter"] = { fg = purple },
     ["@keyword"] = { fg = orange, bold = true },
     ["@keyword.function"] = { fg = orange, bold = true },
-    ["@keyword.operator"] = { fg = orange_dark },
+    ["@keyword.operator"] = { fg = orange },
     ["@keyword.import"] = { fg = orange, bold = true },
     ["@keyword.return"] = { fg = orange, bold = true },
-    ["@operator"] = { fg = orange_dark },
+    ["@operator"] = { fg = orange },
     ["@type"] = { fg = cyan },
     ["@type.builtin"] = { fg = cyan },
     ["@punctuation.delimiter"] = { fg = muted },
     ["@punctuation.bracket"] = { fg = muted },
+
+    ["@property.json"] = { fg = blue },
+    ["@field.json"] = { fg = blue },
+    ["@string.json"] = { fg = green },
+    ["@string.special.json"] = { fg = purple },
+    ["@number.json"] = { fg = purple },
+    ["@boolean.json"] = { fg = purple },
+    ["@punctuation.delimiter.json"] = { fg = muted },
+    ["@punctuation.bracket.json"] = { fg = muted },
 
     ["@lsp.type.variable"] = { fg = fg },
     ["@lsp.type.parameter"] = { fg = purple },
@@ -75,7 +83,7 @@ local function apply_orng_light_overrides()
     ["@lsp.type.method"] = { fg = blue },
     ["@lsp.type.type"] = { fg = cyan },
     ["@lsp.type.interface"] = { fg = cyan },
-    ["@lsp.type.enumMember"] = { fg = orange_dark },
+    ["@lsp.type.enumMember"] = { fg = purple },
   }
 
   for group, opts in pairs(highlights) do
@@ -85,15 +93,10 @@ end
 
 local function apply_colorscheme()
   if vim.o.background == "light" then
-    require("orng").setup({
-      variant = "light",
-      transparent = true,
-      italic_comment = false,
-    })
-    if vim.g.colors_name ~= "orng-light" then
-      vim.cmd.colorscheme("orng")
+    if vim.g.colors_name ~= "gruvbox-material" then
+      vim.cmd.colorscheme("gruvbox-material")
     end
-    apply_orng_light_overrides()
+    apply_gruvbox_material_light_overrides()
   elseif vim.g.colors_name ~= "ayu" then
     vim.cmd.colorscheme("ayu-dark")
   end
@@ -109,8 +112,8 @@ return {
       terminal = true,
       spell = false,
       overrides = {
-        Normal = { bg = "None" },
-        NormalFloat = { bg = "None" },
+        Normal = { fg = "#9aa3b2", bg = "None" },
+        NormalFloat = { fg = "#9aa3b2", bg = "None" },
         ColorColumn = { bg = "None" },
         SignColumn = { bg = "None" },
         Folded = { bg = "None" },
@@ -127,10 +130,15 @@ return {
     end,
   },
   {
-    "roerohan/orng.nvim",
-    name = "orng",
+    "sainnhe/gruvbox-material",
+    name = "gruvbox-material",
     priority = 999,
     config = function()
+      vim.g.gruvbox_material_background = "hard"
+      vim.g.gruvbox_material_foreground = "material"
+      vim.g.gruvbox_material_transparent_background = true
+      vim.g.gruvbox_material_better_performance = true
+
       apply_colorscheme()
 
       vim.api.nvim_create_autocmd("ColorScheme", {

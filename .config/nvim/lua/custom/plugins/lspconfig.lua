@@ -6,6 +6,8 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "eslint-lsp",
         "eslint_d",
+        "pyright",
+        "ruff",
       })
     end,
   },
@@ -19,11 +21,11 @@ return {
             mode = mode or "n"
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
           end
-          map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-          map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-          map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-          map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-          map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+          map("gd", Snacks.picker.lsp_definitions, "[G]oto [D]efinition")
+          map("gr", Snacks.picker.lsp_references, "[G]oto [R]eferences")
+          map("gI", Snacks.picker.lsp_implementations, "[G]oto [I]mplementation")
+          map("<leader>D", Snacks.picker.lsp_type_definitions, "Type [D]efinition")
+          map("<leader>ds", Snacks.picker.lsp_symbols, "[D]ocument [S]ymbols")
           map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
           map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
         end
@@ -38,6 +40,10 @@ return {
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.general = capabilities.general or {}
+      capabilities.general.positionEncodings = { "utf-16" }
+
       require("mason-lspconfig").setup({
         ensure_installed = {
           "html",
@@ -47,6 +53,8 @@ return {
           "vtsls",
           "eslint",
           "biome",
+          "pyright",
+          "ruff",
         },
         automatic_enable = false,
         automatic_installation = true,
@@ -63,13 +71,30 @@ return {
         end,
       })
 
-      vim.lsp.config("html", {})
-      vim.lsp.enable("html")
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = { "*.py", "*.pyi" },
+        callback = function()
+          require("conform").format({
+            async = false,
+            lsp_fallback = false,
+            timeout_ms = 2000,
+          })
+        end,
+      })
 
-      vim.lsp.config("cssls", {})
-      vim.lsp.enable("cssls")
+      local function setup(server, config)
+        config = config or {}
+        config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
+        config.offset_encoding = "utf-16"
+        vim.lsp.config(server, config)
+        vim.lsp.enable(server)
+      end
 
-      vim.lsp.config("tailwindcss", {
+      setup("html")
+
+      setup("cssls")
+
+      setup("tailwindcss", {
         filetypes = {
           "html",
           "css",
@@ -79,9 +104,8 @@ return {
           "typescriptreact",
         },
       })
-      vim.lsp.enable("tailwindcss")
 
-      vim.lsp.config("lua_ls", {
+      setup("lua_ls", {
         settings = {
           Lua = {
             runtime = {
@@ -100,9 +124,8 @@ return {
           },
         },
       })
-      vim.lsp.enable("lua_ls")
 
-      vim.lsp.config("vtsls", {
+      setup("vtsls", {
         settings = {
           typescript = {
             preferences = {
@@ -116,9 +139,8 @@ return {
           },
         },
       })
-      vim.lsp.enable("vtsls")
 
-      vim.lsp.config("biome", {
+      setup("biome", {
         settings = {
           biome = {
             lsp = {
@@ -130,9 +152,8 @@ return {
           },
         },
       })
-      vim.lsp.enable("biome")
 
-      vim.lsp.config("eslint", {
+      setup("eslint", {
         filetypes = {
           "javascript",
           "javascriptreact",
@@ -149,7 +170,22 @@ return {
           validate = "on",
         },
       })
-      vim.lsp.enable("eslint")
+
+      setup("pyright", {
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+            },
+          },
+        },
+      })
+
+      setup("ruff", {
+        on_attach = function(client)
+          client.server_capabilities.documentFormattingProvider = false
+        end,
+      })
     end,
   },
 }

@@ -56,8 +56,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.lsp.enable('biome')
-
 -- Set transparency
 local function set_transparency()
   local groups = {
@@ -92,4 +90,3 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
   callback = set_transparency,
 })
-

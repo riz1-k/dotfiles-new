@@ -6,6 +6,7 @@ return {
 
     require("conform").setup({
       formatters_by_ft = {
+        python = { "ruff_organize_imports", "ruff_format" },
         javascript = { "biome" },
         javascriptreact = { "biome" },
         typescript = { "biome" },

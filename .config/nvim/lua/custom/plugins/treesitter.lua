@@ -4,7 +4,10 @@ return { -- Highlight, edit, and navigate code
   main = 'nvim-treesitter.configs', -- Sets main module to use for opts
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
   opts = {
-    ensure_installed = { 'json', 'javascript', 'typescript', 'tsx', 'html', 'css', 'bash', 'lua' },
+    ensure_installed = {
+      'json', 'javascript', 'typescript', 'tsx', 'html', 'css', 'bash', 'lua',
+      'python', 'toml',
+    },
     -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {
