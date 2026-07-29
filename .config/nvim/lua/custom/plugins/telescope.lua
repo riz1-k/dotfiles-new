@@ -59,5 +59,6 @@ return {
     keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
     keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find buffer" })
     keymap.set("n", "<leader>fu", "<cmd>Telescope colorscheme<cr>", { desc = "Find colorscheme" })
+    keymap.set("n", "<leader>fr", "<cmd>Telescope lsp_references<cr>", { desc = "Find symbol references" })
   end,
 }

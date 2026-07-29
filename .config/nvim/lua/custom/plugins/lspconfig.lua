@@ -23,7 +23,7 @@ return {
           end
           map("gd", Snacks.picker.lsp_definitions, "[G]oto [D]efinition")
           map("gr", Snacks.picker.lsp_references, "[G]oto [R]eferences")
-          map("gI", Snacks.picker.lsp_implementations, "[G]oto [I]mplementation")
+          map("gi", Snacks.picker.lsp_implementations, "[G]oto [I]mplementation")
           map("<leader>D", Snacks.picker.lsp_type_definitions, "Type [D]efinition")
           map("<leader>ds", Snacks.picker.lsp_symbols, "[D]ocument [S]ymbols")
           map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
