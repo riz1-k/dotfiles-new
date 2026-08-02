@@ -1,0 +1,176 @@
+
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+plan_mode_reasoning_effort = "xhigh"
+suppress_unstable_features_warning = true
+service_tier = "default"
+
+[features]
+apps = false
+goals = true
+
+[mcp_servers.railway]
+command = "railway"
+args = ["mcp"]
+
+[mcp_servers.cloudflare]
+url = "https://mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-docs]
+url = "https://docs.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-bindings]
+url = "https://bindings.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-builds]
+url = "https://builds.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-observability]
+url = "https://observability.mcp.cloudflare.com/mcp"
+
+[notice]
+fast_default_opt_out = true
+hide_rate_limit_model_nudge = true
+
+[notice.model_migrations]
+"gpt-5.1-codex-mini" = "gpt-5.3-codex"
+"gpt-5.3-codex" = "gpt-5.4"
+
+[projects."/home/riz1"]
+trust_level = "trusted"
+
+[projects."/home/riz1/Downloads"]
+trust_level = "trusted"
+
+[projects."/home/riz1/architecture-docs"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/AI-assistant"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/ag-lock"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/articys-template"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/articys-template-v2"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/autoexpert"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/autoxpert"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/dropship-perfume"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/influensic-v2"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/perfume-project"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/sport-plus"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/dispatch"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/freelance-projects/gym"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/freelance-projects/influensic"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/freelance-projects/karkos/karkos-new"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/freelance-projects/sport-plus"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/grandfather-spy"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/my-projects/karkos"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/my-projects/karkos-old"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/personal/date"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/personal/date2"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/parisco"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/aggroup-bg"]
+trust_level = "trusted"
+
+[projects."/home/riz1/Documents/cos"]
+trust_level = "trusted"
+
+[projects."/home/riz1/Documents/cos/dhp-message-router"]
+trust_level = "trusted"
+
+[projects."/home/riz1/Documents/cos/dhp-web-api"]
+trust_level = "trusted"
+
+[projects."/home/riz1/Downloads/parisco-analytics-IT-handoff/parisco-analytics"]
+trust_level = "trusted"
+
+[projects."/home/riz1/Downloads/therapy_care_options-main"]
+trust_level = "trusted"
+
+[projects."/home/riz1/codex-reset-dates"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/parisco-new"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/karkos-new"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dotfiles"]
+trust_level = "trusted"
+
+[projects."/home/riz1/dev/articys/speedy-sdk"]
+trust_level = "trusted"
+
+[projects."/home/riz1/Downloads/smart"]
+trust_level = "trusted"
+
+[projects."/home/riz1/lilly/spp"]
+trust_level = "trusted"
+
+[[skills.config]]
+enabled = false
+path = "/home/riz1/.agents/skills/find-skills/SKILL.md"
+
+[[skills.config]]
+enabled = false
+path = "/home/riz1/.codex/skills/.system/skill-creator/SKILL.md"
+
+[[skills.config]]
+enabled = false
+path = "/home/riz1/.codex/skills/.system/skill-installer/SKILL.md"
+
+[tui]
+status_line = [
+    "model-with-reasoning",
+    "git-branch",
+    "five-hour-limit",
+    "weekly-limit",
+    "context-remaining",
+]
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+"gpt-5.6-sol" = 4
+
+default_mode_request_user_input = true
