@@ -39,6 +39,7 @@ path=(
   $path
 )
 export PATH
+export EDITOR='nvim'
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
