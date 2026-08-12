@@ -1,6 +1,8 @@
 local function apply_colorscheme()
-  if vim.g.colors_name ~= "catppuccin-mocha" then
-    vim.cmd.colorscheme("catppuccin-mocha")
+  local colorscheme = vim.o.background == "light" and "catppuccin-latte" or "catppuccin-macchiato"
+
+  if vim.g.colors_name ~= colorscheme then
+    vim.cmd.colorscheme(colorscheme)
   end
 end
 
@@ -11,10 +13,14 @@ return {
     priority = 1000,
     lazy = false,
     opts = {
-      flavour = "mocha",
+      flavour = "auto",
+      background = {
+        light = "latte",
+        dark = "macchiato",
+      },
     },
-    init = function()
-      vim.o.background = "dark"
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
       apply_colorscheme()
     end,
   },

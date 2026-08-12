@@ -11,8 +11,14 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Progress tracking TOTAL_STEPS=7
+# Progress tracking
+TOTAL_STEPS=7
 CURRENT_STEP=0
+
+# Keep user-installed binaries available in the current script and future shells.
+LOCAL_BIN="$HOME/.local/bin"
+mkdir -p "$LOCAL_BIN"
+export PATH="$LOCAL_BIN:$PATH"
 
 # Function to print progress
 print_progress() {
@@ -68,7 +74,64 @@ else
     print_success "Lazygit installed successfully"
 fi
 
-# 4: Install GitHub CLI
+# 4: Install Yazi
+print_progress "Installing Yazi..."
+if command -v yazi >/dev/null 2>&1; then
+    print_warning "Yazi is already installed"
+else
+    case "$(uname -m)" in
+        x86_64) YAZI_ARCH="x86_64" ;;
+        aarch64) YAZI_ARCH="aarch64" ;;
+        *) print_warning "Unsupported architecture for Yazi: $(uname -m)"; YAZI_ARCH="" ;;
+    esac
+
+    if [ -n "$YAZI_ARCH" ]; then
+        # Recent Yazi releases require glibc 2.39; Pop!_OS 22.04 ships 2.35.
+        GLIBC_VERSION=$(ldd --version 2>&1 | sed -n '1s/.* \([0-9][0-9]*\.[0-9][0-9]*\).*/\1/p')
+        if [ -n "$GLIBC_VERSION" ] && [ "$(printf '%s\n' "$GLIBC_VERSION" "2.39" | sort -V | head -n1)" = "2.39" ]; then
+            YAZI_VERSION=$(curl -fsSL https://api.github.com/repos/sxyazi/yazi/releases/latest | grep -m1 -Po '"tag_name":\s*"\K[^"]+')
+        else
+            YAZI_VERSION="v0.4.2"
+        fi
+
+        if ! command -v unzip >/dev/null 2>&1; then
+            sudo apt update -qq
+            sudo apt install -y unzip
+        fi
+        TMP_DIR=$(mktemp -d)
+        curl -fsSL -o "$TMP_DIR/yazi.zip" "https://github.com/sxyazi/yazi/releases/download/${YAZI_VERSION}/yazi-${YAZI_ARCH}-unknown-linux-gnu.zip"
+        unzip -q "$TMP_DIR/yazi.zip" -d "$TMP_DIR/yazi"
+        YAZI_ROOT=$(find "$TMP_DIR/yazi" -type f -name yazi -printf '%h\n' | head -n1)
+        install -m 0755 "$YAZI_ROOT/yazi" "$LOCAL_BIN/yazi"
+        [ ! -f "$YAZI_ROOT/ya" ] || install -m 0755 "$YAZI_ROOT/ya" "$LOCAL_BIN/ya"
+        rm -rf "$TMP_DIR"
+        print_success "Yazi ${YAZI_VERSION} installed successfully"
+    fi
+fi
+
+# 5: Install GitUI
+print_progress "Installing GitUI..."
+if command -v gitui >/dev/null 2>&1; then
+    print_warning "GitUI is already installed"
+else
+    case "$(uname -m)" in
+        x86_64) GITUI_ARCH="x86_64" ;;
+        aarch64) GITUI_ARCH="aarch64" ;;
+        *) print_warning "Unsupported architecture for GitUI: $(uname -m)"; GITUI_ARCH="" ;;
+    esac
+
+    if [ -n "$GITUI_ARCH" ]; then
+        GITUI_VERSION=$(curl -fsSL https://api.github.com/repos/gitui-org/gitui/releases/latest | grep -m1 -Po '"tag_name":\s*"\K[^"]+')
+        TMP_DIR=$(mktemp -d)
+        curl -fsSL -o "$TMP_DIR/gitui.tar.gz" "https://github.com/gitui-org/gitui/releases/download/${GITUI_VERSION}/gitui-linux-${GITUI_ARCH}.tar.gz"
+        tar -xzf "$TMP_DIR/gitui.tar.gz" -C "$TMP_DIR"
+        install -m 0755 "$TMP_DIR/gitui" "$LOCAL_BIN/gitui"
+        rm -rf "$TMP_DIR"
+        print_success "GitUI ${GITUI_VERSION} installed successfully"
+    fi
+fi
+
+# 6: Install GitHub CLI
 print_progress "Installing GitHub CLI..."
 if command -v gh >/dev/null 2>&1; then
     print_warning "GitHub CLI is already installed"
@@ -85,7 +148,7 @@ else
     print_success "GitHub CLI installed successfully"
 fi
 
-# 5: Install Tmux and Tmux Plugin Manager
+# 7: Install Tmux and Tmux Plugin Manager
 print_progress "Installing Tmux and Tmux Plugin Manager..."
 if command -v tmux >/dev/null 2>&1; then
     print_warning "Tmux is already installed"
@@ -93,12 +156,12 @@ else
     sudo apt install -y tmux
 fi
 
-if command -v tmuxp >/dev/null 2>&1; then
+TMUX_PLUGIN_DIR="$HOME/.config/tmux/.tmux/plugins"
+if [ -d "$TMUX_PLUGIN_DIR/tpm" ]; then
     print_warning "Tmux Plugin Manager is already installed"
 else
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    echo "set -g @plugin 'tmux-plugins/tpm'" >> ~/.tmux.conf
-    echo "run '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf
+    mkdir -p "$TMUX_PLUGIN_DIR"
+    git clone https://github.com/tmux-plugins/tpm "$TMUX_PLUGIN_DIR/tpm"
     print_success "Tmux Plugin Manager installed successfully"
 fi
 
