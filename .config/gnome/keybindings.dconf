@@ -1,0 +1,49 @@
+[org/gnome/desktop/wm/keybindings]
+maximize=@as []
+move-to-workspace-1=['<Shift><Super>Home', '<Shift><Super>exclam']
+move-to-workspace-2=['<Shift><Super>at']
+move-to-workspace-3=['<Shift><Super>numbersign']
+move-to-workspace-4=['<Shift><Super>dollar']
+show-desktop=['<Super>d']
+switch-applications=['<Super>Tab']
+switch-applications-backward=['<Shift><Super>Tab']
+switch-input-source=@as []
+switch-input-source-backward=@as []
+switch-to-workspace-1=['<Super>Home', '<Super>1']
+switch-to-workspace-2=['<Super>2']
+switch-to-workspace-3=['<Super>3']
+switch-to-workspace-4=['<Super>4']
+switch-windows=['<Alt>Tab']
+switch-windows-backward=['<Shift><Alt>Tab']
+toggle-fullscreen=['<Super>m']
+toggle-maximized=@as []
+unmaximize=@as []
+
+[org/gnome/mutter/keybindings]
+toggle-tiled-left=@as []
+toggle-tiled-right=@as []
+
+[org/gnome/shell/keybindings]
+show-screenshot-ui=['Print', '<Shift><Super>s']
+toggle-overview=@as []
+
+[org/gnome/settings-daemon/plugins/media-keys]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/PopLaunch1/']
+search=@as []
+terminal=['<Super>t', '<Super>Return']
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/PopLaunch1]
+binding='Launch1'
+command='gnome-control-center wifi'
+name='WiFi'
+
+[org/gnome/shell/extensions/pop-shell]
+active-hint=false
+active-hint-border-radius=uint32 5
+gap-inner=uint32 1
+gap-outer=uint32 1
+hint-color-rgba='rgb(60,63,80)'
+show-title=false
+tile-by-default=false
+tile-enter=['<Super>KP_Enter']
+
