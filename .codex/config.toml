@@ -166,6 +166,9 @@ trust_level = "trusted"
 [projects."/home/riz1/lilly/spp/repos"]
 trust_level = "trusted"
 
+[projects."/home/riz1/dev/migration"]
+trust_level = "trusted"
+
 [[skills.config]]
 enabled = false
 path = "/home/riz1/.agents/skills/find-skills/SKILL.md"
