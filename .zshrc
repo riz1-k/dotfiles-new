@@ -1,7 +1,3 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Oh My Zsh configuration
 export ZSH="$HOME/.oh-my-zsh"
 DISABLE_AUTO_UPDATE="true"
@@ -12,8 +8,38 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
+# Prompt: sainnhe/dotfiles .zsh-theme (powerlevel10k-based "purepower"), recolored to Tokyo Night
+# https://github.com/sainnhe/dotfiles/tree/master/.zsh-theme
+PURE_POWER_MODE=modern
 source ~/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Auto-switch the prompt colors (light/dark) to match kitty's mode.
+# ~/.local/bin/set-kitty-mode writes the active mode to this file whenever
+# GNOME's light/dark setting changes (or you run it manually).
+# Dark leg uses Vesper; light leg stays Tokyo Night Day.
+__ef_p10k_mode_file="$HOME/.local/state/TERMINAL_MODE"
+__ef_p10k_theme_dir="$HOME/dotfiles/.zsh-theme"
+__ef_p10k_load_theme() {
+  local mode=$(<$__ef_p10k_mode_file 2>/dev/null)
+  local theme
+  if [[ $mode == *light* ]]; then
+    theme=tokyonight-light
+  else
+    theme=vesper-dark
+  fi
+  source "$__ef_p10k_theme_dir/$theme.zsh"
+}
+__ef_p10k_last_mode=$(<$__ef_p10k_mode_file 2>/dev/null)
+__ef_p10k_load_theme
+__ef_p10k_check_mode() {
+  local mode=$(<$__ef_p10k_mode_file 2>/dev/null)
+  if [[ -n $mode && $mode != $__ef_p10k_last_mode ]]; then
+    __ef_p10k_last_mode=$mode
+    __ef_p10k_load_theme
+  fi
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd __ef_p10k_check_mode
 
 # Autosuggestions performance
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
@@ -58,7 +84,8 @@ alias e="exit"
 alias tm="tmux"
 alias lg="lazygit"
 alias ls="eza --icons=auto"
-alias oc="opencode"
+alias oc="opencode --auto"
+alias claude="claude --dangerously-skip-permissions"
 
 # Lazy load zoxide
 eval "$(zoxide init zsh --hook prompt)"
@@ -69,7 +96,7 @@ export PATH="$PATH:/home/riz1/.turso"
 # >>> railway initialize >>>
 source "$HOME/.railway/env"
 # <<< railway initialize <<<
-export PATH="$HOME/go/go/bin:$PATH"
+export PATH="$HOME/go/go/bin:$HOME/go/bin:$PATH"
 
 
 # Added by Antigravity CLI installer
@@ -86,3 +113,7 @@ export ANDROID_HOME="$HOME/Android/Sdk"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
 export JAVA_HOME="$HOME/.local/opt/android-studio/jbr"
 export PATH="$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$HOME/.local/opt/android-studio/bin:$PATH"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# bun completions
+[ -s "/home/riz1/.bun/_bun" ] && source "/home/riz1/.bun/_bun"
