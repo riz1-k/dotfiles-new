@@ -46,6 +46,31 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
+# Vesper (https://github.com/raunofreiberg/vesper)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#505050"
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[default]='fg=#ffffff'
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff8080'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=#a0a0a0'
+ZSH_HIGHLIGHT_STYLES[command]='fg=#ffc799,bold'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#ffc799'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#ffc799'
+ZSH_HIGHLIGHT_STYLES[function]='fg=#ffc799'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=#ffc799,underline'
+ZSH_HIGHLIGHT_STYLES[path]='fg=#ffffff,underline'
+ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=#ffffff'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=#99ffe4'
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=#99ffe4'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#a0a0a0'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#a0a0a0'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=#99ffe4'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=#99ffe4'
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=#99ffe4'
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=#ffc799'
+ZSH_HIGHLIGHT_STYLES[assign]='fg=#a0a0a0'
+ZSH_HIGHLIGHT_STYLES[redirection]='fg=#a0a0a0'
+ZSH_HIGHLIGHT_STYLES[comment]='fg=#7e7e7e'
+
 # History configuration
 HISTFILE=$HOME/.zhistory
 SAVEHIST=10000
@@ -66,6 +91,7 @@ path=(
 )
 export PATH
 export EDITOR='nvim'
+export TERMINAL='ghostty'
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -94,7 +120,7 @@ eval "$(zoxide init zsh --hook prompt)"
 export PATH="$PATH:/home/riz1/.turso"
 
 # >>> railway initialize >>>
-source "$HOME/.railway/env"
+[[ -f "$HOME/.railway/env" ]] && source "$HOME/.railway/env"
 # <<< railway initialize <<<
 export PATH="$HOME/go/go/bin:$HOME/go/bin:$PATH"
 

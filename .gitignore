@@ -1,0 +1,10 @@
+# Codex runtime state (auth, sessions, caches, sqlite dbs, plugins) - only config.toml is tracked
+.codex/*
+!.codex/config.toml
+
+# Downloaded installer artifacts
+install-scripts/lazygit
+install-scripts/lazygit.tar.gz
+
+# Stray symlink to ghostty/config
+.config/config

@@ -14,6 +14,7 @@ gtk-wide-tabs = false
 window-theme = ghostty
 window-show-tab-bar = auto
 gtk-titlebar = false
+window-show-tab-bar = always
 
 # Terminal Behavior
 command = /bin/zsh

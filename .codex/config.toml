@@ -333,3 +333,7 @@ surface = "#eff1f5"
 diffAdded = "#40a02b"
 diffRemoved = "#d20f39"
 skill = "#8839ef"
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest", "--cdp-endpoint=chrome"]
