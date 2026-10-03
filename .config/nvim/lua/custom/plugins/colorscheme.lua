@@ -1,5 +1,6 @@
 local function apply_colorscheme()
-  local colorscheme = vim.o.background == "light" and "catppuccin-latte" or "dracula"
+  vim.o.background = "dark"
+  local colorscheme = "vesper"
 
   if vim.g.colors_name ~= colorscheme then
     vim.cmd.colorscheme(colorscheme)
@@ -8,26 +9,67 @@ end
 
 return {
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "datsfilipe/vesper.nvim",
     priority = 1000,
     lazy = false,
-    opts = {
-      flavour = "auto",
-      background = {
-        light = "latte",
-      },
-    },
-    config = function(_, opts)
-      require("catppuccin").setup(opts)
+  },
+  {
+    "sonph/onehalf",
+    priority = 1001,
+    lazy = false,
+    config = function(plugin)
+      vim.opt.rtp:append(plugin.dir .. "/vim")
     end,
   },
   {
-    "Mofiqul/dracula.nvim",
-    priority = 1001,
+    "sainnhe/everforest",
+    priority = 1000,
     lazy = false,
     config = function()
-      require("dracula").setup()
+      vim.g.everforest_background = "medium"
+    end,
+  },
+  {
+    "folke/tokyonight.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      style = "storm",
+      styles = {
+        comments = { italic = false },
+        keywords = { italic = false },
+        functions = {},
+        variables = {},
+      },
+    },
+  },
+  {
+    "loctvl842/monokai-pro.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      filter = "pro",
+      styles = {
+        comment = { italic = false },
+        keyword = { italic = false },
+        type = { italic = false },
+        storageclass = { italic = false },
+        structure = { italic = false },
+        parameter = { italic = false },
+        annotation = { italic = false },
+        tag_attribute = { italic = false },
+      },
+      override = function()
+        return {
+          ["@keyword.function"] = { italic = false },
+          ["@keyword.type"] = { italic = false },
+          ["@type.builtin"] = { italic = false },
+          ["@variable.builtin"] = { italic = false },
+        }
+      end,
+    },
+    config = function(_, opts)
+      require("monokai-pro").setup(opts)
       apply_colorscheme()
     end,
   },

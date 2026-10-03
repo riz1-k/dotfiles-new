@@ -1,11 +1,16 @@
 onboarding = false
 
+[theme]
+name = "vesper"
+
+auto_switch = false
 [ui.toast]
-delivery = "on"
+delivery = "herdr"
 
 [ui]
+# Keep split panes visually separated instead of sharing divider borders (this is the closest thing to "padding" between panes).
+pane_gaps = true
 show_agent_labels_on_pane_borders = true
 
 [keys]
 prefix = "ctrl+a"
-

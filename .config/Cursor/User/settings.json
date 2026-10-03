@@ -1,60 +1,31 @@
 {
-	// ─── Window ────────────────────────────────────────────────────────────────
-	"window.zoomLevel": 0,
-	"window.titleBarStyle": "custom",
-	"window.title": "${dirty}${activeEditorShort}",
-	"window.commandCenter": false,
-	"window.menuBarVisibility": "hidden",
-	"window.newWindowDimensions": "maximized",
-	"window.autoDetectColorScheme": true,
-
-	// ─── Workbench ──────────────────────────────────────────────────────────────
 	"workbench.settings.editor": "json",
-	"workbench.preferredDarkColorTheme": "Cursor Dark Midnight",
-	"workbench.preferredLightColorTheme": "Cursor Dark",
-	"workbench.activityBar.location": "bottom",
-	"workbench.sideBar.location": "right",
-	"workbench.editor.showTabs": "none",
-	"workbench.editor.enablePreview": false,
-	"workbench.editor.editorActionsLocation": "hidden",
-	"workbench.panel.showLabels": false,
-	"workbench.layoutControl.enabled": false,
-
-	// ─── Editor — Appearance ────────────────────────────────────────────────────
-	"editor.fontFamily": "Operator Mono",
-	"editor.fontSize": 13,
-	"editor.fontWeight": "600",
+	"editor.fontFamily": "MonoLisa",
 	"editor.fontLigatures": true,
+	"terminal.integrated.fontFamily": "SF Mono",
+	"terminal.integrated.fontSize": 14,
+	"terminal.integrated.fontWeight": "600",
+	"terminal.integrated.lineHeight": 1.4,
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/bower_components": true,
+		"**/*.code-search": true,
+		"**/dist": true,
+		"**/build": true,
+		"**/next": true
+	},
+	"editor.fontSize": 12,
+	"editor.fontWeight": "600",
 	"editor.lineHeight": 2,
-	"editor.lineNumbers": "relative",
+	"window.autoDetectColorScheme": true,
 	"editor.minimap.enabled": false,
+	"window.commandCenter": false,
 	"editor.scrollbar.vertical": "auto",
+	"workbench.editor.showTabs": "single",
 	"breadcrumbs.enabled": false,
-
-	// ─── Editor — Cursor ────────────────────────────────────────────────────────
+	"editor.cursorSmoothCaretAnimation": "on",
+	"vim.cursorStylePerMode.insert": "block",
 	"editor.cursorBlinking": "solid",
-	"editor.cursorSmoothCaretAnimation": "off",
-
-	// ─── Editor — Behaviour ─────────────────────────────────────────────────────
-	"editor.defaultFormatter": "biomejs.biome",
-	"editor.formatOnSave": true,
-	"editor.linkedEditing": true,
-	"editor.codeActionsOnSave": {
-		"source.fixAll": "always",
-		"source.addMissingImports": "never"
-	},
-
-	// ─── Terminal ───────────────────────────────────────────────────────────────
-	"terminal.integrated.fontFamily": "Geist Mono",
-	"terminal.integrated.fontSize": 13,
-	"terminal.integrated.fontWeight": "800",
-	"terminal.integrated.lineHeight": 1,
-
-	// ─── Files ──────────────────────────────────────────────────────────────────
-	"files.associations": {
-		"*.css": "tailwindcss"
-	},
-	"files.trimTrailingWhitespace": true,
 	"files.exclude": {
 		"**/.git": true,
 		"**/.svn": true,
@@ -65,46 +36,30 @@
 		"**/node_modules": true,
 		"**/.next": true
 	},
-	"files.watcherExclude": {
-		"**/.git/objects/**": true,
-		"**/.git/subtree-cache/**": true,
-		"**/node_modules/*/**": true
-	},
-
-	// ─── Search ─────────────────────────────────────────────────────────────────
-	"search.exclude": {
-		"**/node_modules": true,
-		"**/bower_components": true,
-		"**/*.code-search": true,
-		"**/dist": true,
-		"**/build": true,
-		"**/next": true
-	},
-
-	// ─── Explorer ───────────────────────────────────────────────────────────────
 	"explorer.compactFolders": false,
-	"explorer.confirmDelete": false,
-
-	// ─── Git ────────────────────────────────────────────────────────────────────
-	"git.enableSmartCommit": false,
-	"git.confirmSync": false,
-	"git.openRepositoryInParentFolders": "never",
-
-	// ─── Security ───────────────────────────────────────────────────────────────
-	"security.workspace.trust.untrustedFiles": "open",
-
-	// ─── Extensions ─────────────────────────────────────────────────────────────
-	"biome.suggestInstallingGlobally": false,
-	"typescript.updateImportsOnFileMove.enabled": "always",
-	"javascript.updateImportsOnFileMove.enabled": "always",
-	"keyboard.dispatch": "keyCode",
+	"editor.linkedEditing": true,
+	"files.trimTrailingWhitespace": true,
+	"[markdown]": {
+		"files.trimTrailingWhitespace": false
+	},
+	"editor.lineNumbers": "relative",
+	"editor.formatOnSave": true,
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+	"editor.defaultFormatter": "biomejs.biome",
+	"js/ts.updateImportsOnFileMove.enabled": "always",
+	"window.titleBarStyle": "custom",
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "always",
+		"source.addMissingImports": "never"
+	},
 	"extensions.experimental.affinity": {
 		"asvetliakov.vscode-neovim": 1
 	},
-
-	// ─── Vim ────────────────────────────────────────────────────────────────────
-	"vim.cursorStylePerMode.insert": "block",
-	"vim.useSystemClipboard": true,
+	"window.menuBarVisibility": "hidden",
+	"window.newWindowDimensions": "maximized",
+	"window.title": "${dirty}${activeEditorShort}",
 	"vim.normalModeKeyBindingsNonRecursive": [
 		{
 			"before": ["<space>"],
@@ -117,21 +72,30 @@
 			"commands": ["whichkey.show"]
 		}
 	],
-
-	// ─── Language Overrides ─────────────────────────────────────────────────────
-	"[markdown]": {
-		"files.trimTrailingWhitespace": false
+	"workbench.activityBar.location": "bottom",
+	"window.customTitleBarVisibility": "auto",
+	"vim.useSystemClipboard": true,
+	"files.watcherExclude": {
+		"**/.git/objects/**": true,
+		"**/.git/subtree-cache/**": true,
+		"**/node_modules/*/**": true
+	},
+	"git.openRepositoryInParentFolders": "never",
+	"workbench.editor.enablePreview": false,
+	"workbench.panel.showLabels": false,
+	"security.workspace.trust.untrustedFiles": "open",
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
 	},
 	"[typescript]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-
-	// ─── Which Key ──────────────────────────────────────────────────────────────
-	"whichkey.delay": 0,
+	"git.enableSmartCommit": true,
+	"workbench.editor.editorActionsLocation": "hidden",
+	"workbench.layoutControl.enabled": false,
+	"keyboard.dispatch": "keyCode",
 	"whichkey.sortOrder": "alphabetically",
+	"whichkey.delay": 0,
 	"whichkey.bindings": [
 		{
 			"key": "/",
@@ -808,5 +772,34 @@
 			"type": "command",
 			"command": "workbench.action.toggleZenMode"
 		}
-	]
+	],
+	"workbench.preferredLightColorTheme": "Monokai Pro Light",
+	"biome.suggestInstallingGlobally": false,
+	"supermaven.enable": {
+		"*": true
+	},
+	"git.confirmSync": false,
+	"json.schemaDownload.trustedDomains": {
+		"https://schemastore.azurewebsites.net/": true,
+		"https://raw.githubusercontent.com/": true,
+		"https://www.schemastore.org/": true,
+		"https://json.schemastore.org/": true,
+		"https://json-schema.org/": true,
+		"https://biomejs.dev": true
+	},
+	"update.mode": "manual",
+	"workbench.sideBar.location": "right",
+	"markdown.preview.doubleClickToSwitchToEditor": false,
+	"github.copilot.enable": {
+		"*": true,
+		"plaintext": true,
+		"markdown": false,
+		"scminput": false
+	},
+	"workbench.iconTheme": "bearded-icons",
+	"terminal.integrated.initialHint": false,
+	"extensions.ignoreRecommendations": true,
+	"workbench.preferredDarkColorTheme": "Monokai Pro (Filter Spectrum)",
+	"githubPullRequests.pullBranch": "never",
+	"workbench.colorTheme": "Monokai Pro (Filter Spectrum)"
 }

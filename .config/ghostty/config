@@ -1,10 +1,10 @@
 # Font
-font-family = "Geist Mono"
-font-style = "Bold"
+font-family = "Fira Code SemiBold"
+font-style = "SemiBold"
 font-size = 10
 adjust-cell-height = 30%
 
-theme = Dracula
+theme = Vesper
 
 # Window
 window-padding-x = 9
@@ -12,7 +12,7 @@ window-padding-y = 9
 window-decoration = auto
 gtk-wide-tabs = false
 window-theme = ghostty
-window-show-tab-bar = always
+window-show-tab-bar = auto
 gtk-titlebar = false
 
 # Terminal Behavior
