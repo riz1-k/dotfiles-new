@@ -12,7 +12,8 @@ font-style-bold-italic = "Bold"
 font-size = 7.5
 adjust-cell-height = 50%
 
-theme = light:Flexoki Light,dark:Vesper
+# Colours: the rice theme (~/dotfiles/rice); `rice theme set` reloads every window.
+config-file = ?~/.local/state/rice/current/theme/ghostty.conf
 
 # Window
 window-padding-x = 7
@@ -43,8 +44,8 @@ mouse-hide-while-typing = false
 # Visual
 background-opacity = 1
 unfocused-split-opacity = 1
-# Off: Flexoki Light's "bright" colors are the pale ones, so bold black text
-# would turn light gray. Bold comes from the font weight instead.
+# Off: some light themes' "bright" colors are the pale ones (Flexoki Light), so
+# bold black text would turn light gray. Bold comes from the font weight instead.
 bold-is-bright = false
 
 # Clipboard

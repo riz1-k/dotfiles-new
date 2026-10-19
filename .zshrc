@@ -24,57 +24,21 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
-# Command-line colors follow GNOME's light/dark style: theme-sync
-# (~/dotfiles/theme-sync) writes the mode here; re-checked before each prompt.
+# Command-line colors follow the rice theme (~/dotfiles/rice): `rice theme set`
+# renders them to zsh-highlight.zsh; re-checked before each prompt.
 # The prompt itself uses ANSI colors, so it follows the terminal palette.
-__ts_mode_file="$HOME/.local/state/theme-sync/mode"
-typeset -A ZSH_HIGHLIGHT_STYLES
-__ts_apply_highlight() {
-  local fg cmd quote dim comment err suggest
-  if [[ $1 == light ]]; then
-    # Flexoki Light (https://stephango.com/flexoki)
-    fg='#100f0f' cmd='#bc5215' quote='#24837b' dim='#6f6e69'
-    comment='#878580' err='#af3029' suggest='#b7b5ac'
-  else
-    # Vesper (https://github.com/raunofreiberg/vesper)
-    fg='#ffffff' cmd='#ffc799' quote='#99ffe4' dim='#a0a0a0'
-    comment='#7e7e7e' err='#ff8080' suggest='#505050'
-  fi
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=$suggest"
-  ZSH_HIGHLIGHT_STYLES=(
-    default "fg=$fg"
-    unknown-token "fg=$err"
-    reserved-word "fg=$dim"
-    command "fg=$cmd,bold"
-    alias "fg=$cmd"
-    builtin "fg=$cmd"
-    function "fg=$cmd"
-    precommand "fg=$cmd,underline"
-    path "fg=$fg,underline"
-    path_prefix "fg=$fg"
-    globbing "fg=$quote"
-    history-expansion "fg=$quote"
-    single-hyphen-option "fg=$dim"
-    double-hyphen-option "fg=$dim"
-    single-quoted-argument "fg=$quote"
-    double-quoted-argument "fg=$quote"
-    dollar-quoted-argument "fg=$quote"
-    dollar-double-quoted-argument "fg=$cmd"
-    assign "fg=$dim"
-    redirection "fg=$dim"
-    comment "fg=$comment"
-  )
+__rice_state="${XDG_STATE_HOME:-$HOME/.local/state}/rice/current"
+typeset -gA ZSH_HIGHLIGHT_STYLES
+__rice_check_theme() {
+  local gen
+  [[ -r $__rice_state/theme.generation ]] && gen=$(<$__rice_state/theme.generation)
+  [[ $gen == $__rice_generation ]] && return
+  __rice_generation=$gen
+  [[ -r $__rice_state/theme/zsh-highlight.zsh ]] && source $__rice_state/theme/zsh-highlight.zsh
 }
-__ts_check_mode() {
-  local mode=dark
-  [[ -r $__ts_mode_file ]] && mode=$(<$__ts_mode_file)
-  [[ $mode == $__ts_last_mode ]] && return
-  __ts_last_mode=$mode
-  __ts_apply_highlight $mode
-}
-__ts_check_mode
+__rice_check_theme
 autoload -Uz add-zsh-hook
-add-zsh-hook precmd __ts_check_mode
+add-zsh-hook precmd __rice_check_theme
 
 # History configuration
 HISTFILE=$HOME/.zhistory
