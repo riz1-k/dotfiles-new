@@ -1,0 +1,214 @@
+/* rice-shell layout. No colours here: every colour comes from the current theme
+   (rice-bar.css, appended to the theme's shell stylesheet by rice), so a theme
+   switch is a stylesheet swap. An extension stylesheet outranks the theme's even
+   for !important rules, so a colour set here (even "transparent") could never be
+   changed by a theme; the panel itself is the one exception. Selectors start with "#panelBox #panel.rice-bar"
+   to win over the shell theme's own panel rules. */
+
+/* 10 + 34 + 10: windows and the widgets keep starting at y = 54. The side padding
+   is the widgets' 18px margin, so the islands line up with the widget columns. */
+#panelBox.rice-bar-box {
+  padding: 10px 18px;
+}
+
+#panelBox #panel.rice-bar,
+#panelBox #panel.rice-bar:overview {
+  height: 34px;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  font-family: "Geist", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ---- islands ----------------------------------------------------------- */
+
+#panelBox #panel.rice-bar #panelLeft,
+#panelBox #panel.rice-bar #panelRight {
+  padding: 0 4px;
+  border-width: 1px;
+  border-radius: 12px;
+}
+
+#panelBox #panel.rice-bar .panel-button {
+  -natural-hpadding: 8px;
+  -minimum-hpadding: 5px;
+  /* The transparent border insets the hover shape from the island's edge. */
+  border: 4px solid transparent !important;
+  border-radius: 9px !important;
+  font-weight: 500 !important;
+}
+
+#panelBox #panel.rice-bar .panel-button .system-status-icon {
+  icon-size: 15px;
+  padding: 0;
+  margin: 0;
+}
+
+#panelBox #panel.rice-bar .panel-button .panel-status-indicators-box {
+  spacing: 11px;
+}
+
+/* ---- left: workspaces + focused app ------------------------------------- */
+
+#panelBox #panel.rice-bar .panel-button#panelActivities StBoxLayout {
+  padding: 0 3px;
+  spacing: 5px;
+}
+
+#panelBox #panel.rice-bar .panel-button#panelActivities .workspace-dot {
+  min-width: 6px;
+  min-height: 6px;
+}
+
+#panelBox #panel.rice-bar .panel-button.rice-app {
+  -natural-hpadding: 4px;
+}
+
+#panelBox #panel.rice-bar .panel-button.rice-app StLabel {
+  max-width: 280px;
+  font-weight: 600 !important;
+}
+
+.rice-app-box {
+  spacing: 12px;
+}
+
+.rice-sep {
+  width: 1px;
+  height: 14px;
+}
+
+/* ---- right: status ------------------------------------------------------- */
+
+/* Numbers (battery, AI usage): Geist with even-width digits. Geist Mono's wide
+   "1" made "16" read as "1 6". */
+#panelBox #panel.rice-bar .panel-button.power-status StLabel,
+#panelBox #panel.rice-bar .ai-usage-value {
+  font-size: 12.5px;
+  font-weight: 600 !important;
+  font-feature-settings: "tnum";
+}
+
+#panelBox #panel.rice-bar .panel-button.power-status StLabel {
+  padding-left: 5px;
+}
+
+/* ---- centre: the capsule ------------------------------------------------- */
+
+#panelBox #panel.rice-bar .panel-button.rice-capsule {
+  -natural-hpadding: 14px;
+  -minimum-hpadding: 10px;
+  border: 0 !important;
+  border-radius: 12px !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .clock-display-box {
+  spacing: 6px;
+}
+
+.rice-capsule-box {
+  spacing: 8px;
+}
+
+.rice-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background-size: cover;
+}
+
+.rice-badge-icon {
+  icon-size: 16px;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-main {
+  max-width: 300px;
+  font-weight: 600 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-lead,
+#panelBox #panel.rice-bar .rice-capsule .rice-trail {
+  max-width: 200px;
+}
+
+/* idle: "Wed 15 Oct  12:22" */
+#panelBox #panel.rice-bar .rice-capsule .rice-idle .rice-lead,
+#panelBox #panel.rice-bar .rice-capsule .rice-idle .rice-main {
+  font-family: "Geist Mono", monospace;
+}
+
+/* meeting: accent badge, "in 8m" */
+#panelBox #panel.rice-bar .rice-capsule .rice-meeting .rice-badge-icon {
+  icon-size: 13px;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-meeting .rice-trail {
+  font-family: "Geist Mono", monospace;
+}
+
+/* ---- pickers ------------------------------------------------------------- */
+
+.rice-picker {
+  font-family: "Geist", sans-serif;
+}
+
+.rice-picker-box {
+  spacing: 18px;
+}
+
+.rice-picker-header {
+  spacing: 14px;
+  padding-bottom: 6px;
+}
+
+.rice-picker-heading {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.rice-picker-filter {
+  padding: 3px 10px;
+  border-radius: 8px;
+  font-family: "Geist Mono", monospace;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.rice-picker-track {
+  spacing: 14px;
+}
+
+.rice-picker-card {
+  border-width: 2px;
+  border-radius: 14px;
+  background-size: cover;
+}
+
+.rice-picker-card.rice-picker-selected {
+  border-width: 3px;
+  border-radius: 16px;
+}
+
+.rice-picker-title {
+  font-size: 22px;
+  font-weight: 700;
+  padding-top: 4px;
+}
+
+.rice-picker-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.rice-picker-hint {
+  font-size: 12px;
+  padding-top: 10px;
+}
+
+.rice-picker-hint.rice-picker-confirm {
+  padding: 8px 14px;
+  border-width: 1px;
+  border-radius: 10px;
+  font-weight: 600;
+}

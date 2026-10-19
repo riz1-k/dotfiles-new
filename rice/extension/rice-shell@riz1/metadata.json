@@ -1,0 +1,10 @@
+{
+  "uuid": "rice-shell@riz1",
+  "name": "Rice Shell",
+  "description": "The GNOME Shell side of rice: Omarchy-style themes applied live (shell stylesheet, colour scheme, accent and wallpaper under a cross-fade), the theme and background pickers, and the floating top bar from Rice Bar.",
+  "shell-version": ["50"],
+  "session-modes": ["user", "unlock-dialog"],
+  "settings-schema": "org.gnome.shell.extensions.rice-shell",
+  "url": "",
+  "version": 1
+}
