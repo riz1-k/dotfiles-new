@@ -85,8 +85,12 @@ def checks(paths):
         "Codex theme", "[tui] theme = \"rice\" (read at startup)")
     add(OK if '"defaultTheme": "rice"' in _read(home / ".t3/userdata/settings.json") else WARN, "T3 Code theme", "")
     vs = _read(cfg / "Code/User/settings.json")
-    add(OK if re.search(r'"workbench\.colorTheme"\s*:\s*"Rice"', vs) or not util.have("code") else WARN,
-        "VS Code theme", "")
+    try:  # the theme's own extension (vscode.json), else rice's generated one
+        wanted = json.loads(_read(paths.current_theme / "vscode.json") or "{}").get("name") or "Rice"
+    except ValueError:
+        wanted = "Rice"
+    add(OK if re.search(r'"workbench\.colorTheme"\s*:\s*' + re.escape(json.dumps(wanted)), vs)
+        or not util.have("code") else WARN, "VS Code theme", f'workbench.colorTheme = "{wanted}"')
 
     # web / desktop
     vencord = [d for d in (cfg / "Vencord/settings", cfg / "vesktop/settings") if d.is_dir()]
