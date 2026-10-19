@@ -4,8 +4,9 @@ The theme is the master: setting a theme writes color-scheme from its mode. When
 color-scheme changes and no longer matches the current theme's mode, someone flipped
 Dark Style (Quick Settings, Settings > Appearance, an auto-dark extension), so switch
 to the remembered theme for that mode. rice's own writes already match, and while a
-switch is running rice holds a flag file; the watcher waits for it to clear and then
-compares the real state, so there's no loop and no race with a switch in flight.
+switch is running rice holds a flag file (set before the new theme is visible); the
+watcher waits for it to clear, compares the real state, and checks again once it
+holds the switch lock, so there's no loop and no race with a switch in flight.
 """
 import json
 import subprocess
@@ -67,8 +68,15 @@ def reconcile(paths, verbose=True):
         return None
     if verbose:
         print(f"rice mode-watch: Dark Style is now {want}: switching to {target}", file=sys.stderr)
+
+    def still_needed():
+        # Checked again under the switch lock: a switch that was running while the
+        # state above was read has finished by then, and may have settled it.
+        have_now = theme_mode(paths)
+        return scheme_mode() == want and have_now is not None and have_now != want
+
     try:
-        activate.set_theme(target, wait=False)
+        activate.set_theme(target, wait=False, only_if=still_needed)
     except Exception as e:  # noqa: BLE001 - keep watching
         print(f"rice mode-watch: {e}", file=sys.stderr)
     return target

@@ -93,10 +93,10 @@ points the `current/theme` symlink at it, so apps only ever see a whole theme.
 Switches queue behind a lock, and edits to other apps' settings keep everything else
 in the file; a settings file rice can't parse is left alone and named in the log.
 
-`install.sh` backs up every config rice edits to
-`~/.local/state/rice/backup/pre-rice.tar.gz` (absolute paths; `tar -xzPf` restores
-them), lists the ones that were symlinks in `pre-rice.links`, and saves a `dconf dump`
-of `/org/gnome/`, all before the first switch.
+Before the first switch, `install.sh` backs up every config rice edits (found the
+way the retints find them) and a `dconf dump` of `/org/gnome/` to
+`~/.local/state/rice/backup`, readable only by you. `restore.sh` there puts the files
+back, re-creating any that were symlinks into a dotfiles repo.
 
 ## Credits
 

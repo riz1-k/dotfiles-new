@@ -13,13 +13,31 @@ from . import colormath as cm
 
 KEY_OK = re.compile(r"^[A-Za-z0-9_-]+$")
 # Values end up inside configs that run code (tmux formats, zsh, shell CSS), so only
-# colours get through: #rgb, #rrggbb, #rrggbbaa and rgb()/rgba(), alone or as a
-# gradient (colours then an angle); numbers, and the light/dark words for `mode`.
+# colours get through, and they're stored as #rrggbb (what every template and the
+# colour maths expect): #rgb, #rrggbb, #rrggbbaa (alpha dropped) and rgb()/rgba().
+# `mode` is light or dark. ui_shade alone keeps an rgba() (it's a CSS shadow colour).
 # Never a quote, $, backtick, #( or #{.
-_NUM = r"\d{1,3}(?:\.\d+)?%?"
-_COLOUR = (r"(?:#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})"
-           rf"|rgba?\(\s*{_NUM}\s*,\s*{_NUM}\s*,\s*{_NUM}\s*(?:,\s*(?:\d*\.)?\d+%?\s*)?\))")
-VALUE_OK = re.compile(rf"^(?:|{_COLOUR}(?: +{_COLOUR})*(?: +\d{{1,3}}deg)?|\d+(?:\.\d+)?%?|light|dark)$")
+_HEX = re.compile(r"^#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$")
+_RGB = re.compile(r"^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*((?:\d*\.)?\d+)\s*)?\)$")
+MODE_KEYS = ("mode", "theme_type")
+ALPHA_KEYS = ("ui_shade",)
+
+
+def colour_value(key, value):
+    """The stored form of a colors.toml value, or None if it isn't allowed."""
+    if value == "":
+        return ""
+    if key in MODE_KEYS:
+        return value if value in ("light", "dark") else None
+    if _HEX.match(value):
+        return value if len(value) == 7 else cm.to_hex(cm.to_rgb(value))
+    m = _RGB.match(value)
+    if m and all(int(x) <= 255 for x in m.group(1, 2, 3)):
+        if key in ALPHA_KEYS and m.group(4) is not None and float(m.group(4)) <= 1:
+            return f"rgba({m.group(1)}, {m.group(2)}, {m.group(3)}, {m.group(4)})"
+        return cm.to_hex(int(x) for x in m.group(1, 2, 3))
+    return None
+
 
 LEGACY_PALETTE_ALIAS = {
     "background": "bg",
@@ -91,11 +109,12 @@ def parse(text, warnings=None):
             if warnings is not None:
                 warnings.append(f"skipping key with unsupported characters: {key[:40]}")
             continue
-        if not VALUE_OK.match(value):
+        stored = colour_value(key, value)
+        if stored is None:
             if warnings is not None:
-                warnings.append(f"skipping {key}: not a colour")
+                warnings.append(f"skipping {key}: " + ("not light or dark" if key in MODE_KEYS else "not a colour"))
             continue
-        colors[key] = value
+        colors[key] = stored
     return colors
 
 

@@ -16,6 +16,7 @@
     files, and a batch whose theme was replaced in the meantime stops.
  9. Run the hooks, log failures and notify about them.
 """
+import errno
 import fcntl
 import json
 import os
@@ -26,7 +27,7 @@ import subprocess
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from pathlib import Path
 
 from . import backgrounds, palette, render, settings as settings_mod, shellcss, stage, themes, util
@@ -241,21 +242,58 @@ def new_generation():
     return f"{time.time_ns()}-{os.getpid()}"
 
 
+def _exchange(a, b):
+    """Swap two paths in one step (Linux renameat2 RENAME_EXCHANGE). False where the
+    system or the filesystem can't."""
+    try:
+        import ctypes
+        libc = ctypes.CDLL(None, use_errno=True)
+        renameat2 = libc.renameat2
+    except (OSError, AttributeError):
+        return False
+    renameat2.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
+    at_fdcwd, rename_exchange = -100, 2
+    if renameat2(at_fdcwd, os.fsencode(a), at_fdcwd, os.fsencode(b), rename_exchange) == 0:
+        return True
+    err = ctypes.get_errno()
+    if err in (errno.ENOSYS, errno.EINVAL, errno.EOPNOTSUPP):
+        return False
+    raise OSError(err, os.strerror(err), str(b))
+
+
 def activate_generation(paths, generation):
-    """Point current/theme at generations/<generation>. One rename(2), so a reader
-    gets the old theme or the new one, never a missing or half-built folder."""
+    """Point current/theme at generations/<generation> in one step, so a reader gets
+    the old theme or the new one, never a missing or half-built folder. Returns the
+    generation it pointed at before (None if there was none)."""
     link = paths.current_theme
     tmp = paths.current / f".theme.{generation}"
     stage._clear(tmp)
     os.symlink(f"{paths.generations.name}/{generation}", tmp)
+    previous = active_generation(paths)
     if link.is_dir() and not link.is_symlink():
         # A current/theme folder from before generations (or from an older rice still
         # running, like a mode watcher started before an update): the oldest generation.
-        os.rename(link, paths.generations / f"0-legacy-{time.time_ns()}")
+        legacy = paths.generations / f"0-legacy-{time.time_ns()}"
+        if _exchange(tmp, link):
+            previous = legacy.name
+            try:
+                os.rename(tmp, legacy)  # tmp is the old folder now
+            except OSError:
+                previous = None  # left at current/.theme.*, pruned later
+        else:
+            os.rename(link, legacy)
+            try:
+                os.replace(tmp, link)
+            except BaseException:
+                os.rename(legacy, link)  # put it back
+                raise
+            previous = legacy.name
+    else:
+        os.replace(tmp, link)
     for leftover in (paths.current / "next-theme", paths.current / ".old-theme"):
         if leftover.exists() and not leftover.is_symlink():
             shutil.rmtree(leftover, ignore_errors=True)
-    os.replace(tmp, link)
+    return previous
 
 
 def active_generation(paths):
@@ -266,9 +304,82 @@ def active_generation(paths):
         return None
 
 
+def publish(paths, generation, name, background):
+    """Make a built generation the current theme: the pointer, theme.name, the
+    wallpaper link and, last (watchers react to it), theme.generation. If a step
+    fails, the previous state is put back as far as it can be and the error raised,
+    so a switch fails loudly rather than leaving those disagreeing."""
+    def read(path):
+        try:
+            return path.read_text()
+        except OSError:
+            return None
+
+    old_name, old_marker = read(paths.theme_name), read(paths.generation)
+    try:
+        old_background = os.readlink(paths.background_link)
+    except OSError:
+        old_background = None
+    previous = activate_generation(paths, generation)
+    try:
+        util.atomic_write(paths.theme_name, name + "\n", follow=False)
+        if background:
+            backgrounds.link(paths, background)
+        util.atomic_write(paths.generation, generation + "\n", follow=False)
+    except BaseException:
+        try:
+            if previous and (paths.generations / previous).is_dir():
+                activate_generation(paths, previous)
+            if old_name is not None:
+                util.atomic_write(paths.theme_name, old_name, follow=False)
+            if old_background:
+                backgrounds.link(paths, old_background)
+            if old_marker is not None:
+                util.atomic_write(paths.generation, old_marker, follow=False)
+        except OSError:
+            pass
+        raise
+
+
+@contextmanager
+def pinned(paths, generation):
+    """Hold a generation for reading (a shared flock on its .pin): pruning leaves it
+    alone until released. Yields False if it's gone already."""
+    d = paths.generations / generation
+    try:
+        fd = os.open(d / ".pin", os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_CLOEXEC, 0o600)
+    except OSError:
+        yield False
+        return
+    try:
+        fcntl.flock(fd, fcntl.LOCK_SH)
+        yield d.is_dir()
+    finally:
+        os.close(fd)
+
+
+def _remove_unless_pinned(d):
+    try:
+        fd = os.open(d / ".pin", os.O_RDWR | os.O_NOFOLLOW | os.O_CLOEXEC)
+    except FileNotFoundError:
+        fd = None
+    except OSError:
+        return  # can't tell: keep it
+    try:
+        if fd is not None:
+            try:
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                return  # a background batch is reading it
+        shutil.rmtree(d, ignore_errors=True)
+    finally:
+        if fd is not None:
+            os.close(fd)
+
+
 def prune_generations(paths, keep=KEEP_GENERATIONS):
-    """Drop all but the newest generations (never the active one). Half-built ones go
-    too: they're from a switch that died, as this one holds the lock."""
+    """Drop all but the newest generations: never the active one, nor one a background
+    batch has pinned. Leftovers of a switch that died go too (this one holds the lock)."""
     if not paths.generations.is_dir():
         return
     active = active_generation(paths)
@@ -282,18 +393,17 @@ def prune_generations(paths, keep=KEEP_GENERATIONS):
             built.append(p)
     for p in sorted(built, key=lambda p: p.name)[:-keep]:
         if p.name != active:
-            shutil.rmtree(p, ignore_errors=True)
-
-
-def write_generation(paths, generation):
-    try:
-        util.atomic_write(paths.generation, generation + "\n", follow=False)
-    except OSError:
-        return ""
-    return generation
+            _remove_unless_pinned(p)
+    for leftover in [*paths.current.glob(".theme.*"), *paths.current.glob(".background.*")]:
+        stage._clear(leftover)
 
 
 def current_generation(paths):
+    """The active generation. current/theme's target is the truth (theme.generation is
+    the watchers' signal, written after it); before generations, theme.generation."""
+    active = active_generation(paths)
+    if active:
+        return active
     try:
         return paths.generation.read_text().strip()
     except OSError:
@@ -369,9 +479,9 @@ def other_group(paths, generation, detached):
     def still_current():
         return not generation or current_generation(paths) == generation
 
-    with locked(paths.retint_lock):
+    with locked(paths.retint_lock), (pinned(paths, generation) if generation else nullcontext(True)) as present:
         failed = []
-        if still_current():
+        if present and still_current():
             ctx = context(paths, settings, generation)
             failed = run_group(ctx, apps.OTHER, still_current=still_current)
             warm_previews(paths)
@@ -399,7 +509,10 @@ def shell_transition(method):
         pass
 
 
-def set_theme(name, wait=None, keep_background=False):
+def set_theme(name, wait=None, keep_background=False, only_if=None):
+    """Switch to a theme. only_if, if given, is checked once the lock is held (no other
+    switch running): False means the switch isn't wanted any more (the mode watcher
+    uses it) and nothing happens."""
     paths_ = paths_mod.get()
     settings = settings_mod.load(paths_)
     norm = themes.normalize(name)
@@ -415,6 +528,8 @@ def set_theme(name, wait=None, keep_background=False):
     # The lock is held until the visible group is done, so two switches can't
     # interleave their retints. The other group queues behind its own lock.
     with locked(paths_.lock):
+        if only_if is not None and not only_if():
+            return []
         paths_.state_dir.mkdir(parents=True, exist_ok=True)
         paths_.generations.mkdir(parents=True, exist_ok=True)
         paths_.log.write_text("")  # the log covers the latest switch only
@@ -432,26 +547,27 @@ def set_theme(name, wait=None, keep_background=False):
             print("rice: a theme installed from a git repo cannot supply code (Lua, terminal, "
                   "tmux, zsh or browser configs, shell CSS, scripts); those files are generated instead.",
                   file=sys.stderr)
-        # Snapshot the screen before anything on it changes; the shell fades the
-        # snapshot out once the visible group is done (or after a timeout).
-        if settings_mod.app_enabled(settings, "shell") and settings.get("shell", {}).get("transition", True) \
-                and os.environ.get("RICE_NO_TRANSITION") != "1" and util.session_bus_ok():
-            shell_transition("BeginTransition")
-            transition = True
+        # Tell the mode watcher the colour-scheme change it's about to see is ours,
+        # before anything of the new theme is visible.
         try:
-            activate_generation(paths_, generation)
-            util.atomic_write(paths_.theme_name, theme.name + "\n", follow=False)
-            if background:
-                backgrounds.link(paths_, background)
-            # Last: Neovim, the shell and the widgets watch this file.
-            write_generation(paths_, generation)
+            util.atomic_write(paths_.mode_watch_flag, generation + "\n", follow=False)
+        except OSError:
+            pass
+        try:
+            # Snapshot the screen before anything on it changes; the shell fades the
+            # snapshot out once the visible group is done (or after a timeout).
+            if settings_mod.app_enabled(settings, "shell") and settings.get("shell", {}).get("transition", True) \
+                    and os.environ.get("RICE_NO_TRANSITION") != "1" and util.session_bus_ok():
+                shell_transition("BeginTransition")
+                transition = True
+            try:
+                publish(paths_, generation, theme.name, background)
+            except BaseException:
+                if active_generation(paths_) != generation:
+                    shutil.rmtree(out, ignore_errors=True)
+                raise
             remember_pair(paths_, colors["mode"], theme.name)
             ctx = context(paths_, settings, generation)
-            # Tell the mode watcher the colour-scheme change it's about to see is ours.
-            try:
-                util.atomic_write(paths_.mode_watch_flag, generation + "\n", follow=False)
-            except OSError:
-                pass
             failed = run_group(ctx, apps.VISIBLE)
         finally:
             if transition:

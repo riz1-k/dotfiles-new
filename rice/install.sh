@@ -25,42 +25,44 @@ python3 -c 'import PIL' 2>/dev/null ||
     echo "note: without python3-pil there are no picker thumbnails or previews (sudo apt install python3-pil)"
 
 # ---- 1. backup ------------------------------------------------------------------------
-# Every file rice edits in place (new files it adds, like themes/rice.json, aren't
-# needed to go back). Contents are stored; symlinks are listed in pre-rice.links too,
-# as rice writes through a link into the file it points at.
+# Every existing file a retint edits in place (`rice _backup-targets`: the lookups the
+# retints themselves use), saved by its real path, so a config symlinked into a
+# dotfiles repo is saved as the file it points at. restore.sh puts them back and
+# re-creates the symlinks. Private: settings files can hold tokens.
 backup=$STATE/rice/backup
+mkdir -p "$backup"
+chmod 700 "$backup"
 if [[ ! -e $backup/pre-rice.tar.gz ]]; then
     step "Backing up the configs rice manages"
-    mkdir -p "$backup"
-    codex_home=${CODEX_HOME:-$HOME/.codex}
-    t3_home=${T3CODE_HOME:-$HOME/.t3}
-    candidates=(
-        "$CONFIG"/gtk-4.0/gtk.css "$CONFIG"/gtk-4.0/gtk-dark.css "$CONFIG"/gtk-3.0/gtk.css
-        "$CONFIG"/btop/btop.conf "$HOME"/.claude*/settings.json "$codex_home"/config.toml
-        "$t3_home"/userdata/settings.json
-        "$CONFIG"/Code/User/settings.json "$CONFIG"/Cursor/User/settings.json
-        "$HOME"/.vscode/extensions/extensions.json "$HOME"/.vscode/extensions/.obsolete
-        "$HOME"/.cursor/extensions/extensions.json "$HOME"/.cursor/extensions/.obsolete
-        "$CONFIG"/Vencord/settings/quickCss.css "$CONFIG"/vesktop/settings/quickCss.css
-        "$CONFIG"/vicinae/settings.json "$CONFIG"/lazygit/config.yml "$CONFIG"/gitui/theme.ron
-        "$CONFIG"/yazi/theme.toml "$CONFIG"/kitty/*-theme.auto.conf "$CONFIG"/herdr/config.toml
-        "$HOME"/.var/app/app.zen_browser.zen/.zen/*/chrome/user*.css "$HOME"/.zen/*/chrome/user*.css
-        "$HOME"/.var/app/app.zen_browser.zen/.zen/*/user.js "$HOME"/.zen/*/user.js
+    (
+        umask 077
+        declare -A seen=()
+        files=()
+        : > "$backup/pre-rice.links"
+        while IFS= read -r -d '' f; do
+            real=$(realpath -e -- "$f") || continue
+            [[ -n ${seen[$real]:-} ]] || { seen[$real]=1; files+=("$real"); }
+            [[ -L $f ]] && printf '%s\t%s\n' "$f" "$(readlink -- "$f")" >> "$backup/pre-rice.links"
+        done < <("$ROOT/bin/rice" _backup-targets)
+        dconf dump /org/gnome/ > "$backup/pre-rice.dconf"
+        printf '%s\0' "${files[@]}" | tar -czPf "$backup/pre-rice.tar.gz" --null -T -
+        cat > "$backup/restore.sh" <<'RESTORE'
+#!/usr/bin/env bash
+# Puts back the configs rice edits, as they were before its first switch (saved by
+# rice/install.sh). GNOME's own settings: see the last line.
+set -euo pipefail
+cd "$(dirname "$(realpath "$0")")"
+tar -xzPf pre-rice.tar.gz                 # every file at its real path
+while IFS=$'\t' read -r link target; do   # and the symlinks that pointed at them
+    [[ -n $link ]] && ln -sfn -- "$target" "$link"
+done < pre-rice.links
+echo "Configs restored. GNOME settings too: dconf load /org/gnome/ < $PWD/pre-rice.dconf"
+RESTORE
+        echo "    $backup (restore.sh puts it all back)"
     )
-    [[ -n ${CLAUDE_CONFIG_DIR:-} ]] && candidates+=("$CLAUDE_CONFIG_DIR"/settings.json)
-    files=()
-    : > "$backup/pre-rice.links"
-    for f in "${candidates[@]}"; do
-        [[ -e $f ]] || continue
-        files+=("$(realpath -s "$f")")
-        [[ -L $f ]] && printf '%s -> %s\n' "$f" "$(readlink "$f")" >> "$backup/pre-rice.links"
-    done
-    dconf dump /org/gnome/ > "$backup/pre-rice.dconf"
-    # Absolute names (outside $HOME too, for CODEX_HOME and friends); restore with
-    # tar -xzf pre-rice.tar.gz -P, or -C / without -P.
-    tar -czPf "$backup/pre-rice.tar.gz" --dereference "${files[@]}"
-    echo "    $backup/pre-rice.tar.gz, pre-rice.links and pre-rice.dconf"
 fi
+chmod 600 "$backup"/pre-rice.* 2>/dev/null || true
+if [[ -e $backup/restore.sh ]]; then chmod 700 "$backup/restore.sh"; fi
 
 # ---- 2. the command -------------------------------------------------------------------
 step "Linking the rice command"

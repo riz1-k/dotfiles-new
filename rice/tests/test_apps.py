@@ -140,6 +140,39 @@ class Lazygit(unittest.TestCase):
         with self.assertRaises(util.ConfigEditError):
             tuis.lazygit_set_theme("gui: {showIcons: true}\n", THEME_LAZYGIT)
 
+    def test_quoted_keys(self):
+        for text in ('"gui":\n  showIcons: true\ngit:\n  autoFetch: false\n',
+                     "'gui':  # ui\n  showIcons: true\n",
+                     'gui:\n  "theme":\n    x: ["#000"]\n  showIcons: true\n'):
+            out = tuis.lazygit_set_theme(text, THEME_LAZYGIT)
+            tuis._yaml_check(text, out)
+            self.assertEqual(sum(1 for ln in out.splitlines() if "gui" in ln and ":" in ln and not ln[0].isspace()), 1)
+            self.assertNotIn("#000", out)
+            self.assertIn("showIcons: true", out)
+
+    def test_what_it_cant_be_sure_of_is_refused(self):
+        for text in ("gui:\n  showIcons: true\ngui:\n  nerdFontsVersion: '3'\n",   # two gui keys
+                     "gui: &g\n  showIcons: true\n",                               # an anchor
+                     "gui:\n  showIcons: true\n---\ngit: {}\n",                     # two documents
+                     "gui:\n  theme: {x: 1}\n",                                    # inline theme
+                     "gui:\n  theme:\n    x: 1\n  theme:\n    y: 2\n",              # two themes
+                     "? gui\n: {showIcons: true}\n"):                              # a complex key
+            with self.assertRaises(util.ConfigEditError, msg=text):
+                out = tuis.lazygit_set_theme(text, THEME_LAZYGIT)
+                tuis._yaml_check(text, out)
+
+    def test_yaml_check_catches_lost_settings(self):
+        try:
+            import yaml  # noqa: F401
+        except ImportError:
+            self.skipTest("no PyYAML")
+        old = "gui:\n  showIcons: true\ngit:\n  autoFetch: false\n"
+        tuis._yaml_check(old, "gui:\n  theme:\n    a: 1\n  showIcons: true\ngit:\n  autoFetch: false\n")
+        with self.assertRaises(util.ConfigEditError):
+            tuis._yaml_check(old, "gui:\n  theme:\n    a: 1\n  showIcons: true\n")
+        with self.assertRaises(util.ConfigEditError):
+            tuis._yaml_check(old, old + "gui:\n  theme: {}\n")  # a duplicate key
+
     def test_retint_preserves_the_file(self):
         home = helpers.tempdir(self)
         theme = home / "theme"
@@ -194,6 +227,14 @@ class Zen(unittest.TestCase):
         out = web.zen_enable_stylesheets(text)
         self.assertTrue(out.startswith(text))
         self.assertTrue(out.rstrip().endswith(self.PREF))
+
+    def test_block_comments_dont_count(self):
+        text = '/*\nuser_pref("toolkit.legacyUserProfileCustomizations.stylesheets", false);\n*/\n'
+        out = web.zen_enable_stylesheets(text)
+        self.assertTrue(out.startswith(text))
+        self.assertTrue(out.rstrip().endswith(self.PREF))
+        text = 'user_pref("x", "/* not a comment");\nuser_pref("toolkit.legacyUserProfileCustomizations.stylesheets", false);\n'
+        self.assertEqual(web.zen_enable_stylesheets(text), text.replace("false", "true"))
 
     def test_already_on(self):
         text = "  user_pref('toolkit.legacyUserProfileCustomizations.stylesheets' , true );\n"

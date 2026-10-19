@@ -98,7 +98,9 @@ class Theme:
         overlay's file replaces the stock file of the same name)."""
         merged = {}
         for d in self.dirs:
-            merged.update({p.name: p for p in image_files(d / "backgrounds")})
+            # A git theme's symlinks aren't its wallpapers (staging drops them too).
+            untrusted = self.git and d == self.user
+            merged.update({p.name: p for p in image_files(d / "backgrounds") if not (untrusted and p.is_symlink())})
         extras = image_files(paths.user_backgrounds / self.name)
         return extras + [merged[k] for k in sorted(merged)]
 

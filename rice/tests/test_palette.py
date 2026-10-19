@@ -1,3 +1,4 @@
+import re
 import unittest
 
 import helpers
@@ -73,11 +74,33 @@ class Injection(unittest.TestCase):
             '#ffffff #(touch /tmp/rice-pwned)', 'rgb(1,2,3);touch', 'red', '#ffffff\\']
 
     def test_values_are_refused(self):
-        for value in self.EVIL:
-            self.assertFalse(palette.VALUE_OK.match(value), value)
-        for value in ("", "#fff", "#a1b2c3", "#a1b2c3dd", "rgb(1, 2, 3)", "rgba(1,2,3,0.5)",
-                      "#111111 #222222 45deg", "light", "dark", "0.95"):
-            self.assertTrue(palette.VALUE_OK.match(value), value)
+        for value in self.EVIL + ["#111111 #222222 45deg", "0.95", "light", "rgb(300, 0, 0)"]:
+            self.assertIsNone(palette.colour_value("accent", value), value)
+        for value in self.EVIL + ["#ffffff", "bright"]:
+            self.assertIsNone(palette.colour_value("mode", value), value)
+
+    def test_colours_are_stored_as_hex(self):
+        """Every form a theme may use comes out as #rrggbb, so the colour maths and
+        the templates work with it (ui_shade may keep its alpha)."""
+        cases = {"#A1B2C3": "#A1B2C3", "#fff": "#ffffff", "#a1b2c3dd": "#a1b2c3",
+                 "rgb(16, 16, 16)": "#101010", "rgba(255,0,0,0.5)": "#ff0000", "": ""}
+        for value, stored in cases.items():
+            self.assertEqual(palette.colour_value("background", value), stored, value)
+        self.assertEqual(palette.colour_value("ui_shade", "rgba(0,0,0,0.36)"), "rgba(0, 0, 0, 0.36)")
+        self.assertEqual(palette.colour_value("mode", "light"), "light")
+
+    def test_rgb_palette_renders_everything(self):
+        from rice import render, shellcss
+        text = ('background = "rgb(16, 16, 16)"\nforeground = "rgb(238, 238, 238)"\n'
+                'accent = "#f80"\ncolor8 = "rgba(80, 80, 80, 1)"\n')
+        colors = palette.resolve(palette.parse(text))
+        self.assertEqual((colors["background"], colors["accent"]), ("#101010", "#ff8800"))
+        r = render.Renderer(colors, {"rice_theme": "x", "rice_theme_name": "X"})
+        leftover = re.compile(r"\{\{\s*[a-z][a-z0-9_]*(\s+[^}]*)?\s*\}\}")
+        for tpl in render.template_files(helpers.ROOT / "templates"):
+            self.assertIsNone(leftover.search(r.text(tpl.read_text())), tpl.name)
+        out = helpers.tempdir(self)
+        self.assertIn("#101010", shellcss.build(colors, colors["mode"], out / "shell", ""))
 
     def test_nothing_reaches_the_templates(self):
         from rice import render

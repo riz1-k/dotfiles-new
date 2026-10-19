@@ -53,11 +53,41 @@ _PREF_LINE = re.compile(r'(?m)^([ \t]*user_pref\(\s*(["\'])' + re.escape(STYLESH
                         + r'\2\s*,\s*)(true|false)(\s*\)\s*;?)')
 
 
+def _without_comments(text):
+    """text with // and /* */ comments blanked out (same length, newlines kept), so
+    matches in it are active code. Strings are skipped while looking for comments."""
+    out, i, n = list(text), 0, len(text)
+    while i < n:
+        ch = text[i]
+        if ch in "\"'":
+            j = i + 1
+            while j < n and text[j] != ch and text[j] != "\n":
+                j += 2 if text[j] == "\\" else 1
+            i = j + 1
+        elif text.startswith("//", i):
+            j = text.find("\n", i)
+            j = n if j < 0 else j
+            out[i:j] = " " * (j - i)
+            i = j
+        elif text.startswith("/*", i):
+            j = text.find("*/", i + 2)
+            j = n if j < 0 else j + 2
+            out[i:j] = [c if c == "\n" else " " for c in text[i:j]]
+            i = j
+        else:
+            i += 1
+    return "".join(out)
+
+
 def zen_enable_stylesheets(text):
     """user.js with the stylesheet pref on; the last active line wins in Firefox, so
-    every one is set to true. Comments and other prefs are kept."""
-    if _PREF_LINE.search(text):
-        return _PREF_LINE.sub(lambda m: m.group(1) + "true" + m.group(4), text)
+    every active one is set to true. Comments (// and /* */) and other prefs are kept."""
+    spans = [m for m in _PREF_LINE.finditer(_without_comments(text))]
+    if spans:
+        for m in reversed(spans):  # same offsets in text: blanking keeps lengths
+            a, b = m.span(3)
+            text = text[:a] + "true" + text[b:]
+        return text
     pref = f'user_pref("{STYLESHEETS_PREF}", true);'
     return text + ("\n" if text and not text.endswith("\n") else "") + pref + "\n"
 

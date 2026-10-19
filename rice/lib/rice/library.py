@@ -238,6 +238,39 @@ def aether_palette(image, light=False, extract_mode=None):
         return colors.read_text()
 
 
+def _copy_extras(source, dest):
+    """icons.theme and gnome.toml for a theme started from another. The new theme is
+    yours (trusted), so from a git theme only what rice would use from it anyway
+    comes along: a valid icon name and accent, never gnome.toml's shell CSS."""
+    import tomllib
+    from .activate import ICON_NAME
+    icons = source.file("icons.theme")
+    if icons:
+        words = icons.read_text(errors="replace").split()
+        if source.trusted:
+            shutil.copyfile(icons, dest / "icons.theme")
+        elif words and ICON_NAME.fullmatch(words[0]):
+            (dest / "icons.theme").write_text(words[0] + "\n")
+    gnome = source.file("gnome.toml")
+    if not gnome:
+        return
+    if source.trusted:
+        shutil.copyfile(gnome, dest / "gnome.toml")
+        return
+    try:
+        pins = tomllib.loads(gnome.read_text(errors="replace"))
+    except tomllib.TOMLDecodeError:
+        return
+    from .apps.gnome import ACCENTS
+    keep = []
+    if pins.get("accent") in ACCENTS:
+        keep.append(f'accent = "{pins["accent"]}"')
+    if isinstance(pins.get("icons"), str) and ICON_NAME.fullmatch(pins["icons"]):
+        keep.append(f'icons = "{pins["icons"]}"')
+    if keep:
+        (dest / "gnome.toml").write_text("\n".join(keep) + "\n")
+
+
 def new(name, base=None, image=None, light=False, extract_mode=None):
     """Start a theme in ~/.config/rice/themes. With an image (and no base), Aether
     makes the palette from it when installed. Returns (folder, where the palette came from)."""
@@ -259,23 +292,19 @@ def new(name, base=None, image=None, light=False, extract_mode=None):
             raise LibraryError(f"No such image: {image}")
     generated = aether_palette(image, light, extract_mode) if image and not base else None
     dest.mkdir(parents=True)
-    colors = source.file("colors.toml")
     if generated:
         origin = f"Aether, from {image.name}"
         (dest / "colors.toml").write_text(f"# {themes_mod.display_name(name)}: palette by Aether from {image.name}.\n"
                                           + generated)
     else:
         origin = source.display
-        if colors:
-            text = colors.read_text()
+        text = source.colors_text()  # colors.toml, or one made from an alacritty.toml
+        if text:
             header = f"# {themes_mod.display_name(name)}, started from {source.display}.\n"
             (dest / "colors.toml").write_text(header + text)
-        if source.mode == "light" and "mode" not in (colors.read_text() if colors else ""):
+        if source.mode == "light" and "mode" not in (text or ""):
             (dest / "light.mode").write_text("")
-    for f in ("icons.theme", "gnome.toml"):
-        p = source.file(f)
-        if p and not generated:
-            shutil.copyfile(p, dest / f)
+        _copy_extras(source, dest)
     (dest / "backgrounds").mkdir()
     if image:
         shutil.copyfile(image, dest / "backgrounds" / image.name)

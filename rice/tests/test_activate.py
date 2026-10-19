@@ -7,6 +7,7 @@ import sys
 import threading
 import time
 import unittest
+from pathlib import Path
 from unittest import mock
 
 import helpers
@@ -187,6 +188,106 @@ class InProcess(unittest.TestCase):
         self.assertEqual((self.paths.generations / first / "gnome.json").read_text(), before)
         self.assertEqual(self.paths.background_link.resolve(), image.resolve())
         self.assertEqual([p.name for p in self.paths.current.glob(".background*")], [])
+
+    def test_a_failed_publish_puts_everything_back(self):
+        with mock.patch.object(subprocess, "Popen"):
+            activate.set_theme("vesper", wait=False)
+        before = {"gen": activate.current_generation(self.paths), "name": themes.current_name(self.paths),
+                  "marker": self.paths.generation.read_text(), "link": os.readlink(self.paths.current_theme)}
+        real = util.atomic_write
+
+        def failing(path, *a, **kw):
+            if Path(path) == self.paths.generation:
+                raise OSError(28, "No space left on device")
+            return real(path, *a, **kw)
+
+        with mock.patch.object(util, "atomic_write", failing), mock.patch.object(subprocess, "Popen"):
+            with self.assertRaises(OSError):
+                activate.set_theme("flexoki-light", wait=False)
+        after = {"gen": activate.current_generation(self.paths), "name": themes.current_name(self.paths),
+                 "marker": self.paths.generation.read_text(), "link": os.readlink(self.paths.current_theme)}
+        self.assertEqual(after, before)
+        self.assertEqual(sorted(p.name for p in self.paths.generations.iterdir()), [before["gen"]])
+        self.assertFalse(self.paths.mode_watch_flag.exists())
+
+    def test_the_mode_watch_flag_is_up_before_the_theme_is(self):
+        seen = []
+        real = activate.activate_generation
+
+        def watching(paths, generation):
+            seen.append(paths.mode_watch_flag.exists())
+            return real(paths, generation)
+
+        with mock.patch.object(activate, "activate_generation", watching), mock.patch.object(subprocess, "Popen"):
+            activate.set_theme("vesper", wait=False)
+        self.assertEqual(seen, [True])
+        self.assertFalse(self.paths.mode_watch_flag.exists())
+
+    def test_mode_watch_checks_again_under_the_lock(self):
+        """It read a dark scheme against a light theme, but by the time it holds the
+        lock the switch that caused it has settled things: nothing happens."""
+        from rice import modewatch
+        with mock.patch.object(subprocess, "Popen"):
+            activate.set_theme("flexoki-light", wait=False)
+        scheme = ["dark"]
+        real_set = activate.set_theme
+
+        def settling(name, **kw):
+            scheme[0] = "light"  # the running switch finished and wrote the scheme
+            return real_set(name, **kw)
+
+        with mock.patch.object(modewatch, "scheme_mode", lambda: scheme[0]), \
+                mock.patch.object(activate, "set_theme", settling), mock.patch.object(subprocess, "Popen"):
+            self.assertEqual(modewatch.reconcile(self.paths, verbose=False), "vesper")
+        self.assertEqual(themes.current_name(self.paths), "flexoki-light")
+        scheme[0] = "dark"  # a real Dark Style flip still switches
+        with mock.patch.object(modewatch, "scheme_mode", lambda: scheme[0]), mock.patch.object(subprocess, "Popen"):
+            modewatch.reconcile(self.paths, verbose=False)
+        self.assertEqual(themes.current_name(self.paths), "vesper")
+
+    def test_a_pinned_generation_survives_pruning(self):
+        with mock.patch.object(subprocess, "Popen"):
+            activate.set_theme("vesper", wait=False)
+            old = activate.current_generation(self.paths)
+            with activate.pinned(self.paths, old) as present:
+                self.assertTrue(present)
+                for name in ("flexoki-light", "vesper", "flexoki-light", "vesper"):
+                    activate.set_theme(name, wait=False)
+                self.assertTrue((self.paths.generations / old / "gnome.json").is_file())
+            activate.set_theme("flexoki-light", wait=False)
+        self.assertFalse((self.paths.generations / old).exists())
+        self.assertLessEqual(len(list(self.paths.generations.iterdir())), activate.KEEP_GENERATIONS)
+        with activate.pinned(self.paths, old) as present:
+            self.assertFalse(present)
+
+    def test_migration_without_exchange_rolls_back(self):
+        old = self.paths.current_theme
+        old.mkdir(parents=True)
+        (old / "colors.json").write_text("{}")
+        self.paths.generations.mkdir(parents=True)
+        real_replace = os.replace
+
+        def failing_replace(a, b, *args, **kw):
+            if Path(b) == self.paths.current_theme:
+                raise OSError(5, "I/O error")
+            return real_replace(a, b, *args, **kw)
+
+        with mock.patch.object(activate, "_exchange", lambda a, b: False), \
+                mock.patch.object(os, "replace", failing_replace):
+            with self.assertRaises(OSError):
+                activate.activate_generation(self.paths, "123-1")
+        self.assertTrue(old.is_dir() and not old.is_symlink())
+        self.assertTrue((old / "colors.json").is_file())
+
+    def test_migration_with_exchange(self):
+        old = self.paths.current_theme
+        old.mkdir(parents=True)
+        (old / "colors.json").write_text("{}")
+        (self.paths.generations / "123-1").mkdir(parents=True)
+        previous = activate.activate_generation(self.paths, "123-1")
+        self.assertTrue(old.is_symlink())
+        self.assertTrue(previous.startswith("0-legacy-"))
+        self.assertTrue((self.paths.generations / previous / "colors.json").is_file())
 
     def stranger(self, git):
         t = self.paths.user_themes / "stranger"

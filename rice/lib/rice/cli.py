@@ -293,6 +293,14 @@ def retint(args):
     return 1 if failed else 0
 
 
+def backup_targets(args):
+    """Every file a retint edits, NUL-separated (install.sh backs them up)."""
+    from . import backup
+    for f in backup.targets(paths_mod.get()):
+        sys.stdout.write(f"{f}\0")
+    return 0
+
+
 def apply_only(args):
     """Re-run some retints against the current theme (debugging / after editing an app config)."""
     paths = paths_mod.get()
@@ -417,6 +425,7 @@ def parser():
     s = sub.add_parser("apply", help="re-run some app retints for the current theme")
     s.add_argument("apps", nargs="+")
     s.set_defaults(fn=apply_only)
+    sub.add_parser("_backup-targets").set_defaults(fn=backup_targets)  # for install.sh
     s = sub.add_parser("_retint")  # the detached second group of a switch
     s.add_argument("generation", nargs="?", default="")
     s.set_defaults(fn=retint)

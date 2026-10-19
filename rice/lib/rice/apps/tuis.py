@@ -16,48 +16,119 @@ def _blank(line):
     return not s or s.startswith("#")
 
 
+def _key(name):
+    """A YAML block-mapping key line for name: plain, 'single' or "double" quoted,
+    then a colon and nothing but an optional comment."""
+    return re.compile(r"""^(?:%s|'%s'|"%s")[ \t]*:[ \t]*(?:#.*)?$""" % ((re.escape(name),) * 3))
+
+
+def _starts_key(line, name):
+    """line (already dedented) begins the mapping entry `name:` in any quoting."""
+    return re.match(r"""^(?:%s|'%s'|"%s")[ \t]*:""" % ((re.escape(name),) * 3), line) is not None
+
+
+GUI = _key("gui")
+
+
 def lazygit_set_theme(text, theme_yml):
     """config.yml with gui.theme replaced by the theme file's, every other line kept.
 
-    Plain line editing (no YAML library on a stock system): the root `gui:` mapping
-    is found by indentation and only its `theme:` child is replaced. A `gui:` written
-    in flow style ({...}) is refused rather than guessed at."""
-    # The theme file is `gui:` + an indented `theme:` block: take that block, dedented.
+    Line editing by indentation (a YAML library would drop comments): the root `gui:`
+    mapping, in any quoting, and only its `theme:` child is replaced. Anything this
+    can't edit with certainty is refused: gui written inline ({...}) or with an anchor
+    or tag, more than one gui key, several YAML documents. lazygit() then checks the
+    result with PyYAML, when it's there."""
     lines = theme_yml.splitlines()
-    start = next((i for i, ln in enumerate(lines) if re.match(r"^gui:\s*(#.*)?$", ln)), None)
+    start = next((i for i, ln in enumerate(lines) if GUI.match(ln)), None)
     block = [ln for ln in (lines[start + 1:] if start is not None else []) if ln.strip()]
-    if not block or not block[0].lstrip().startswith("theme:"):
+    if not block or not _starts_key(block[0].lstrip(), "theme"):
         raise util.ConfigEditError("lazygit.yml has no gui.theme block")
     base = _indent(block[0])
     block = [ln[base:] if _indent(ln) >= base else ln.lstrip() for ln in block]
 
     text = text.replace(OLD_HEADER, "", 1)
     out = text.splitlines()
-    gui = next((i for i, ln in enumerate(out) if re.match(r"^gui:", ln)), None)
-    if gui is None:
-        out = [*out, *(["" ] if out and out[-1].strip() else []), "gui:", *("  " + ln for ln in block)]
+    if any(re.match(r"^(---|\.\.\.)([ \t]|$)", ln) for ln in out[1:]) or \
+            (out and re.match(r"^\.\.\.([ \t]|$)", out[0])):
+        raise util.ConfigEditError("config.yml holds more than one YAML document; add the theme yourself")
+    roots = [i for i, ln in enumerate(out) if _starts_key(ln, "gui") or re.match(r"^\?[ \t]", ln)]
+    if len(roots) > 1:
+        raise util.ConfigEditError("config.yml has more than one gui key (or a complex key); left alone")
+    if not roots:
+        out = [*out, *([""] if out and out[-1].strip() else []), "gui:", *("  " + ln for ln in block)]
         return "\n".join(out).lstrip("\n") + "\n"
-    if not re.match(r"^gui:\s*(#.*)?$", out[gui]):
-        raise util.ConfigEditError("gui: is written inline; add the theme yourself")
+    gui = roots[0]
+    if not GUI.match(out[gui]):
+        raise util.ConfigEditError("gui: is written inline or with an anchor or tag; add the theme yourself")
     # gui's children: until the next line back at column 0.
     end = next((i for i in range(gui + 1, len(out)) if not _blank(out[i]) and _indent(out[i]) == 0), len(out))
     children = [i for i in range(gui + 1, end) if not _blank(out[i])]
     step = _indent(out[children[0]]) if children else 2
     pad = " " * step
+    themes = [i for i in children if _indent(out[i]) == step and _starts_key(out[i].lstrip(), "theme")]
+    if len(themes) > 1:
+        raise util.ConfigEditError("gui has more than one theme key; left alone")
+    if themes and not _key("theme").match(out[themes[0]].lstrip()):
+        raise util.ConfigEditError("gui.theme is written inline or with an anchor or tag; left alone")
     kept, i = [], gui + 1
     while i < end:
-        ln = out[i]
-        if not _blank(ln) and _indent(ln) == step and re.match(r"^theme:", ln.lstrip()):
+        if themes and i == themes[0]:
             i += 1  # the old theme: everything deeper than it goes too
             while i < end and (_blank(out[i]) or _indent(out[i]) > step):
                 if _blank(out[i]) and out[i].strip() and _indent(out[i]) <= step:
                     break  # a comment back at gui's level belongs to the next key
                 i += 1
             continue
-        kept.append(ln)
+        kept.append(out[i])
         i += 1
     new = out[:gui + 1] + [pad + ln for ln in block] + kept + out[end:]
     return "\n".join(new) + "\n"
+
+
+def _yaml_check(old, new):
+    """With PyYAML: new parses with no duplicate keys, and everything but gui.theme
+    is what old had. Without it, the structural checks above have to do."""
+    try:
+        import yaml
+    except ImportError:
+        return
+
+    class Strict(yaml.SafeLoader):
+        pass
+
+    def mapping(loader, node, deep=False):
+        keys = [loader.construct_object(k, deep=deep) for k, _ in node.value]
+        dupes = {k for k in keys if keys.count(k) > 1}
+        if dupes:
+            raise yaml.constructor.ConstructorError(None, None, f"duplicate key {sorted(map(str, dupes))[0]!r}",
+                                                    node.start_mark)
+        return yaml.SafeLoader.construct_mapping(loader, node, deep=deep)
+
+    Strict.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+                           lambda loader, node: dict(mapping(loader, node, deep=True)))
+
+    def without_theme(text):
+        data = yaml.load(text, Loader=Strict) if text.strip() else {}
+        if data is None:
+            data = {}
+        if not isinstance(data, dict):
+            raise util.ConfigEditError("config.yml isn't a mapping; left alone")
+        if isinstance(data.get("gui"), dict):
+            data["gui"] = {k: v for k, v in data["gui"].items() if k != "theme"}
+            if not data["gui"]:
+                data.pop("gui")
+        return data
+
+    try:
+        before = without_theme(old)
+    except yaml.YAMLError as e:
+        raise util.ConfigEditError(f"config.yml doesn't parse ({str(e).splitlines()[0]}); left alone") from None
+    try:
+        after = without_theme(new)
+    except yaml.YAMLError as e:
+        raise util.ConfigEditError(f"the edit wouldn't parse ({str(e).splitlines()[0]}); left alone") from None
+    if before != after:
+        raise util.ConfigEditError("the edit would change more than gui.theme; left alone")
 
 
 def lazygit(ctx):
@@ -74,17 +145,7 @@ def lazygit(ctx):
         base_file = paths_mod.ROOT / "config" / "lazygit-base.yml"
         text = base_file.read_text() if base_file.is_file() else ""
     new = lazygit_set_theme(text, theme.read_text())
-    try:
-        import yaml
-    except ImportError:
-        yaml = None
-    if yaml is not None:
-        try:
-            ok = isinstance(yaml.safe_load(new), dict)
-        except yaml.YAMLError:
-            ok = False
-        if not ok:
-            raise util.ConfigEditError("the edited config.yml wouldn't parse; left alone")
+    _yaml_check(text, new)
     if new != text:
         # A symlinked config.yml (into a dotfiles repo) becomes a real file, so theme
         # colours don't show up as changes there.

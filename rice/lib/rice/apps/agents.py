@@ -92,9 +92,17 @@ def codex_set_theme(text, name):
     return new
 
 
+def codex_home(paths):
+    return Path(os.environ.get("CODEX_HOME") or paths.home / ".codex")
+
+
+def t3_userdata(paths):
+    return Path(os.environ.get("T3CODE_HOME") or paths.home / ".t3") / "userdata"
+
+
 def codex(ctx):
     src = ctx.file("codex.tmTheme")
-    home = Path(os.environ.get("CODEX_HOME") or ctx.paths.home / ".codex")
+    home = codex_home(ctx.paths)
     if not src or not home.is_dir():
         return
     util.install_file(src, home / "themes" / "rice.tmTheme")
@@ -109,7 +117,7 @@ def codex(ctx):
 
 def t3code(ctx):
     src = ctx.file("t3code.json")
-    userdata = Path(os.environ.get("T3CODE_HOME") or ctx.paths.home / ".t3") / "userdata"
+    userdata = t3_userdata(ctx.paths)
     if not src or not userdata.is_dir():
         return
     if "{{" in src.read_text():
