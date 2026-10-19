@@ -10,6 +10,8 @@ import GioUnix from 'gi://GioUnix';
 import GdkPixbuf from 'gi://GdkPixbuf';
 import Soup from 'gi://Soup?version=3.0';
 
+import {watchRiceTheme} from './riceTheme.js';
+
 Gio._promisify(Gio.DataInputStream.prototype, 'read_line_async');
 Gio._promisify(Gio.DBusConnection.prototype, 'call');
 Gio._promisify(Gio.File.prototype, 'load_contents_async');
@@ -427,6 +429,7 @@ class Backend {
     }
 }
 
+const riceTheme = watchRiceTheme(send);  // referenced so the file monitor keeps firing
 const loop = new GLib.MainLoop(null, false);
 new Backend(loop).start();
 await loop.runAsync();

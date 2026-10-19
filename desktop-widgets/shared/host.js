@@ -9,7 +9,9 @@ export const ding = window.ding?.instanceId ? window.ding : null;
 export function connect({event, request, render, fake, fakeIntervalMs}) {
     if (ding) {
         ding.onBackendEvent((name, payload) => {
-            if (name === event)
+            if (name === 'rice-theme')
+                applyRiceTheme(payload);
+            else if (name === event)
                 render(payload);
         });
         ding.backendRequest(request)
@@ -23,4 +25,16 @@ export function connect({event, request, render, fake, fakeIntervalMs}) {
     document.body.dataset.theme = theme;
     render(fake());
     setInterval(() => render(fake()), fakeIntervalMs);
+}
+
+// The rice theme's palette, pushed by the backend when `rice theme set` runs
+// (shared/rice_theme.py, shared/riceTheme.js).
+export function applyRiceTheme({css}) {
+    let style = document.getElementById('rice-theme');
+    if (!style) {
+        style = document.createElement('style');
+        style.id = 'rice-theme';
+        document.head.append(style);
+    }
+    style.textContent = css;
 }

@@ -7,7 +7,7 @@
 export const ding = window.ding?.instanceId ? window.ding : null;
 
 let fake = null;
-const handlers = new Map();
+const handlers = new Map([['rice-theme', payload => applyRiceTheme(payload)]]);
 
 export function registerFake(answer) {
     fake = answer;
@@ -44,4 +44,16 @@ if (ding) {
 } else {
     document.body.dataset.theme = new URLSearchParams(location.search).get('theme') ??
         (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+}
+
+// The rice theme's palette, pushed by the backend when `rice theme set` runs
+// (shared/rice_theme.py, shared/riceTheme.js).
+export function applyRiceTheme({css}) {
+    let style = document.getElementById('rice-theme');
+    if (!style) {
+        style = document.createElement('style');
+        style.id = 'rice-theme';
+        document.head.append(style);
+    }
+    style.textContent = css;
 }

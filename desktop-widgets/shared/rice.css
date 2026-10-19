@@ -1,7 +1,7 @@
-/* Rice palette for desktop widgets: Flexoki Light (light) and Vesper (dark),
- * taken from ~/dotfiles/theme-sync (panel colors, gtk4.css, btop and tmux themes).
- * Gtk4-DING sets <body data-theme> from GNOME's light/dark style, so widgets
- * switch together with theme-sync. */
+/* Card styles and the fallback palette for desktop widgets: Flexoki Light (light)
+ * and Vesper (dark), following <body data-theme> (Gtk4-DING sets it from GNOME's
+ * light/dark style). The rice theme's palette (rice-theme.css, copied into each
+ * installed widget by rice and pushed live by the backend) overrides it. */
 
 body {
     --bg: rgba(242, 240, 229, 0.95);

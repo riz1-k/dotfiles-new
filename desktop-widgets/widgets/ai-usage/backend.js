@@ -8,6 +8,8 @@ import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import GioUnix from 'gi://GioUnix';
 
+import {watchRiceTheme} from './riceTheme.js';
+
 Gio._promisify(Gio.DataInputStream.prototype, 'read_line_async');
 
 const API_PATH = GLib.build_filenamev([
@@ -244,6 +246,7 @@ class Backend {
     }
 }
 
+const riceTheme = watchRiceTheme(send);  // referenced so the file monitor keeps firing
 const loop = new GLib.MainLoop(null, false);
 new Backend(loop).start();
 await loop.runAsync();

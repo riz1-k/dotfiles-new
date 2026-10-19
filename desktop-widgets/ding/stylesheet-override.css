@@ -1,7 +1,7 @@
 /* Gtk4-DING edit-mode chrome in the rice accent instead of stock blue.
  * Installed to ~/.config/com.desktop.ding/stylesheet-override.css by install.sh.
  * @accent_bg_color follows the --accent-bg-color set in ~/.config/gtk-4.0/gtk.css,
- * so it switches between Flexoki and Vesper with theme-sync. */
+ * which rice writes for the current theme. */
 
 #ding-widget.dragging {
     outline: 2px solid alpha(@accent_bg_color, 0.8);

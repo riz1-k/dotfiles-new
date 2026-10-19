@@ -9,10 +9,14 @@ widgets_dir="${XDG_DATA_HOME:-$HOME/.local/share}/com.desktop.ding/widgets"
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/com.desktop.ding"
 mkdir -p "$widgets_dir" "$config_dir"
 
+# The current rice theme's palette; `rice theme set` keeps it up to date from here on.
+rice_css="${XDG_STATE_HOME:-$HOME/.local/state}/rice/current/theme/widgets.css"
+
 for widget in widgets/*/; do
     name=$(basename "$widget")
     rm -rf "${widgets_dir:?}/$name"
     cp -rL "$widget" "$widgets_dir/$name"
+    [[ -f "$rice_css" ]] && cp "$rice_css" "$widgets_dir/$name/rice-theme.css"
     echo "installed $name"
 done
 

@@ -1,7 +1,7 @@
 # desktop-widgets
 
 Desktop widgets for [Gtk4 Desktop Icons NG](https://extensions.gnome.org/extension/5263/gtk4-desktop-icons-ng-ding/),
-styled to match the rice: Flexoki Light / Vesper, switching live with theme-sync.
+styled to match the rice and recoloured live by `rice theme set` (~/dotfiles/rice).
 
 | Widget | Shows | Backend |
 | --- | --- | --- |
@@ -13,8 +13,11 @@ styled to match the rice: Flexoki Light / Vesper, switching live with theme-sync
 
 ## Layout
 
-- `shared/rice.css`: the palette (from `~/dotfiles/theme-sync`) and card styles. `shared/host.js`
-  wires up the Gtk4-DING bridge. Each widget symlinks both; `install.sh` copies the real files.
+- `shared/rice.css`: card styles and a fallback palette. The palette itself comes from the rice
+  theme: rice copies `widgets.css` into each installed widget as `rice-theme.css`, and
+  `shared/rice_theme.py` / `shared/riceTheme.js` (in the backends) push it to the page when the
+  theme changes. `shared/host.js` / `shared/api.js` wire up the Gtk4-DING bridge. Each widget
+  symlinks the shared files; `install.sh` copies the real files.
 - `ding/stylesheet-override.css`: Gtk4-DING's edit-mode outline in the rice accent.
 - `preview/`: both widgets in both themes over the wallpaper, with fake data.
 
