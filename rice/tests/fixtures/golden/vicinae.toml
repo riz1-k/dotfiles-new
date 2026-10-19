@@ -1,0 +1,86 @@
+# Sample (rice template, from theme-sync's Vesper file)
+[meta]
+name = "Sample"
+description = "rice theme"
+variant = "dark"
+inherits = "vicinae-dark"
+
+[colors.core]
+background = "#1b1d22"
+foreground = "#d8d4c6"
+secondary_background = "#24262a"
+border = "#353739"
+accent = "#5fa8d3"
+accent_foreground = "#1b1d22"
+
+[colors.main_window]
+border = "#353739"
+footer = { background = "#1b1d22" }
+
+[colors.settings_window]
+border = "#353739"
+
+[colors.accents]
+blue = "#5fa8d3"
+green = "#8cc085"
+magenta = "#c48fd6"
+orange = "#e5c07b"
+red = "#e06c6c"
+yellow = "#e5c07b"
+cyan = "#5fc4b8"
+purple = "#d3a2e3"
+
+[colors.shortcut]
+border = "#353739"
+
+[colors.text]
+default = "#d8d4c6"
+muted = "#908e88"
+danger = "#e06c6c"
+success = "#8cc085"
+placeholder = "#706f6c"
+selection = { background = "#595fa8d3", foreground = "#d8d4c6" }
+
+[colors.text.links]
+default = "#5fa8d3"
+visited = "#77b1d0"
+
+[colors.input]
+background = "#232429"
+border = "#353739"
+border_focus = "#5fa8d3"
+border_error = "#e06c6c"
+
+[colors.button.primary]
+background = "#232429"
+foreground = "#d8d4c6"
+hover = { background = "#353739", foreground = "#d8d4c6" }
+focus = { outline = "#5fa8d3" }
+
+[colors.list.item.hover]
+background = "#212227"
+foreground = "#d8d4c6"
+secondary_foreground = "#908e88"
+
+[colors.list.item.selection]
+background = "#5fa8d3"
+foreground = "#d8d4c6"
+secondary_background = "#2e2f32"
+secondary_foreground = "#908e88"
+
+[colors.grid.item]
+background = "#24262a"
+hover = { outline = "#636360" }
+selection = { outline = "#5fa8d3" }
+
+[colors.scrollbars]
+background = "#353739"
+
+[colors.tooltip]
+background = "#24262a"
+foreground = "#d8d4c6"
+border = "#353739"
+
+[colors.loading]
+bar = "#5fa8d3"
+spinner = "#5fa8d3"

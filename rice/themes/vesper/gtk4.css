@@ -1,0 +1,51 @@
+/* libadwaita / GTK4 colours: Vesper (from theme-sync). */
+:root {
+  --accent-color: #ffc799;
+  --accent-bg-color: #ffc799;
+  --accent-fg-color: #101010;
+  --destructive-color: #ff8080;
+  --destructive-bg-color: #ff8080;
+  --destructive-fg-color: #101010;
+  --success-color: #99ffe4;
+  --success-bg-color: #99ffe4;
+  --success-fg-color: #101010;
+  --warning-color: #ffc799;
+  --warning-bg-color: #ffc799;
+  --warning-fg-color: #101010;
+  --error-color: #ff8080;
+  --error-bg-color: #ff8080;
+  --error-fg-color: #101010;
+  --window-bg-color: #101010;
+  --window-fg-color: #ffffff;
+  --view-bg-color: #101010;
+  --view-fg-color: #ffffff;
+  --headerbar-bg-color: #101010;
+  --headerbar-fg-color: #a0a0a0;
+  --headerbar-border-color: #ffffff;
+  --headerbar-backdrop-color: #101010;
+  --headerbar-shade-color: rgba(0, 0, 0, 0.36);
+  --card-bg-color: #161616;
+  --card-fg-color: #ffffff;
+  --card-shade-color: rgba(0, 0, 0, 0.36);
+  --dialog-bg-color: #101010;
+  --dialog-fg-color: #ffffff;
+  --popover-bg-color: #161616;
+  --popover-fg-color: #ffffff;
+  --popover-shade-color: rgba(0, 0, 0, 0.36);
+  --shade-color: rgba(0, 0, 0, 0.36);
+  --scrollbar-outline-color: rgba(255, 255, 255, 0.08);
+  --sidebar-bg-color: #101010;
+  --sidebar-fg-color: #ffffff;
+  --sidebar-backdrop-color: #101010;
+  --sidebar-shade-color: rgba(0, 0, 0, 0.36);
+  --sidebar-border-color: #282828;
+}
+
+/* Subtle window corners for libadwaita / GTK4 CSD windows */
+window,
+window.background,
+window.csd,
+window.background.csd,
+window.csd > decoration {
+  border-radius: 6px;
+}

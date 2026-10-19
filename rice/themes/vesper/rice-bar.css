@@ -1,0 +1,131 @@
+/* rice-shell colours: Vesper, exactly as rice-bar had them. */
+
+/* ---- bar islands ------------------------------------------------------------ */
+
+#panelBox #panel.rice-bar #panelLeft,
+#panelBox #panel.rice-bar #panelRight {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  background-color: rgba(26, 26, 30, 0.95) !important;
+}
+
+#panelBox #panel.rice-bar .panel-button {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+#panelBox #panel.rice-bar .panel-button,
+#panelBox #panel.rice-bar .panel-button StIcon,
+#panelBox #panel.rice-bar .panel-button StLabel {
+  color: #ffffff !important;
+}
+
+#panelBox #panel.rice-bar .panel-button:hover,
+#panelBox #panel.rice-bar .panel-button:focus {
+  box-shadow: inset 0 0 0 100px rgba(255, 255, 255, 0.08) !important;
+}
+
+#panelBox #panel.rice-bar .panel-button:active,
+#panelBox #panel.rice-bar .panel-button:checked {
+  box-shadow: inset 0 0 0 100px rgba(255, 255, 255, 0.14) !important;
+}
+
+#panelBox #panel.rice-bar .panel-button#panelActivities .workspace-dot {
+  background-color: #ffffff !important;
+}
+
+#panelBox #panel.rice-bar .rice-sep {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+#panelBox #panel.rice-bar .ai-usage-value.ai-usage-warn { color: #ffc799 !important; }
+#panelBox #panel.rice-bar .ai-usage-value.ai-usage-crit,
+#panelBox #panel.rice-bar .ai-usage-alert { color: #ff8080 !important; }
+#panelBox #panel.rice-bar .ai-usage-value.ai-usage-dim { color: #505050 !important; }
+
+/* ---- the capsule (the inverse surface) ----------------------------------------- */
+
+#panelBox #panel.rice-bar .panel-button.rice-capsule {
+  background-color: #f2f0e5 !important;
+}
+
+#panelBox #panel.rice-bar .panel-button.rice-capsule:hover,
+#panelBox #panel.rice-bar .panel-button.rice-capsule:focus {
+  box-shadow: none !important;
+  background-color: #e6e4d9 !important;
+}
+
+#panelBox #panel.rice-bar .panel-button.rice-capsule:active,
+#panelBox #panel.rice-bar .panel-button.rice-capsule:checked {
+  box-shadow: none !important;
+  background-color: #dad8ce !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-main {
+  color: #100f0f !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-lead,
+#panelBox #panel.rice-bar .rice-capsule .rice-trail {
+  color: #6f6e69 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-meeting .rice-trail,
+#panelBox #panel.rice-bar .rice-capsule .messages-indicator {
+  color: #bc5215 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-meeting .rice-badge {
+  background-color: #bc5215 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-meeting .rice-badge-icon {
+  color: #fffcf0 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-flash .rice-badge {
+  background-color: rgba(16, 15, 15, 0.08) !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-flash .rice-badge-icon {
+  color: #100f0f !important;
+}
+
+/* ---- pickers ------------------------------------------------------------------- */
+
+.rice-picker {
+  background-color: rgba(16, 16, 16, 0.86) !important;
+}
+
+.rice-picker-card {
+  background-color: #161616 !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+.rice-picker-card.rice-picker-selected {
+  border-color: #ffc799 !important;
+}
+
+.rice-picker-title {
+  color: #ffffff !important;
+}
+
+.rice-picker-subtitle,
+.rice-picker-hint {
+  color: #a0a0a0 !important;
+}
+
+.rice-picker-filter {
+  color: #101010 !important;
+  background-color: #ffc799 !important;
+}
+
+.rice-picker-confirm {
+  color: #ffffff !important;
+  background-color: #161616 !important;
+  border-color: #ff8080 !important;
+}
+
+.rice-picker-badge {
+  color: #101010 !important;
+  background-color: #ffc799 !important;
+}

@@ -1,0 +1,36 @@
+{
+  "name": "Rice",
+  "appearance": "dark",
+  "canvas": "#1b1d22",
+  "accent": "#5fa8d3",
+  "colors": {
+    "chrome": "#1b1d22",
+    "toolbar": "#1b1d22",
+    "toolbarForeground": "#d8d4c6",
+    "toolbarBorder": "#5c6370",
+
+    "text": "#d8d4c6",
+    "border": "#5c6370",
+    "focus": "#5fa8d3",
+
+    "sidebar": "#14161a",
+    "sidebarForeground": "#d8d4c6",
+    "sidebarBorder": "#5c6370",
+    "sidebarRowHover": "#202124",
+    "sidebarRowActive": "#22303b",
+    "sidebarRowSelected": "#5fa8d3",
+
+    "error": "#dd908c",
+    "warning": "#e0c795",
+
+    "codeBackground": "#14161a",
+    "codeForeground": "#d8d4c6",
+
+    "terminalBackground": "#1b1d22",
+    "terminalForeground": "#d8d4c6",
+    "terminalCursor": "#f2efe4",
+    "terminalSelection": "#5fa8d3",
+    "terminalScrollbar": "#5c6370",
+    "terminalScrollbarHover": "#5c6370"
+  }
+}

@@ -1,0 +1,16 @@
+/* Zen browser page colours: Flexoki Light (from theme-sync). */
+:root {
+  --in-content-page-background: #fffcf0 !important;
+  --in-content-page-color: #100f0f !important;
+  --in-content-box-background: #f2f0e5 !important;
+  --in-content-box-background-hover: #e6e4d9 !important;
+  --in-content-box-border-color: #dad8ce !important;
+  --in-content-border-color: #dad8ce !important;
+  --in-content-accent-color: #bc5215 !important;
+  --in-content-link-color: #bc5215 !important;
+  --in-content-link-color-hover: #9d4310 !important;
+  --in-content-button-background: #f2f0e5 !important;
+  --in-content-button-background-hover: #e6e4d9 !important;
+  --in-content-primary-button-background: #bc5215 !important;
+  --in-content-primary-button-text-color: #fffcf0 !important;
+}

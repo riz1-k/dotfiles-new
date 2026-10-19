@@ -1,0 +1,56 @@
+# Vesper (https://github.com/raunofreiberg/vesper): peppermint and orange on near-black.
+# The ui_* keys pin rice's desktop roles to what theme-sync used, so the desktop
+# looks exactly as before. Other themes derive them (see docs/themes.md).
+mode = "dark"
+
+accent = "#ffc799"
+selection = "#232323"
+selection_background = "#988049"
+selection_foreground = "#b9beb8"
+muted = "#7e7e7e"
+
+background = "#101010"
+dark_background = "#0b0b0b"
+darker_background = "#070707"
+lighter_background = "#161616"
+
+foreground = "#ffffff"
+dark_foreground = "#a0a0a0"
+light_foreground = "#d4d4d4"
+bright_foreground = "#ffffff"
+
+red = "#f5a191"
+yellow = "#e6b99d"
+orange = "#ffc799"
+green = "#90b99f"
+cyan = "#ea83a5"
+blue = "#aca1cf"
+magenta = "#e29eca"
+brown = "#8a6a55"
+
+bright_red = "#ff8080"
+bright_yellow = "#ffc799"
+bright_green = "#99ffe4"
+bright_cyan = "#f591b2"
+bright_blue = "#b9aeda"
+bright_magenta = "#ecaad6"
+
+# Vesper's ANSI white is grey; the text colour is pure white.
+color7 = "#a0a0a0"
+
+ui_surface = "#161616"
+ui_surface_alt = "#232323"
+ui_border = "#282828"
+ui_dim = "#a0a0a0"
+ui_faint = "#505050"
+ui_success = "#99ffe4"
+ui_danger = "#ff8080"
+ui_warning = "#e6b99d"
+ui_info = "#aca1cf"
+ui_on_accent = "#101010"
+ui_accent_soft = "#3a3229"
+ui_inverse = "#f2f0e5"
+ui_inverse_fg = "#100f0f"
+ui_inverse_dim = "#6f6e69"
+ui_inverse_accent = "#bc5215"
+ui_inverse_on_accent = "#fffcf0"

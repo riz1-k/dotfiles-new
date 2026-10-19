@@ -1,0 +1,51 @@
+/* libadwaita / GTK4 colours: Flexoki Light (from theme-sync). */
+:root {
+  --accent-color: #bc5215;
+  --accent-bg-color: #bc5215;
+  --accent-fg-color: #fffcf0;
+  --destructive-color: #af3029;
+  --destructive-bg-color: #af3029;
+  --destructive-fg-color: #fffcf0;
+  --success-color: #24837b;
+  --success-bg-color: #24837b;
+  --success-fg-color: #fffcf0;
+  --warning-color: #bc5215;
+  --warning-bg-color: #bc5215;
+  --warning-fg-color: #fffcf0;
+  --error-color: #af3029;
+  --error-bg-color: #af3029;
+  --error-fg-color: #fffcf0;
+  --window-bg-color: #fffcf0;
+  --window-fg-color: #100f0f;
+  --view-bg-color: #fffcf0;
+  --view-fg-color: #100f0f;
+  --headerbar-bg-color: #fffcf0;
+  --headerbar-fg-color: #575653;
+  --headerbar-border-color: #dad8ce;
+  --headerbar-backdrop-color: #fffcf0;
+  --headerbar-shade-color: rgba(16, 15, 15, 0.08);
+  --card-bg-color: #f2f0e5;
+  --card-fg-color: #100f0f;
+  --card-shade-color: rgba(16, 15, 15, 0.08);
+  --dialog-bg-color: #fffcf0;
+  --dialog-fg-color: #100f0f;
+  --popover-bg-color: #f2f0e5;
+  --popover-fg-color: #100f0f;
+  --popover-shade-color: rgba(16, 15, 15, 0.08);
+  --shade-color: rgba(16, 15, 15, 0.08);
+  --scrollbar-outline-color: rgba(16, 15, 15, 0.08);
+  --sidebar-bg-color: #fffcf0;
+  --sidebar-fg-color: #100f0f;
+  --sidebar-backdrop-color: #fffcf0;
+  --sidebar-shade-color: rgba(16, 15, 15, 0.08);
+  --sidebar-border-color: #dad8ce;
+}
+
+/* Subtle window corners for libadwaita / GTK4 CSD windows */
+window,
+window.background,
+window.csd,
+window.background.csd,
+window.csd > decoration {
+  border-radius: 6px;
+}

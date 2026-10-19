@@ -1,0 +1,28 @@
+/* Desktop widget palette for Sample (rice). Loaded after the widgets'
+   shared/rice.css and overrides its variables; the widget backends push a new copy
+   into open widgets when the theme changes. */
+html body,
+html body[data-theme] {
+    --bg: rgba(36,38,42, 0.95);
+    --border: rgba(216,212,198, 0.14);
+    --fg: #d8d4c6;
+    --muted: #908e88;
+    --faint: #636360;
+    --track: #313235;
+    --divider: #353739;
+    --accent: #5fa8d3;
+    --ok: #8cc085;
+    --warn: #e5c07b;
+    --crit: #e06c6c;
+    --info: #5fa8d3;
+    --cpu-start: #5fc4b8;
+    --cpu-mid: #5fa8d3;
+    --cpu-end: #e06c6c;
+    --mem: #8cc085;
+    --disk: #5fa8d3;
+    --down: #c48fd6;
+    --up: #5fa8d3;
+    --temp-start: #8cc085;
+    --temp-mid: #e5c07b;
+    --temp-end: #e06c6c;
+}

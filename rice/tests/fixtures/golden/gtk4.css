@@ -1,0 +1,51 @@
+/* libadwaita / GTK4 colours for Sample (rice). */
+:root {
+  --accent-color: #5fa8d3;
+  --accent-bg-color: #5fa8d3;
+  --accent-fg-color: #1b1d22;
+  --destructive-color: #e06c6c;
+  --destructive-bg-color: #e06c6c;
+  --destructive-fg-color: #1b1d22;
+  --success-color: #8cc085;
+  --success-bg-color: #8cc085;
+  --success-fg-color: #1b1d22;
+  --warning-color: #e5c07b;
+  --warning-bg-color: #e5c07b;
+  --warning-fg-color: #1b1d22;
+  --error-color: #e06c6c;
+  --error-bg-color: #e06c6c;
+  --error-fg-color: #1b1d22;
+  --window-bg-color: #1b1d22;
+  --window-fg-color: #d8d4c6;
+  --view-bg-color: #1b1d22;
+  --view-fg-color: #d8d4c6;
+  --headerbar-bg-color: #1b1d22;
+  --headerbar-fg-color: #908e88;
+  --headerbar-border-color: #353739;
+  --headerbar-backdrop-color: #1b1d22;
+  --headerbar-shade-color: rgba(0, 0, 0, 0.36);
+  --card-bg-color: #24262a;
+  --card-fg-color: #d8d4c6;
+  --card-shade-color: rgba(0, 0, 0, 0.36);
+  --dialog-bg-color: #1b1d22;
+  --dialog-fg-color: #d8d4c6;
+  --popover-bg-color: #24262a;
+  --popover-fg-color: #d8d4c6;
+  --popover-shade-color: rgba(0, 0, 0, 0.36);
+  --shade-color: rgba(0, 0, 0, 0.36);
+  --scrollbar-outline-color: rgba(216,212,198, 0.08);
+  --sidebar-bg-color: #1b1d22;
+  --sidebar-fg-color: #d8d4c6;
+  --sidebar-backdrop-color: #1b1d22;
+  --sidebar-shade-color: rgba(0, 0, 0, 0.36);
+  --sidebar-border-color: #353739;
+}
+
+/* Subtle window corners for libadwaita / GTK4 CSD windows */
+window,
+window.background,
+window.csd,
+window.background.csd,
+window.csd > decoration {
+  border-radius: 6px;
+}

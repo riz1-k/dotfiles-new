@@ -1,0 +1,59 @@
+# Flexoki Light (https://stephango.com/flexoki): ink and burnt orange on warm paper.
+# Omarchy's Flexoki Light palette, with this desktop's orange accent. The ui_* keys
+# pin rice's desktop roles to what theme-sync used.
+mode = "light"
+
+accent = "#bc5215"
+selection = "#e6e4d9"
+selection_background = "#cecdc3"
+selection_foreground = "#100f0f"
+muted = "#6f6e69"
+
+background = "#fffcf0"
+dark_background = "#f2f0e5"
+darker_background = "#e6e4d9"
+lighter_background = "#fffcf0"
+
+foreground = "#100f0f"
+dark_foreground = "#6f6e69"
+light_foreground = "#403e3c"
+bright_foreground = "#100f0f"
+
+red = "#af3029"
+yellow = "#ad8301"
+orange = "#bc5215"
+green = "#66800b"
+cyan = "#24837b"
+blue = "#205ea6"
+magenta = "#a02f6f"
+brown = "#683b15"
+
+bright_red = "#d14d41"
+bright_yellow = "#d0a215"
+bright_green = "#879a39"
+bright_cyan = "#3aa99f"
+bright_blue = "#4385be"
+bright_magenta = "#ce5d97"
+
+# Flexoki's terminal palette (as Ghostty ships it).
+color0 = "#100f0f"
+color7 = "#6f6e69"
+color8 = "#b7b5ac"
+color15 = "#cecdc3"
+
+ui_surface = "#f2f0e5"
+ui_surface_alt = "#e6e4d9"
+ui_border = "#dad8ce"
+ui_dim = "#575653"
+ui_faint = "#b7b5ac"
+ui_success = "#24837b"
+ui_danger = "#af3029"
+ui_warning = "#ad8301"
+ui_info = "#205ea6"
+ui_on_accent = "#fffcf0"
+ui_accent_soft = "#f2d9c4"
+ui_inverse = "#100f0f"
+ui_inverse_fg = "#f2f0e5"
+ui_inverse_dim = "#a8a69c"
+ui_inverse_accent = "#ffc799"
+ui_inverse_on_accent = "#fffcf0"

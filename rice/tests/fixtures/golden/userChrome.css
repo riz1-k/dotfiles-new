@@ -1,0 +1,45 @@
+/* Zen browser chrome colours for Sample (rice). */
+:root {
+  --toolbar-bgcolor: #1b1d22 !important;
+  --toolbar-color: #d8d4c6 !important;
+  --toolbar-field-background-color: #24262a !important;
+  --toolbar-field-color: #d8d4c6 !important;
+  --toolbar-field-border-color: #353739 !important;
+  --toolbar-field-focus-background-color: #24262a !important;
+  --toolbar-field-focus-border-color: #5fa8d3 !important;
+  --toolbar-field-focus-color: #d8d4c6 !important;
+
+  --tab-selected-bgcolor: #24262a !important;
+  --lwt-accent-color: #1b1d22 !important;
+  --lwt-text-color: #d8d4c6 !important;
+
+  --arrowpanel-background: #24262a !important;
+  --arrowpanel-color: #d8d4c6 !important;
+  --arrowpanel-border-color: #353739 !important;
+
+  --sidebar-background-color: #1b1d22 !important;
+  --sidebar-text-color: #d8d4c6 !important;
+  --sidebar-border-color: #353739 !important;
+
+  --zen-main-browser-background: #1b1d22 !important;
+  --zen-colors-primary: #1b1d22 !important;
+  --zen-colors-secondary: #24262a !important;
+  --zen-colors-tertiary: #5fa8d3 !important;
+  --zen-colors-border: #353739 !important;
+  --zen-primary-color: #5fa8d3 !important;
+  --zen-urlbar-background-base: #24262a !important;
+}
+
+#zen-toolbar-background,
+#zen-toolbar-background::after,
+.zen-toolbar-background,
+.zen-toolbar-background::after,
+#sidebar-box,
+#titlebar,
+#navigator-toolbox {
+  background-color: #1b1d22 !important;
+}
+
+#tabbrowser-tabs .tabbrowser-tab[selected="true"] .tab-background {
+  background-color: #24262a !important;
+}

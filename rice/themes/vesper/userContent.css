@@ -1,0 +1,16 @@
+/* Zen browser page colours: Vesper (from theme-sync). */
+:root {
+  --in-content-page-background: #101010 !important;
+  --in-content-page-color: #ffffff !important;
+  --in-content-box-background: #161616 !important;
+  --in-content-box-background-hover: #232323 !important;
+  --in-content-box-border-color: #282828 !important;
+  --in-content-border-color: #282828 !important;
+  --in-content-accent-color: #ffc799 !important;
+  --in-content-link-color: #ffc799 !important;
+  --in-content-link-color-hover: #ffcfa8 !important;
+  --in-content-button-background: #161616 !important;
+  --in-content-button-background-hover: #232323 !important;
+  --in-content-primary-button-background: #ffc799 !important;
+  --in-content-primary-button-text-color: #101010 !important;
+}

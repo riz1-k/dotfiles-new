@@ -1,0 +1,26 @@
+/* Desktop widget palette: Vesper, as shared/rice.css had it. */
+html body,
+html body[data-theme] {
+    --bg: rgba(26, 26, 30, 0.95);
+    --border: rgba(255, 255, 255, 0.18);
+    --fg: #ffffff;
+    --muted: #a0a0a0;
+    --faint: #505050;
+    --track: rgba(255, 255, 255, 0.1);
+    --divider: rgba(255, 255, 255, 0.1);
+    --accent: #ffc799;
+    --ok: #99ffe4;
+    --warn: #ffc799;
+    --crit: #ff8080;
+    --info: #aca1cf;
+    --cpu-start: #bcffed;
+    --cpu-mid: #ffc799;
+    --cpu-end: #ff8080;
+    --mem: #99ffe4;
+    --disk: #aca1cf;
+    --down: #ea83a5;
+    --up: #ffc799;
+    --temp-start: #99ffe4;
+    --temp-mid: #e6b99d;
+    --temp-end: #ff8080;
+}

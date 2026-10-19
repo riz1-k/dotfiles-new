@@ -1,0 +1,26 @@
+/* Desktop widget palette: Flexoki Light, as shared/rice.css had it. */
+html body,
+html body[data-theme] {
+    --bg: rgba(242, 240, 229, 0.95);
+    --border: rgba(16, 15, 15, 0.12);
+    --fg: #100f0f;
+    --muted: #6f6e69;
+    --faint: #b7b5ac;
+    --track: #e6e4d9;
+    --divider: #dad8ce;
+    --accent: #bc5215;
+    --ok: #24837b;
+    --warn: #bc5215;
+    --crit: #af3029;
+    --info: #205ea6;
+    --cpu-start: #3aa99f;
+    --cpu-mid: #bc5215;
+    --cpu-end: #af3029;
+    --mem: #24837b;
+    --disk: #5e409d;
+    --down: #a02f6f;
+    --up: #bc5215;
+    --temp-start: #24837b;
+    --temp-mid: #ad8301;
+    --temp-end: #af3029;
+}

@@ -1,0 +1,79 @@
+"""Discord (Vencord / Vesktop), Zen and, if enabled, Chrome/Edge's toolbar colour."""
+import json
+import re
+import subprocess
+from pathlib import Path
+
+from .. import colormath as cm
+from .. import util
+
+
+def vencord(ctx):
+    css = ctx.file("quickCss.css")
+    if not css:
+        return
+    for d in (ctx.paths.config / "Vencord" / "settings", ctx.paths.config / "vesktop" / "settings"):
+        if d.is_dir():
+            # Vencord watches this file and swaps the CSS in every open window.
+            util.install_file(css, d / "quickCss.css")
+
+
+def zen_profiles(paths):
+    for root in (paths.home / ".var/app/app.zen_browser.zen/.zen", paths.home / ".zen"):
+        ini = root / "profiles.ini"
+        if not ini.is_file():
+            continue
+        for m in re.finditer(r"(?m)^Path=(.+)$", ini.read_text()):
+            p = root / m.group(1).strip()
+            if p.is_dir():
+                yield p
+
+
+def zen(ctx):
+    chrome, content = ctx.file("userChrome.css"), ctx.file("userContent.css")
+    if not chrome:
+        return
+    for profile in zen_profiles(ctx.paths):
+        d = profile / "chrome"
+        d.mkdir(exist_ok=True)
+        util.install_file(chrome, d / "userChrome.css")
+        if content:
+            util.install_file(content, d / "userContent.css")
+        # userChrome.css is only read when this pref is on.
+        user_js = profile / "user.js"
+        pref = 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
+        text = user_js.read_text() if user_js.is_file() else ""
+        if "legacyUserProfileCustomizations" not in text:
+            util.atomic_write(user_js, text + ("\n" if text and not text.endswith("\n") else "") + pref + "\n")
+
+
+POLICY_DIRS = ["/etc/opt/chrome/policies/managed", "/etc/opt/edge/policies/managed",
+               "/etc/chromium/policies/managed", "/etc/brave/policies/managed"]
+
+
+def chromium(ctx):
+    """Off unless [apps] chromium = true: writes a root-owned policy with sudo -n."""
+    theme = ctx.file("chromium.theme")
+    if not theme:
+        return
+    parts = theme.read_text().strip().split(",")
+    if len(parts) != 3 or not all(p.strip().isdigit() and 0 <= int(p) <= 255 for p in parts):
+        raise RuntimeError(f"chromium.theme is not r,g,b: {theme.read_text()[:40]!r}")
+    color = cm.to_hex(int(p) for p in parts)
+    policy = json.dumps({"BrowserThemeColor": color, "BrowserColorScheme": "device"})
+    if util.SANDBOX:
+        return
+    dirs = [d for d in POLICY_DIRS if Path(d).parent.parent.is_dir()]
+    for d in dirs:
+        current = Path(d) / "color.json"
+        if current.is_file() and current.read_text() == policy:
+            continue
+        r = subprocess.run(["sudo", "-n", "sh", "-c",
+                            f'mkdir -p "{d}" && cat > "{d}/color.json" && chmod 644 "{d}/color.json"'],
+                           input=policy, text=True, capture_output=True, timeout=10)
+        if r.returncode != 0:
+            raise RuntimeError(f"browser policy needs sudo: {r.stderr.strip()[:120]}")
+    for cli in ("google-chrome", "microsoft-edge"):
+        if util.have(cli) and util.pids("chrome" if "chrome" in cli else "msedge"):
+            subprocess.run([cli, "--refresh-platform-policy", "--no-startup-window"],
+                           capture_output=True, timeout=10)

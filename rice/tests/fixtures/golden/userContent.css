@@ -1,0 +1,16 @@
+/* Zen browser page colours for Sample (rice). */
+:root {
+  --in-content-page-background: #1b1d22 !important;
+  --in-content-page-color: #d8d4c6 !important;
+  --in-content-box-background: #24262a !important;
+  --in-content-box-background-hover: #5fa8d3 !important;
+  --in-content-box-border-color: #353739 !important;
+  --in-content-border-color: #353739 !important;
+  --in-content-accent-color: #5fa8d3 !important;
+  --in-content-link-color: #5fa8d3 !important;
+  --in-content-link-color-hover: #77b1d0 !important;
+  --in-content-button-background: #24262a !important;
+  --in-content-button-background-hover: #5fa8d3 !important;
+  --in-content-primary-button-background: #5fa8d3 !important;
+  --in-content-primary-button-text-color: #1b1d22 !important;
+}

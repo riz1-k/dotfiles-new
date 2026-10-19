@@ -1,0 +1,52 @@
+/* Discord (Vencord QuickCSS) colours: Vesper (from theme-sync). */
+:root {
+    /* Core surfaces */
+    --background-primary: #101010;
+    --background-secondary: #161616;
+    --background-secondary-alt: #101010;
+    --background-tertiary: #161616;
+    --background-floating: #161616;
+    --background-mobile-primary: #101010;
+    --background-mobile-secondary: #161616;
+    --background-accent: #232323;
+    --background-modifier-hover: rgba(255, 255, 255, 0.05);
+    --background-modifier-selected: #232323;
+    --background-modifier-active: #282828;
+    --background-modifier-accent: #282828;
+    --channeltextarea-background: #161616;
+
+    /* Brand / accent (peach replaces blurple) */
+    --brand-experiment: #ffc799;
+    --brand-experiment-560: #e6a97a;
+    --brand-500: #ffc799;
+    --brand-560: #e6a97a;
+
+    /* Text */
+    --header-primary: #ffffff;
+    --header-secondary: #a0a0a0;
+    --text-normal: #ffffff;
+    --text-muted: #7e7e7e;
+    --text-link: #ffc799;
+    --text-positive: #99ffe4;
+    --text-warning: #e6b99d;
+    --text-danger: #ff8080;
+
+    /* Interactive */
+    --interactive-normal: #a0a0a0;
+    --interactive-hover: #ffffff;
+    --interactive-active: #ffc799;
+    --interactive-muted: #505050;
+
+    /* Status dots */
+    --status-online: #99ffe4;
+    --status-idle: #e6b99d;
+    --status-dnd: #ff8080;
+    --status-positive-background: #99ffe4;
+    --status-warning-background: #e6b99d;
+    --status-danger-background: #ff8080;
+
+    /* Scrollbars */
+    --scrollbar-thin-thumb: #282828;
+    --scrollbar-auto-thumb: #282828;
+    --scrollbar-auto-track: #101010;
+}

@@ -1,0 +1,37 @@
+/* Flexoki Light (https://stephango.com/flexoki) — generated from the Vesper file by theme-sync/gen/remap.py */
+
+@define-color theme_bg_color #fffcf0;
+@define-color theme_fg_color #100f0f;
+@define-color theme_base_color #fffcf0;
+@define-color theme_text_color #100f0f;
+
+@define-color theme_selected_bg_color #bc5215;
+@define-color theme_selected_fg_color #fffcf0;
+
+@define-color insensitive_bg_color #f2f0e5;
+@define-color insensitive_fg_color #6f6e69;
+@define-color insensitive_base_color #fffcf0;
+
+@define-color theme_unfocused_bg_color #fffcf0;
+@define-color theme_unfocused_fg_color #575653;
+@define-color theme_unfocused_base_color #fffcf0;
+@define-color theme_unfocused_selected_bg_color #e6e4d9;
+@define-color theme_unfocused_selected_fg_color #bc5215;
+
+@define-color borders #dad8ce;
+@define-color unfocused_borders #dad8ce;
+
+@define-color warning_color #bc5215;
+@define-color error_color #af3029;
+@define-color success_color #24837b;
+
+@define-color accent_color #bc5215;
+@define-color accent_bg_color #bc5215;
+@define-color accent_fg_color #fffcf0;
+
+/* Subtle window corners for GTK3 CSD windows */
+decoration,
+window.csd,
+window.background.csd {
+  border-radius: 6px;
+}

@@ -1,0 +1,24 @@
+# Sample (rice template, from theme-sync's Vesper file)
+gui:
+  theme:
+    activeBorderColor:
+      - '#5fa8d3'
+      - bold
+    inactiveBorderColor:
+      - '#353739'
+    optionsTextColor:
+      - '#5fa8d3'
+    selectedLineBgColor:
+      - '#5fa8d3'
+    selectedRangeBgColor:
+      - '#5fa8d3'
+    cherryPickedCommitBgColor:
+      - '#24262a'
+    cherryPickedCommitFgColor:
+      - '#5fa8d3'
+    unstagedChangesColor:
+      - '#e06c6c'
+    defaultFgColor:
+      - '#d8d4c6'
+    searchingActiveBorderColor:
+      - '#5fa8d3'

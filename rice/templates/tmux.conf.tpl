@@ -1,0 +1,33 @@
+# tmux palette for {{ rice_theme_name }} (rice). Sourced by ~/.tmux.conf from ~/.local/state/rice/current/theme.
+c_bg="{{ background }}"
+c_fg="{{ foreground }}"
+c_accent="{{ accent }}"
+c_mint="{{ ui_success }}"
+c_coral="{{ ui_danger }}"
+c_muted="{{ muted }}"
+c_border="{{ ui_border }}"
+
+# Modern status bar at bottom left with rich UI
+set -g status-position bottom
+set -g status-justify "left"
+set -g status-left-length 120
+set -g status-right-length 80
+
+set -g status-style "bg=${c_bg},fg=${c_fg}"
+set -g status-interval 1
+
+set -g status-left "#[fg=${c_accent},bold]  #S #[fg=${c_muted}]│"
+set -g status-right "#[fg=${c_fg}]#(git -C '#{pane_current_path}' branch --show-current 2>/dev/null) #[fg=${c_muted}]│ #{?#{e|>=:10,#{battery_percentage}},#[fg=${c_coral}]🔋 #{battery_percentage},#[fg=${c_mint}]🔋 #{battery_percentage}} #[fg=${c_muted}]│ #{?#{==:#{online_status},ok},#[fg=${c_mint}]🌐 online,#[fg=${c_coral}]🌐 offline} #[fg=${c_muted}]│ %H:%M %d-%b-%y "
+
+set -g window-status-format "#[bg=${c_bg},fg=${c_muted}]  #{window_index}:#[fg=${c_fg}]#{window_name} "
+set -g window-status-style "bg=${c_bg},fg=${c_fg}"
+set -g window-status-activity-style "bg=${c_accent},fg=${c_bg},bold"
+set -g window-status-bell-style "bg=${c_coral},fg=${c_bg},bold"
+set -g window-status-separator " #[bg=${c_bg},fg=${c_accent}]│ "
+
+set -g window-status-current-format "#[bg=${c_bg},fg=${c_accent},bold]  #{window_index}:#{window_name} "
+set -g window-status-current-style "bg=${c_bg},fg=${c_accent},bold"
+
+set -g window-status-separator ""
+set -g pane-border-style "fg=${c_border}"
+set -g pane-active-border-style "fg=${c_accent}"

@@ -1,0 +1,45 @@
+/* Zen browser chrome colours: Flexoki Light (from theme-sync). */
+:root {
+  --toolbar-bgcolor: #fffcf0 !important;
+  --toolbar-color: #100f0f !important;
+  --toolbar-field-background-color: #f2f0e5 !important;
+  --toolbar-field-color: #100f0f !important;
+  --toolbar-field-border-color: #dad8ce !important;
+  --toolbar-field-focus-background-color: #f2f0e5 !important;
+  --toolbar-field-focus-border-color: #bc5215 !important;
+  --toolbar-field-focus-color: #100f0f !important;
+
+  --tab-selected-bgcolor: #f2f0e5 !important;
+  --lwt-accent-color: #fffcf0 !important;
+  --lwt-text-color: #100f0f !important;
+
+  --arrowpanel-background: #f2f0e5 !important;
+  --arrowpanel-color: #100f0f !important;
+  --arrowpanel-border-color: #dad8ce !important;
+
+  --sidebar-background-color: #fffcf0 !important;
+  --sidebar-text-color: #100f0f !important;
+  --sidebar-border-color: #dad8ce !important;
+
+  --zen-main-browser-background: #fffcf0 !important;
+  --zen-colors-primary: #fffcf0 !important;
+  --zen-colors-secondary: #f2f0e5 !important;
+  --zen-colors-tertiary: #e6e4d9 !important;
+  --zen-colors-border: #dad8ce !important;
+  --zen-primary-color: #bc5215 !important;
+  --zen-urlbar-background-base: #f2f0e5 !important;
+}
+
+#zen-toolbar-background,
+#zen-toolbar-background::after,
+.zen-toolbar-background,
+.zen-toolbar-background::after,
+#sidebar-box,
+#titlebar,
+#navigator-toolbox {
+  background-color: #fffcf0 !important;
+}
+
+#tabbrowser-tabs .tabbrowser-tab[selected="true"] .tab-background {
+  background-color: #f2f0e5 !important;
+}
