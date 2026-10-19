@@ -1,0 +1,12 @@
+[Unit]
+Description=rice: follow GNOME's light/dark toggle with the theme's light/dark pair
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/rice mode-watch
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target
