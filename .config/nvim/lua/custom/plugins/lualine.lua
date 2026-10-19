@@ -4,26 +4,15 @@ return {
   config = function()
     local lualine = require "lualine"
     local lazy_status = require "lazy.status" -- to configure lazy pending updates count
-    -- Vesper in dark mode, Flexoki Light in light mode (see colorscheme.lua)
-    local palettes = {
-      dark = {
-        bg = "#101010",
-        fg = "#a0a0a0",
-        on_accent = "#101010",
-        orange = "#ffc799",
-        blue = "#aca1cf",
-        green = "#99ffe4",
-        red = "#ff8080",
-      },
-      light = {
-        bg = "#fffcf0",
-        fg = "#6f6e69",
-        on_accent = "#fffcf0",
-        orange = "#bc5215",
-        blue = "#5e409d",
-        green = "#24837b",
-        red = "#af3029",
-      },
+    -- Colours from the current rice theme (see rice.lua); Vesper's until rice has run.
+    local vesper = {
+      background = "#101010",
+      ui_dim = "#a0a0a0",
+      ui_on_accent = "#101010",
+      accent = "#ffc799",
+      blue = "#aca1cf",
+      green = "#99ffe4",
+      red = "#ff8080",
     }
     local function make_theme(colors)
       return {
@@ -52,7 +41,20 @@ return {
       }
     end
     local function colors()
-      return palettes[vim.o.background] or palettes.dark
+      local ok, rice = pcall(require, "rice")
+      local c = ok and rice.colors() or {}
+      if not c.background then
+        c = vesper
+      end
+      return {
+        bg = c.background,
+        fg = c.ui_dim or c.foreground,
+        on_accent = c.ui_on_accent or c.background,
+        orange = c.accent,
+        blue = c.blue,
+        green = c.green,
+        red = c.red,
+      }
     end
     local mode = {
       "mode",
@@ -117,7 +119,7 @@ return {
     }
     lualine.setup(opts)
 
-    -- rebuild the theme when the colorscheme flips with GNOME's light/dark
+    -- rebuild the theme when rice switches themes
     vim.api.nvim_create_autocmd("ColorScheme", {
       group = vim.api.nvim_create_augroup("custom-lualine-theme", { clear = true }),
       callback = function()
