@@ -8,3 +8,11 @@ install-scripts/lazygit.tar.gz
 
 # Stray symlink to ghostty/config
 .config/config
+
+# herdr runtime state (logs, sockets, sessions)
+.config/herdr/*.log
+.config/herdr/herdr.sock*
+.config/herdr/session.json
+.config/herdr/session-snapshots/
+.config/herdr/release-notes.json
+.config/herdr/.plugins.lock

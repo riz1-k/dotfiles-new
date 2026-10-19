@@ -1,0 +1,200 @@
+# Vesper (https://github.com/raunofreiberg/vesper)
+# vim:fileencoding=utf-8:foldmethod=marker
+
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "#ffc799" }
+
+# Find
+find_keyword  = { fg = "#e6b99d", bold = true, italic = true, underline = true }
+find_position = { fg = "#ecaad6", bg = "reset", bold = true, italic = true }
+
+# Marker
+marker_copied   = { fg = "#99ffe4", bg = "#99ffe4" }
+marker_cut      = { fg = "#ff8080", bg = "#ff8080" }
+marker_marked   = { fg = "#99ffe4", bg = "#99ffe4" }
+marker_selected = { fg = "#e6b99d", bg = "#e6b99d" }
+
+# Count
+count_copied   = { fg = "#101010", bg = "#99ffe4" }
+count_cut      = { fg = "#101010", bg = "#ff8080" }
+count_selected = { fg = "#101010", bg = "#e6b99d" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#282828" }
+
+# : }}}
+
+
+# : Tabs {{{
+
+[tabs]
+active   = { fg = "#101010", bg = "#ffc799", bold = true }
+inactive = { fg = "#7e7e7e", bg = "#161616" }
+
+# : }}}
+
+
+# : Mode {{{
+
+[mode]
+
+normal_main = { fg = "#101010", bg = "#ffc799", bold = true }
+normal_alt  = { fg = "#ffc799", bg = "#232323" }
+
+# Select mode
+select_main = { fg = "#101010", bg = "#99ffe4", bold = true }
+select_alt  = { fg = "#99ffe4", bg = "#232323" }
+
+# Unset mode
+unset_main = { fg = "#101010", bg = "#e6b99d", bold = true }
+unset_alt  = { fg = "#e6b99d", bg = "#232323" }
+
+# : }}}
+
+
+# : Status bar {{{
+
+[status]
+# Permissions
+perm_sep   = { fg = "#7e7e7e" }
+perm_type  = { fg = "#ffc799" }
+perm_read  = { fg = "#e6b99d" }
+perm_write = { fg = "#ff8080" }
+perm_exec  = { fg = "#99ffe4" }
+
+# Progress
+progress_label  = { fg = "#ffffff", bold = true }
+progress_normal = { fg = "#99ffe4", bg = "#232323" }
+progress_error  = { fg = "#e6b99d", bg = "#ff8080" }
+
+# : }}}
+
+
+# : Pick {{{
+
+[pick]
+border   = { fg = "#ffc799" }
+active   = { fg = "#ecaad6", bold = true }
+inactive = {}
+
+# : }}}
+
+
+# : Input {{{
+
+[input]
+border   = { fg = "#ffc799" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+# : }}}
+
+
+# : Completion {{{
+
+[cmp]
+border = { fg = "#ffc799" }
+
+# : }}}
+
+
+# : Tasks {{{
+
+[tasks]
+border  = { fg = "#ffc799" }
+title   = {}
+hovered = { fg = "#ecaad6", bold = true }
+
+# : }}}
+
+
+# : Which {{{
+
+[which]
+border          = { fg = "#ffc799" }
+cand            = { fg = "#99ffe4" }
+rest            = { fg = "#505050" }
+desc            = { fg = "#ecaad6" }
+separator       = "  "
+separator_style = { fg = "#7e7e7e" }
+
+# : }}}
+
+
+# : Help {{{
+
+[help]
+on      = { fg = "#99ffe4" }
+run     = { fg = "#ecaad6" }
+hovered = { reversed = true, bold = true }
+footer  = { fg = "#101010", bg = "#ffffff" }
+
+# : }}}
+
+
+# : Spotter {{{
+
+[spot]
+border   = { fg = "#ffc799" }
+title    = { fg = "#ffc799" }
+tbl_col  = { fg = "#99ffe4" }
+tbl_cell = { fg = "#ecaad6", bg = "#232323" }
+
+# : }}}
+
+
+# : Notification {{{
+
+[notify]
+title_info  = { fg = "#99ffe4" }
+title_warn  = { fg = "#e6b99d" }
+title_error = { fg = "#ff8080" }
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+
+rules = [
+	# Image
+	{ mime = "**/image/*", fg = "#99ffe4" },
+	# Media
+	{ mime = "**/{audio,video}/*", fg = "#e6b99d" },
+	# Archive
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#ecaad6" },
+	# Document
+	{ mime = "**/application/{pdf,doc,rtf}", fg = "#99ffe4" },
+	# Virtual file system
+	{ mime = "vfs/{absent,stale}", fg = "#505050" },
+	# Fallback
+	{ url = "*", fg = "#ffffff" },
+	{ url = "*/", fg = "#ffc799" },
+]
+
+# : }}}
+
+[icon]
+
+conds = [
+	# Special files
+	{ if = "orphan", text = "", fg = "#ffffff" },
+	{ if = "link", text = "", fg = "#7e7e7e" },
+	{ if = "block", text = "", fg = "#e6b99d" },
+	{ if = "char", text = "", fg = "#e6b99d" },
+	{ if = "fifo", text = "", fg = "#e6b99d" },
+	{ if = "sock", text = "", fg = "#e6b99d" },
+	{ if = "sticky", text = "", fg = "#e6b99d" },
+	{ if = "dummy", text = "", fg = "#ff8080" },
+
+	# Fallback
+	{ if = "dir & hovered", text = "", fg = "#ffc799" },
+	{ if = "dir", text = "", fg = "#ffc799" },
+	{ if = "exec", text = "", fg = "#99ffe4" },
+	{ if = "!dir", text = "", fg = "#ffffff" },
+]

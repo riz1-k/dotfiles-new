@@ -1,0 +1,91 @@
+# Flexoki Light (https://stephango.com/flexoki) — generated from the Vesper file by theme-sync/gen/remap.py
+
+# Main background, empty for terminal default, need to be empty if you want transparent background
+theme[main_bg]="#fffcf0"
+
+# Main text color
+theme[main_fg]="#100f0f"
+
+# Title color for boxes
+theme[title]="#100f0f"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#bc5215"
+
+# Background color of selected item in processes box
+theme[selected_bg]="#e6e4d9"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="#bc5215"
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#b7b5ac"
+
+# Color of text appearing on top of graphs, i.e uptime and current network graph scaling
+theme[graph_text]="#100f0f"
+
+# Background color of the percentage meters
+theme[meter_bg]="#e6e4d9"
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#575653"
+
+# Cpu box outline color
+theme[cpu_box]="#bc5215"
+
+# Memory/disks box outline color
+theme[mem_box]="#24837b"
+
+# Net up/down box outline color
+theme[net_box]="#af3029"
+
+# Processes box outline color
+theme[proc_box]="#5e409d"
+
+# Box divider line and small boxes line color
+theme[div_line]="#dad8ce"
+
+# Temperature graph colors
+theme[temp_start]="#24837b"
+theme[temp_mid]="#ad8301"
+theme[temp_end]="#af3029"
+
+# CPU graph colors
+theme[cpu_start]="#3aa99f"
+theme[cpu_mid]="#bc5215"
+theme[cpu_end]="#af3029"
+
+# Mem/Disk free meter
+theme[free_start]="#3aa99f"
+theme[free_mid]="#24837b"
+theme[free_end]="#bfe8d9"
+
+# Mem/Disk cached meter
+theme[cached_start]="#8b7ec8"
+theme[cached_mid]="#5e409d"
+theme[cached_end]="#e2d9e9"
+
+# Mem/Disk available meter
+theme[available_start]="#9d4310"
+theme[available_mid]="#ad8301"
+theme[available_end]="#fed3af"
+
+# Mem/Disk used meter
+theme[used_start]="#d14d41"
+theme[used_mid]="#af3029"
+theme[used_end]="#ffcabb"
+
+# Download graph colors
+theme[download_start]="#ce5d97"
+theme[download_mid]="#a02f6f"
+theme[download_end]="#fccfda"
+
+# Upload graph colors
+theme[upload_start]="#da702c"
+theme[upload_mid]="#bc5215"
+theme[upload_end]="#fed3af"
+
+# Process box color gradient for threads, mem and cpu usage
+theme[process_start]="#bc5215"
+theme[process_mid]="#ad8301"
+theme[process_end]="#6f6e69"

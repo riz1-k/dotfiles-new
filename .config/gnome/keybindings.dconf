@@ -1,4 +1,5 @@
 [org/gnome/desktop/wm/keybindings]
+activate-window-menu=@as []
 maximize=@as []
 move-to-workspace-1=['<Shift><Super>Home', '<Shift><Super>exclam']
 move-to-workspace-2=['<Shift><Super>at']
@@ -28,7 +29,7 @@ show-screenshot-ui=['Print', '<Shift><Super>s']
 toggle-overview=@as []
 
 [org/gnome/settings-daemon/plugins/media-keys]
-custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/PopLaunch1/']
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/PopLaunch1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/vicinae/']
 search=@as []
 terminal=['<Super>t', '<Super>Return']
 
@@ -36,6 +37,11 @@ terminal=['<Super>t', '<Super>Return']
 binding='Launch1'
 command='gnome-control-center wifi'
 name='WiFi'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/vicinae]
+binding='<Alt>space'
+command='vicinae toggle'
+name='Vicinae'
 
 [org/gnome/shell/extensions/pop-shell]
 active-hint=false

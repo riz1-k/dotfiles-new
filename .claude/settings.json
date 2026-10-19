@@ -13,7 +13,8 @@
     "mattpocock-skills@mattpocock": true,
     "codex@openai-codex": true,
     "cloudflare@cloudflare": true,
-    "vercel@claude-plugins-official": true
+    "vercel@claude-plugins-official": true,
+    "railway@anthropic-plugin-directory": true
   },
   "extraKnownMarketplaces": {
     "mattpocock": {
@@ -49,7 +50,6 @@
       "effortLevel": "xhigh"
     }
   },
-  "autoCompactWindow": 400000,
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
   "askUserQuestionTimeout": "never",
@@ -60,7 +60,7 @@
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
   "theme": "auto",
-  "editorMode": "normal",
+  "editorMode": "vim",
   "autoCompactEnabled": true,
   "terminalProgressBarEnabled": false,
   "remoteControlAtStartup": true,

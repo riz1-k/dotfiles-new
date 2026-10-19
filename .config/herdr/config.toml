@@ -1,9 +1,25 @@
 onboarding = false
 
+[terminal]
+default_shell = "/usr/bin/zsh"
+
 [theme]
 name = "vesper"
+# Follow the host terminal's light/dark appearance (driven by GNOME via ghostty).
+auto_switch = true
+dark_name = "vesper"
+light_name = "terminal"
 
-auto_switch = false
+# Flexoki Light accents on top of the terminal-derived light theme.
+[theme.custom.light]
+panel_bg = "reset"
+sidebar_bg = "#f2f0e5"
+active_row_bg = "#e6e4d9"
+selection_bg = "#dad8ce"
+accent = "#bc5215"
+red = "#af3029"
+green = "#66800b"
+
 [ui.toast]
 delivery = "herdr"
 

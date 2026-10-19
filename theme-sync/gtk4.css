@@ -1,0 +1,100 @@
+/* Vesper (dark) + Flexoki Light (light) — libadwaita / GTK4 color overrides.
+ * GTK >= 4.20 evaluates these media queries against the GNOME light/dark
+ * style, so open apps switch live. Light values: theme-sync/gen/remap.py. */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent-color: #ffc799;
+    --accent-bg-color: #ffc799;
+    --accent-fg-color: #101010;
+    --destructive-color: #ff8080;
+    --destructive-bg-color: #ff8080;
+    --destructive-fg-color: #101010;
+    --success-color: #99ffe4;
+    --success-bg-color: #99ffe4;
+    --success-fg-color: #101010;
+    --warning-color: #ffc799;
+    --warning-bg-color: #ffc799;
+    --warning-fg-color: #101010;
+    --error-color: #ff8080;
+    --error-bg-color: #ff8080;
+    --error-fg-color: #101010;
+    --window-bg-color: #101010;
+    --window-fg-color: #ffffff;
+    --view-bg-color: #101010;
+    --view-fg-color: #ffffff;
+    --headerbar-bg-color: #101010;
+    --headerbar-fg-color: #a0a0a0;
+    --headerbar-border-color: #ffffff;
+    --headerbar-backdrop-color: #101010;
+    --headerbar-shade-color: rgba(0, 0, 0, 0.36);
+    --card-bg-color: #161616;
+    --card-fg-color: #ffffff;
+    --card-shade-color: rgba(0, 0, 0, 0.36);
+    --dialog-bg-color: #101010;
+    --dialog-fg-color: #ffffff;
+    --popover-bg-color: #161616;
+    --popover-fg-color: #ffffff;
+    --popover-shade-color: rgba(0, 0, 0, 0.36);
+    --shade-color: rgba(0, 0, 0, 0.36);
+    --scrollbar-outline-color: rgba(255, 255, 255, 0.08);
+    --sidebar-bg-color: #101010;
+    --sidebar-fg-color: #ffffff;
+    --sidebar-backdrop-color: #101010;
+    --sidebar-shade-color: rgba(0, 0, 0, 0.36);
+    --sidebar-border-color: #282828;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --accent-color: #bc5215;
+    --accent-bg-color: #bc5215;
+    --accent-fg-color: #fffcf0;
+    --destructive-color: #af3029;
+    --destructive-bg-color: #af3029;
+    --destructive-fg-color: #fffcf0;
+    --success-color: #24837b;
+    --success-bg-color: #24837b;
+    --success-fg-color: #fffcf0;
+    --warning-color: #bc5215;
+    --warning-bg-color: #bc5215;
+    --warning-fg-color: #fffcf0;
+    --error-color: #af3029;
+    --error-bg-color: #af3029;
+    --error-fg-color: #fffcf0;
+    --window-bg-color: #fffcf0;
+    --window-fg-color: #100f0f;
+    --view-bg-color: #fffcf0;
+    --view-fg-color: #100f0f;
+    --headerbar-bg-color: #fffcf0;
+    --headerbar-fg-color: #575653;
+    --headerbar-border-color: #dad8ce;
+    --headerbar-backdrop-color: #fffcf0;
+    --headerbar-shade-color: rgba(16, 15, 15, 0.08);
+    --card-bg-color: #f2f0e5;
+    --card-fg-color: #100f0f;
+    --card-shade-color: rgba(16, 15, 15, 0.08);
+    --dialog-bg-color: #fffcf0;
+    --dialog-fg-color: #100f0f;
+    --popover-bg-color: #f2f0e5;
+    --popover-fg-color: #100f0f;
+    --popover-shade-color: rgba(16, 15, 15, 0.08);
+    --shade-color: rgba(16, 15, 15, 0.08);
+    --scrollbar-outline-color: rgba(16, 15, 15, 0.08);
+    --sidebar-bg-color: #fffcf0;
+    --sidebar-fg-color: #100f0f;
+    --sidebar-backdrop-color: #fffcf0;
+    --sidebar-shade-color: rgba(16, 15, 15, 0.08);
+    --sidebar-border-color: #dad8ce;
+  }
+}
+
+/* Subtle window corners for libadwaita / GTK4 CSD windows */
+window,
+window.background,
+window.csd,
+window.background.csd,
+window.csd > decoration {
+  border-radius: 6px;
+}

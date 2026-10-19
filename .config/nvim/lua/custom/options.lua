@@ -29,8 +29,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 vim.opt.termguicolors = true
-vim.opt.background = "light"
--- vim.opt.background = "dark"
+-- background is set by the colorscheme plugin spec (follows GNOME light/dark)
 
 vim.opt.scrolloff = 8
 
@@ -81,7 +80,10 @@ local function set_transparency()
     "WinSeparator",
   }
   for _, group in ipairs(groups) do
-    vim.api.nvim_set_hl(0, group, { bg = "NONE", ctermbg = "NONE" })
+    -- keep the group's fg/bold/etc., only drop the background
+    local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+    hl.bg, hl.ctermbg = "NONE", "NONE"
+    vim.api.nvim_set_hl(0, group, hl)
   end
 end
 

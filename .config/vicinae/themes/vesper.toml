@@ -1,0 +1,90 @@
+# Vesper for Vicinae
+# Palette: https://github.com/raunofreiberg/vesper (matches ghostty / kitty / nvim / gtk in this rice)
+#
+# Linked into ~/.local/share/vicinae/themes/ (vicinae only scans data dirs for themes).
+
+[meta]
+name = "Vesper"
+description = "Peppermint and orange on a near-black canvas"
+variant = "dark"
+inherits = "vicinae-dark"
+
+[colors.core]
+background = "#101010"
+foreground = "#FFFFFF"
+secondary_background = "#161616"
+border = "#282828"
+accent = "#FFC799"
+accent_foreground = "#101010"
+
+[colors.main_window]
+border = "#343434"
+footer = { background = "#101010" }
+
+[colors.settings_window]
+border = "#343434"
+
+[colors.accents]
+blue = "#B9AEDA"
+green = "#99FFE4"
+magenta = "#ECAAD6"
+orange = "#FFC799"
+red = "#FF8080"
+yellow = "#E6B99D"
+cyan = "#99FFE4"
+purple = "#ACA1CF"
+
+[colors.shortcut]
+border = "#343434"
+
+[colors.text]
+default = "#FFFFFF"
+muted = "#A0A0A0"
+danger = "#FF8080"
+success = "#99FFE4"
+placeholder = "#6B6B6B"
+selection = { background = "#59FFC799", foreground = "#FFFFFF" }
+
+[colors.text.links]
+default = "#FFC799"
+visited = "#FFCFA8"
+
+[colors.input]
+background = "#1C1C1C"
+border = "#282828"
+border_focus = "#FFC799"
+border_error = "#FF8080"
+
+[colors.button.primary]
+background = "#1C1C1C"
+foreground = "#FFFFFF"
+hover = { background = "#282828", foreground = "#FFFFFF" }
+focus = { outline = "#FFC799" }
+
+[colors.list.item.hover]
+background = "#1A1A1A"
+foreground = "#FFFFFF"
+secondary_foreground = "#A0A0A0"
+
+[colors.list.item.selection]
+background = "#232323"
+foreground = "#FFFFFF"
+secondary_background = "#2C2C2C"
+secondary_foreground = "#A0A0A0"
+
+[colors.grid.item]
+background = "#161616"
+hover = { outline = "#505050" }
+selection = { outline = "#FFC799" }
+
+[colors.scrollbars]
+background = "#343434"
+
+[colors.tooltip]
+background = "#161616"
+foreground = "#FFFFFF"
+border = "#282828"
+
+[colors.loading]
+bar = "#FFC799"
+spinner = "#FFC799"

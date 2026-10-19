@@ -1,20 +1,28 @@
 # Font
-font-family = "Fira Code SemiBold"
-font-style = "SemiBold"
-font-size = 10
-adjust-cell-height = 30%
+font-family = "MonoLisa"
+font-family = "SFMono Nerd Font"
+font-family-bold = "MonoLisa"
+font-family-italic = "MonoLisa"
+font-family-bold-italic = "MonoLisa"
+# Bold weight everywhere (no italic, no separate bold cut)
+font-style = "Bold"
+font-style-bold = "Bold"
+font-style-italic = "Bold"
+font-style-bold-italic = "Bold"
+font-size = 7.5
+adjust-cell-height = 50%
 
-theme = Vesper
+theme = light:Flexoki Light,dark:Vesper
 
 # Window
-window-padding-x = 9
-window-padding-y = 9
+window-padding-x = 7
+window-padding-y = 7
 window-decoration = auto
 gtk-wide-tabs = false
 window-theme = ghostty
 window-show-tab-bar = auto
 gtk-titlebar = false
-window-show-tab-bar = always
+window-show-tab-bar = auto
 
 # Terminal Behavior
 command = /bin/zsh
@@ -35,7 +43,9 @@ mouse-hide-while-typing = false
 # Visual
 background-opacity = 1
 unfocused-split-opacity = 1
-bold-is-bright = true
+# Off: Flexoki Light's "bright" colors are the pale ones, so bold black text
+# would turn light gray. Bold comes from the font weight instead.
+bold-is-bright = false
 
 # Clipboard
 copy-on-select = clipboard

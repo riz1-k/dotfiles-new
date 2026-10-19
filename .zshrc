@@ -15,73 +15,66 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
-# Prompt: sainnhe/dotfiles .zsh-theme (powerlevel10k-based "purepower"), recolored to Tokyo Night
-# https://github.com/sainnhe/dotfiles/tree/master/.zsh-theme
+# Prompt: powerlevel10k "purepower" (ANSI colors, so it follows the terminal theme)
 PURE_POWER_MODE=modern
 source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-# Auto-switch the prompt colors (light/dark) to match kitty's mode.
-# ~/.local/bin/set-kitty-mode writes the active mode to this file whenever
-# GNOME's light/dark setting changes (or you run it manually).
-# Dark leg uses Vesper; light leg stays Tokyo Night Day.
-__ef_p10k_mode_file="$HOME/.local/state/TERMINAL_MODE"
-# Resolve through the ~/.zshrc symlink so this works wherever the repo lives.
-__ef_p10k_theme_dir="${${(%):-%x}:A:h}/.zsh-theme"
-__ef_p10k_read_mode() {
-  [[ -r $__ef_p10k_mode_file ]] && REPLY=$(<$__ef_p10k_mode_file) || REPLY=
-}
-__ef_p10k_load_theme() {
-  __ef_p10k_read_mode
-  local theme
-  if [[ $REPLY == *light* ]]; then
-    theme=tokyonight-light
-  else
-    theme=vesper-dark
-  fi
-  [[ -r $__ef_p10k_theme_dir/$theme.zsh ]] && source "$__ef_p10k_theme_dir/$theme.zsh"
-}
-__ef_p10k_read_mode
-__ef_p10k_last_mode=$REPLY
-__ef_p10k_load_theme
-__ef_p10k_check_mode() {
-  __ef_p10k_read_mode
-  if [[ -n $REPLY && $REPLY != $__ef_p10k_last_mode ]]; then
-    __ef_p10k_last_mode=$REPLY
-    __ef_p10k_load_theme
-  fi
-}
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd __ef_p10k_check_mode
 
 # Autosuggestions performance
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
-# Vesper (https://github.com/raunofreiberg/vesper)
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#505050"
+# Command-line colors follow GNOME's light/dark style: theme-sync
+# (~/dotfiles/theme-sync) writes the mode here; re-checked before each prompt.
+# The prompt itself uses ANSI colors, so it follows the terminal palette.
+__ts_mode_file="$HOME/.local/state/theme-sync/mode"
 typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[default]='fg=#ffffff'
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff8080'
-ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=#a0a0a0'
-ZSH_HIGHLIGHT_STYLES[command]='fg=#ffc799,bold'
-ZSH_HIGHLIGHT_STYLES[alias]='fg=#ffc799'
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=#ffc799'
-ZSH_HIGHLIGHT_STYLES[function]='fg=#ffc799'
-ZSH_HIGHLIGHT_STYLES[precommand]='fg=#ffc799,underline'
-ZSH_HIGHLIGHT_STYLES[path]='fg=#ffffff,underline'
-ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=#ffffff'
-ZSH_HIGHLIGHT_STYLES[globbing]='fg=#99ffe4'
-ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=#99ffe4'
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#a0a0a0'
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#a0a0a0'
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=#99ffe4'
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=#99ffe4'
-ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=#99ffe4'
-ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=#ffc799'
-ZSH_HIGHLIGHT_STYLES[assign]='fg=#a0a0a0'
-ZSH_HIGHLIGHT_STYLES[redirection]='fg=#a0a0a0'
-ZSH_HIGHLIGHT_STYLES[comment]='fg=#7e7e7e'
+__ts_apply_highlight() {
+  local fg cmd quote dim comment err suggest
+  if [[ $1 == light ]]; then
+    # Flexoki Light (https://stephango.com/flexoki)
+    fg='#100f0f' cmd='#bc5215' quote='#24837b' dim='#6f6e69'
+    comment='#878580' err='#af3029' suggest='#b7b5ac'
+  else
+    # Vesper (https://github.com/raunofreiberg/vesper)
+    fg='#ffffff' cmd='#ffc799' quote='#99ffe4' dim='#a0a0a0'
+    comment='#7e7e7e' err='#ff8080' suggest='#505050'
+  fi
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=$suggest"
+  ZSH_HIGHLIGHT_STYLES=(
+    default "fg=$fg"
+    unknown-token "fg=$err"
+    reserved-word "fg=$dim"
+    command "fg=$cmd,bold"
+    alias "fg=$cmd"
+    builtin "fg=$cmd"
+    function "fg=$cmd"
+    precommand "fg=$cmd,underline"
+    path "fg=$fg,underline"
+    path_prefix "fg=$fg"
+    globbing "fg=$quote"
+    history-expansion "fg=$quote"
+    single-hyphen-option "fg=$dim"
+    double-hyphen-option "fg=$dim"
+    single-quoted-argument "fg=$quote"
+    double-quoted-argument "fg=$quote"
+    dollar-quoted-argument "fg=$quote"
+    dollar-double-quoted-argument "fg=$cmd"
+    assign "fg=$dim"
+    redirection "fg=$dim"
+    comment "fg=$comment"
+  )
+}
+__ts_check_mode() {
+  local mode=dark
+  [[ -r $__ts_mode_file ]] && mode=$(<$__ts_mode_file)
+  [[ $mode == $__ts_last_mode ]] && return
+  __ts_last_mode=$mode
+  __ts_apply_highlight $mode
+}
+__ts_check_mode
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd __ts_check_mode
 
 # History configuration
 HISTFILE=$HOME/.zhistory
@@ -150,8 +143,8 @@ autoload -Uz compinit && compinit -C
 # Android / React Native / Expo development
 export ANDROID_HOME="$HOME/Android/Sdk"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
-export JAVA_HOME="$HOME/.local/opt/android-studio/jbr"
-export PATH="$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$HOME/.local/opt/android-studio/bin:$PATH"
+export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+export PATH="$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # bun completions

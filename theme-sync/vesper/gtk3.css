@@ -1,0 +1,37 @@
+/* Vesper (https://github.com/raunofreiberg/vesper) — GTK3 named-color overrides */
+
+@define-color theme_bg_color #101010;
+@define-color theme_fg_color #ffffff;
+@define-color theme_base_color #101010;
+@define-color theme_text_color #ffffff;
+
+@define-color theme_selected_bg_color #ffc799;
+@define-color theme_selected_fg_color #101010;
+
+@define-color insensitive_bg_color #161616;
+@define-color insensitive_fg_color #7e7e7e;
+@define-color insensitive_base_color #101010;
+
+@define-color theme_unfocused_bg_color #101010;
+@define-color theme_unfocused_fg_color #a0a0a0;
+@define-color theme_unfocused_base_color #101010;
+@define-color theme_unfocused_selected_bg_color #232323;
+@define-color theme_unfocused_selected_fg_color #ffc799;
+
+@define-color borders #282828;
+@define-color unfocused_borders #282828;
+
+@define-color warning_color #ffc799;
+@define-color error_color #ff8080;
+@define-color success_color #99ffe4;
+
+@define-color accent_color #ffc799;
+@define-color accent_bg_color #ffc799;
+@define-color accent_fg_color #101010;
+
+/* Subtle window corners for GTK3 CSD windows */
+decoration,
+window.csd,
+window.background.csd {
+  border-radius: 6px;
+}

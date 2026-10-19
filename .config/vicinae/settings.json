@@ -1,0 +1,55 @@
+{
+	"$schema": "https://vicinae.com/schemas/config.json",
+
+	"telemetry": {
+		"system_info": false
+	},
+
+	"tray": {
+		"enabled": false
+	},
+
+	"close_on_focus_loss": true,
+	"pop_to_root_on_close": true,
+
+	"font": {
+		"rendering": "native",
+		"normal": {
+			"family": "auto"
+		}
+	},
+
+	"theme": {
+		"light": {
+			"name": "flexoki-light",
+			"icon_theme": "auto"
+		},
+		"dark": {
+			"name": "vesper",
+			"icon_theme": "auto"
+		}
+	},
+
+	"launcher_window": {
+		"opacity": 1,
+		"material": "none",
+		"rounding": 10,
+		"clock": {
+			"enabled": false
+		},
+		"client_side_decorations": {
+			"enabled": true,
+			"border_width": 1
+		}
+	},
+
+	"favorites": [
+		"clipboard:history"
+	],
+
+	"fallbacks": [
+		"files:search"
+	],
+
+	"providers": {}
+}

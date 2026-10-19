@@ -1,0 +1,87 @@
+# Flexoki Light for Vicinae — generated from vesper.toml by theme-sync/gen/remap.py
+
+[meta]
+name = "Flexoki Light"
+description = "Ink and burnt orange on warm paper"
+variant = "light"
+inherits = "vicinae-light"
+
+[colors.core]
+background = "#fffcf0"
+foreground = "#100F0F"
+secondary_background = "#f2f0e5"
+border = "#dad8ce"
+accent = "#BC5215"
+accent_foreground = "#fffcf0"
+
+[colors.main_window]
+border = "#cecdc3"
+footer = { background = "#fffcf0" }
+
+[colors.settings_window]
+border = "#cecdc3"
+
+[colors.accents]
+blue = "#5E409D"
+green = "#24837B"
+magenta = "#A02F6F"
+orange = "#BC5215"
+red = "#AF3029"
+yellow = "#AD8301"
+cyan = "#24837B"
+purple = "#5E409D"
+
+[colors.shortcut]
+border = "#cecdc3"
+
+[colors.text]
+default = "#100F0F"
+muted = "#575653"
+danger = "#AF3029"
+success = "#24837B"
+placeholder = "#878580"
+selection = { background = "#40BC5215", foreground = "#100F0F" }
+
+[colors.text.links]
+default = "#BC5215"
+visited = "#9D4310"
+
+[colors.input]
+background = "#E6E4D9"
+border = "#dad8ce"
+border_focus = "#BC5215"
+border_error = "#AF3029"
+
+[colors.button.primary]
+background = "#E6E4D9"
+foreground = "#100F0F"
+hover = { background = "#dad8ce", foreground = "#100F0F" }
+focus = { outline = "#BC5215" }
+
+[colors.list.item.hover]
+background = "#F2F0E5"
+foreground = "#100F0F"
+secondary_foreground = "#575653"
+
+[colors.list.item.selection]
+background = "#e6e4d9"
+foreground = "#100F0F"
+secondary_background = "#DAD8CE"
+secondary_foreground = "#575653"
+
+[colors.grid.item]
+background = "#f2f0e5"
+hover = { outline = "#b7b5ac" }
+selection = { outline = "#BC5215" }
+
+[colors.scrollbars]
+background = "#cecdc3"
+
+[colors.tooltip]
+background = "#f2f0e5"
+foreground = "#100F0F"
+border = "#dad8ce"
+
+[colors.loading]
+bar = "#BC5215"
+spinner = "#BC5215"

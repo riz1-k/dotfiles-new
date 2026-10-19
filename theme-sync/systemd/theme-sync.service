@@ -1,0 +1,12 @@
+[Unit]
+Description=Sync rice (Vesper / Flexoki Light) with GNOME light/dark style
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/theme-sync --watch
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Flexoki-Light
+Comment=Flexoki Light theme for GNOME Shell (https://stephango.com/flexoki)
+
+[X-GNOME-Metatheme]
+GtkTheme=Yaru
+MetacityTheme=Yaru
+IconTheme=Colloid-Orange-Light
+CursorTheme=Yaru
+ButtonLayout=close,minimize,maximize:menu
