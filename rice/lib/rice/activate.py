@@ -249,8 +249,9 @@ def activate_generation(paths, generation):
     stage._clear(tmp)
     os.symlink(f"{paths.generations.name}/{generation}", tmp)
     if link.is_dir() and not link.is_symlink():
-        # A current/theme folder from before generations: it becomes the oldest one.
-        os.rename(link, paths.generations / "0-legacy")
+        # A current/theme folder from before generations (or from an older rice still
+        # running, like a mode watcher started before an update): the oldest generation.
+        os.rename(link, paths.generations / f"0-legacy-{time.time_ns()}")
     for leftover in (paths.current / "next-theme", paths.current / ".old-theme"):
         if leftover.exists() and not leftover.is_symlink():
             shutil.rmtree(leftover, ignore_errors=True)

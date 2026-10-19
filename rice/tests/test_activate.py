@@ -72,7 +72,15 @@ class Switch(unittest.TestCase):
         self.assertTrue(old.is_symlink())
         self.assertTrue((old / "gnome.json").is_file())
         self.assertFalse((self.state / "next-theme").exists())
-        self.assertTrue((self.state / "generations" / "0-legacy" / "colors.json").is_file())
+        legacy = list((self.state / "generations").glob("0-legacy-*"))
+        self.assertEqual(len(legacy), 1)
+        self.assertTrue((legacy[0] / "colors.json").is_file())
+        # Again, as an older rice still running would leave it.
+        os.replace(old, self.state / ".tmp-link")
+        os.unlink(self.state / ".tmp-link")
+        old.mkdir()
+        self.rice("theme", "set", "flexoki-light", "--wait")
+        self.assertTrue(old.is_symlink())
 
     def test_list_json(self):
         rows = json.loads(self.rice("theme", "list", "--json"))
