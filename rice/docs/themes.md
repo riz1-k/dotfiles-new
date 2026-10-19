@@ -23,7 +23,9 @@ the same name as a stock or imported theme overlays it file by file.
 
 ## colors.toml
 
-Flat `key = "value"` lines. The keys are Omarchy's:
+Flat `key = "value"` lines. Values are colours (`#rrggbb`, `#rgb`, `#rrggbbaa`,
+`rgb()`/`rgba()`), `light`/`dark` for `mode`, or numbers; anything else is skipped
+with a warning. The keys are Omarchy's:
 
 ```toml
 accent = "#7aa2f7"
@@ -57,6 +59,9 @@ css = """                       # extra GNOME Shell CSS, appended last
 #panel { font-weight: 600; }
 """
 ```
+
+`css` (like a `gnome-shell.css` or `rice-bar.css` of the theme's own) is only used
+from your own themes, never from one installed with git.
 
 ## Templates
 

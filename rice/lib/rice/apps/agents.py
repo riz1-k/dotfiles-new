@@ -4,7 +4,6 @@ Each gets one theme file whose name never changes (rice) and whose contents do.
 Claude Code and T3 Code watch their theme folders and retint running sessions;
 Codex reads its theme when a session starts.
 """
-import json
 import os
 import re
 from pathlib import Path
@@ -33,13 +32,64 @@ def claude(ctx):
     src = ctx.file("claude.json")
     if not src:
         return
+    problems = []
     for home in claude_dirs(ctx.paths):
         util.install_file(src, home / "themes" / "rice.json")
         settings = home / "settings.json"
         if settings.is_file():
             text = settings.read_text()
-            if not re.search(r'"theme"\s*:\s*"custom:rice"', text):
-                util.atomic_write(settings, util.jsonc_set_string(text, "theme", "custom:rice"))
+            try:
+                new = util.json_set(text, "theme", "custom:rice")
+            except util.ConfigEditError as e:
+                problems.append(f"{settings}: {e}")
+                continue
+            if new != text:
+                util.atomic_write(settings, new)
+    if problems:
+        raise RuntimeError("; ".join(problems))
+
+
+# [tui] with an optional comment after it; any table header ends the table.
+TUI_HEADER = re.compile(r"(?m)^[ \t]*\[[ \t]*tui[ \t]*\][ \t]*(?:#.*)?$")
+TABLE_HEADER = re.compile(r"(?m)^[ \t]*\[")
+THEME_LINE = re.compile(r"(?m)^([ \t]*)theme[ \t]*=.*$")
+
+
+def codex_set_theme(text, name):
+    """config.toml with [tui] theme = name. The edit keeps every other line as it is
+    and is checked with tomllib: a file that doesn't parse, or an edit that wouldn't
+    (tui set with dotted keys or an inline table), is refused, never guessed at."""
+    import tomllib
+    try:
+        data = tomllib.loads(text)
+    except tomllib.TOMLDecodeError as e:
+        raise util.ConfigEditError(f"not valid TOML ({e}); left alone") from None
+    tui = data.get("tui")
+    if isinstance(tui, dict) and tui.get("theme") == name:
+        return text
+    line = f'theme = "{name}"'
+    m = TUI_HEADER.search(text)
+    if m:
+        end = TABLE_HEADER.search(text, m.end())
+        stop = end.start() if end else len(text)
+        block = text[m.end():stop]
+        if THEME_LINE.search(block):
+            block = THEME_LINE.sub(lambda t: t.group(1) + line, block, count=1)
+        else:
+            block = "\n" + line + block
+        new = text[:m.end()] + block + text[stop:]
+    else:
+        # No [tui] header: a new table at the end (fine after [tui.x] sub-tables; not
+        # if tui is set with dotted keys or inline, which the check below refuses).
+        new = text.rstrip("\n") + ("\n\n" if text.strip() else "") + f"[tui]\n{line}\n"
+    try:
+        check = tomllib.loads(new)
+    except tomllib.TOMLDecodeError as e:
+        hint = f"; add {line} under tui yourself" if tui is not None else ""
+        raise util.ConfigEditError(f"the edit wouldn't parse ({e}){hint}; left alone") from None
+    if check.get("tui", {}).get("theme") != name:
+        raise util.ConfigEditError("the edit didn't take; left alone")
+    return new
 
 
 def codex(ctx):
@@ -52,20 +102,9 @@ def codex(ctx):
     if not cfg.is_file():
         return
     text = cfg.read_text()
-    m = re.search(r"(?ms)^\[tui\]\s*$(.*?)(?=^\[|\Z)", text)
-    if m:
-        block = m.group(1)
-        if re.search(r'(?m)^theme\s*=\s*"rice"\s*$', block):
-            return
-        if re.search(r"(?m)^theme\s*=", block):
-            new_block = re.sub(r'(?m)^theme\s*=.*$', 'theme = "rice"', block, count=1)
-        else:
-            # right under the [tui] header
-            new_block = '\ntheme = "rice"' + block
-        text = text[:m.start(1)] + new_block + text[m.end(1):]
-    else:
-        text = text.rstrip("\n") + '\n\n[tui]\ntheme = "rice"\n'
-    util.atomic_write(cfg, text)
+    new = codex_set_theme(text, "rice")
+    if new != text:
+        util.atomic_write(cfg, new)
 
 
 def t3code(ctx):
@@ -78,10 +117,7 @@ def t3code(ctx):
     util.install_file(src, userdata / "themes" / "rice.json")
     # `t3 theme set rice` writes the same key: connected clients switch to it.
     settings = userdata / "settings.json"
-    try:
-        data = json.loads(settings.read_text()) if settings.is_file() else {}
-    except (OSError, json.JSONDecodeError):
-        return
-    if isinstance(data, dict) and data.get("defaultTheme") != "rice":
-        data["defaultTheme"] = "rice"
-        util.atomic_write(settings, json.dumps(data, indent=2) + "\n")
+    text = settings.read_text() if settings.is_file() else ""
+    new = util.json_set(text, "defaultTheme", "rice")
+    if new != text:
+        util.atomic_write(settings, new)

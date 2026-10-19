@@ -22,7 +22,10 @@ def normalize(name):
 
 
 def valid(name):
-    return bool(name) and not name.startswith(".") and "/" not in name and "\0" not in name
+    # Names reach comments in generated configs: no control characters (a newline
+    # would end the comment).
+    return bool(name) and not name.startswith(".") and "/" not in name and \
+        not any(ord(ch) < 32 or ord(ch) == 127 for ch in name)
 
 
 def display_name(name):
@@ -55,18 +58,33 @@ class Theme:
         return [d for d in (self.base, self.user) if d is not None]
 
     def file(self, name):
-        """The winning copy of a file in the theme, or None."""
+        """The winning copy of a file in the theme, or None. A git theme's symlinks
+        don't count (staging never follows them either)."""
         for d in reversed(self.dirs):
             p = d / name
+            if p.is_symlink() and self.git and d == self.user:
+                continue
             if p.is_file():
                 return p
         return None
 
-    def palette(self, warnings=None):
+    def colors_text(self):
+        """colors.toml as staging will see it: the theme's own, or one made from an
+        older theme's alacritty.toml. None if there's neither."""
+        from . import stage
         colors = self.file("colors.toml")
-        if colors is None:
+        if colors is not None:
+            return colors.read_text(errors="replace")
+        alacritty = self.file("alacritty.toml")
+        if alacritty is not None:
+            return stage.colors_from_alacritty(alacritty.read_text(errors="replace"))
+        return None
+
+    def palette(self, warnings=None):
+        text = self.colors_text()
+        if text is None:
             return {}
-        raw = palette.parse(colors.read_text(errors="replace"), warnings)
+        raw = palette.parse(text, warnings)
         light = any((d / "light.mode").exists() for d in self.dirs)
         return palette.resolve(raw, light_mode_file=light)
 

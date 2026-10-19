@@ -81,14 +81,22 @@ hooks in `~/.config/rice/hooks/theme-set*` (run with the theme name after every 
 ## Safety
 
 Themes installed with git are treated as untrusted. Nothing in them that runs code
-(scripts, `*.lua`, executables, app configs that can run commands) and no symlink is
-ever staged; rice generates those files from the palette instead and tells you what
-it left out. Git runs without hooks, prompts or `ext::` transports, and URLs that git
-would read as options are refused.
+(scripts, `*.lua`, executables, app configs that can run commands), no shell CSS
+(`gnome-shell.css`, `rice-bar.css`, `gnome.toml`'s `css`) and no symlink is ever
+staged; rice generates those files from the palette instead and tells you what it
+left out. Palette values from any theme must be colours, so nothing else can reach
+the configs they're written into. Git runs without hooks, prompts or `ext::`
+transports, and URLs that git would read as options are refused.
 
-`install.sh` backs up every config rice manages to
-`~/.local/state/rice/backup/pre-rice.tar.gz` (plus a `dconf dump` of `/org/gnome/`)
-before the first switch.
+Each switch builds a new folder in `~/.local/state/rice/current/generations` and then
+points the `current/theme` symlink at it, so apps only ever see a whole theme.
+Switches queue behind a lock, and edits to other apps' settings keep everything else
+in the file; a settings file rice can't parse is left alone and named in the log.
+
+`install.sh` backs up every config rice edits to
+`~/.local/state/rice/backup/pre-rice.tar.gz` (absolute paths; `tar -xzPf` restores
+them), lists the ones that were symlinks in `pre-rice.links`, and saves a `dconf dump`
+of `/org/gnome/`, all before the first switch.
 
 ## Credits
 

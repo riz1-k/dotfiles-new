@@ -7,7 +7,11 @@
 GNOME only reloads a wallpaper when its URI changes, so rice always hands GNOME the
 wallpaper's real source file (unique per theme), never the copy in current/theme.
 """
+import os
+import time
+
 from . import themes as themes_mod
+from . import util
 
 
 def candidates(paths, theme, staged_dir=None):
@@ -55,8 +59,7 @@ def remembered(paths, name):
 def remember(paths, name, path):
     if not themes_mod.valid(name) or path is None:
         return
-    paths.theme_backgrounds.mkdir(parents=True, exist_ok=True)
-    (paths.theme_backgrounds / name).write_text(f"{path}\n")
+    util.atomic_write(paths.theme_backgrounds / name, f"{path}\n", follow=False)
 
 
 def choose(paths, theme, previous_name, staged_dir=None):
@@ -85,9 +88,12 @@ def step(paths, theme, offset):
 
 
 def link(paths, path):
+    """Point current/background at path in one rename (the temp name is unique)."""
     paths.current.mkdir(parents=True, exist_ok=True)
-    tmp = paths.current / ".background.tmp"
-    if tmp.is_symlink() or tmp.exists():
-        tmp.unlink()
+    tmp = paths.current / f".background.{os.getpid()}.{time.time_ns()}"
     tmp.symlink_to(path)
-    tmp.replace(paths.background_link)
+    try:
+        tmp.replace(paths.background_link)
+    except OSError:
+        tmp.unlink(missing_ok=True)
+        raise

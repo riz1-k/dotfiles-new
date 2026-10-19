@@ -74,11 +74,13 @@ class Paths:
 
     @property
     def current_theme(self):
+        """A symlink to the active generation (what every app's config points at)."""
         return self.current / "theme"
 
     @property
-    def next_theme(self):
-        return self.current / "next-theme"
+    def generations(self):
+        """One folder per `rice theme set`, never changed once active."""
+        return self.current / "generations"
 
     @property
     def theme_name(self):

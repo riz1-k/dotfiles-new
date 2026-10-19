@@ -40,6 +40,9 @@ const DEBUG_IFACE = `
 </node>`;
 
 const SUPERSEDES = ['rice-bar@riz1', 'user-theme@gnome-shell-extensions.gcampax.github.com'];
+// States in which a superseded extension may still hold the panel or the stylesheet.
+// GNOME sets DEACTIVATING before calling its disable(), INACTIVE after.
+const BUSY = [ExtensionState.ACTIVE, ExtensionState.ACTIVATING, ExtensionState.DEACTIVATING];
 
 const THEME_HINT = '←/→ move  ·  type to filter  ·  Enter apply  ·  Del remove  ·  Esc close';
 const BACKGROUND_HINT = '←/→ move  ·  type to filter  ·  Enter set  ·  Esc close';
@@ -62,8 +65,9 @@ export default class RiceShellExtension extends Extension {
         Main.extensionManager.connectObject('extension-state-changed', (_m, extension) => {
             if (!SUPERSEDES.includes(extension.uuid))
                 return;
-            // user-theme's disable() resets the shell stylesheet to the default.
-            if (extension.state !== ExtensionState.ACTIVE)
+            // user-theme's disable() resets the shell stylesheet to the default; the
+            // state only leaves DEACTIVATING once disable() has returned.
+            if (!BUSY.includes(extension.state))
                 this._themes?.reloadStylesheet();
             this._syncSessionMode();
         }, this);
@@ -126,10 +130,7 @@ export default class RiceShellExtension extends Extension {
     }
 
     _supersededActive() {
-        return SUPERSEDES.some(uuid => {
-            const state = Main.extensionManager.lookup(uuid)?.state;
-            return state === ExtensionState.ACTIVE || state === ExtensionState.ACTIVATING;
-        });
+        return SUPERSEDES.some(uuid => BUSY.includes(Main.extensionManager.lookup(uuid)?.state));
     }
 
     // The bar, keybindings and pickers only in the normal session; the theme always.
@@ -144,8 +145,20 @@ export default class RiceShellExtension extends Extension {
     _enableSession() {
         if (this._bar)
             return;
-        this._bar = new RiceBar(this.path);
-        this._bar.enable();
+        const bar = new RiceBar(this.path);
+        try {
+            bar.enable();
+        } catch (e) {
+            // Undo whatever part of the bar got built; the theme and D-Bus keep working.
+            console.error(`rice-shell: the bar failed to start: ${e.message}`);
+            try {
+                bar.disable();
+            } catch (e2) {
+                console.error(`rice-shell: cleaning up the bar: ${e2.message}`);
+            }
+            return;
+        }
+        this._bar = bar;
         const mode = Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW;
         Main.wm.addKeybinding('theme-picker', this._settings, Meta.KeyBindingFlags.IGNORE_AUTOREPEAT, mode,
             () => this._openPicker('theme'));
@@ -160,6 +173,11 @@ export default class RiceShellExtension extends Extension {
         Main.wm.removeKeybinding('background-picker');
         this._picker?.destroy();
         this._picker = null;
+        // A picker still fading out after being replaced: it has no grab left, but
+        // its actor is still on the stage.
+        for (const closing of this._closing ?? [])
+            closing.destroy();
+        this._closing = null;
         this._bar.disable();
         this._bar = null;
     }
@@ -223,21 +241,28 @@ export default class RiceShellExtension extends Extension {
             return;
         if (this._picker?.isOpen) {
             const same = this._picker.kind === kind;
-            this._picker.close();
+            const old = this._picker;
+            // Fading out: onClosed drops it from _closing (and only clears _picker if
+            // it is still the current one, not its replacement).
+            (this._closing ??= new Set()).add(old);
+            old.close();
             if (same)
                 return;  // the shortcut toggles its picker
         }
         const rows = this._rows[kind] ?? [];
         const current = rows.find(r => r.current);
+        let picker = null;
         const common = {
             rows,
             key: r => r.name ?? r.path,
             image: r => r.thumb ?? r.preview ?? r.path ?? null,
             onClosed: () => {
-                this._picker = null;
+                this._closing?.delete(picker);
+                if (this._picker === picker)
+                    this._picker = null;
             },
         };
-        this._picker = new Carousel(kind === 'theme' ? {
+        picker = this._picker = new Carousel(kind === 'theme' ? {
             ...common,
             heading: 'Theme',
             hint: THEME_HINT,
@@ -265,9 +290,10 @@ export default class RiceShellExtension extends Extension {
             canDelete: () => false,
             onActivate: r => this._run(['bg', 'set', r.path]).catch(e => Main.notifyError('Rice', e.message)),
         });
-        this._picker.kind = kind;
-        if (!this._picker.open()) {
-            this._picker = null;
+        picker.kind = kind;
+        if (!picker.open()) {
+            if (this._picker === picker)
+                this._picker = null;
             return;
         }
         // Open from what we have, then refresh (new themes, new thumbnails).

@@ -114,10 +114,14 @@ def _editor(ctx, cli, settings_path, ext_dir):
         return
     settings_path.parent.mkdir(parents=True, exist_ok=True)
     text = settings_path.read_text() if settings_path.is_file() else "{\n}\n"
-    new = util.jsonc_set_string(text, "workbench.colorTheme", name)
-    if re.search(r'"window\.autoDetectColorScheme"\s*:\s*true', new):
+    # Root keys only, comments kept; a settings file that doesn't parse is left alone.
+    new = text
+    if util.jsonc_get(new, "workbench.colorTheme") != name:
+        new = util.jsonc_set(new, "workbench.colorTheme", name)
+    if util.jsonc_get(new, "window.autoDetectColorScheme") is True:
         key = "workbench.preferredDarkColorTheme" if ctx.mode == "dark" else "workbench.preferredLightColorTheme"
-        new = util.jsonc_set_string(new, key, name)
+        if util.jsonc_get(new, key) != name:
+            new = util.jsonc_set(new, key, name)
     if new != text:
         util.atomic_write(settings_path, new)
 

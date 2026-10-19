@@ -5,8 +5,8 @@ never stages anything from it that runs code; the file is generated from a
 template instead and named on stderr. On top of Omarchy's list (every *.lua, the
 terminal configs, vscode.json, symlinks), rice also drops the files that rice's
 own templates make and that its apps execute or trust (tmux, zsh, lazygit,
-browser and Discord CSS, the shell stylesheet), every script and every
-executable file.
+browser and Discord CSS, the shell stylesheet and the bar's), every script and
+every executable file. gnome.toml's extra shell CSS is ignored too (activate.py).
 """
 import os
 import re
@@ -26,6 +26,7 @@ DENIED_NAMES = {
     "userChrome.css", "userContent.css",  # browser chrome CSS
     "widgets.css",         # desktop widget pages
     "gnome-shell.css",     # the shell, including the lock screen
+    "rice-bar.css",        # appended to the shell stylesheet
     "neovim.json",         # names the plugin Neovim installs
     "vscode-theme.json",   # becomes a VS Code extension package
 }
@@ -44,10 +45,27 @@ def denied(name):
     return name in DENIED_NAMES or name.lower().endswith(DENIED_SUFFIXES)
 
 
+def _clear(target):
+    """Remove whatever an earlier layer staged at target (never following it)."""
+    if target.is_symlink() or target.is_file():
+        target.unlink()
+    elif target.is_dir():
+        shutil.rmtree(target)
+
+
+def _subdir(target):
+    """target as a real folder of the staging tree. An earlier layer's file or symlink
+    there goes, so an overlay can't write through a link into the folder it points at."""
+    if target.is_symlink() or (target.exists() and not target.is_dir()):
+        target.unlink()
+    target.mkdir(parents=True, exist_ok=True)
+
+
 def _place(src, dst):
-    """Hard-link when possible (wallpapers are big and every switch stages them), else copy."""
-    if dst.exists() or dst.is_symlink():
-        dst.unlink()
+    """Hard-link when possible (wallpapers are big and every switch stages them), else copy.
+    Staged files are only ever replaced (rename or unlink), never written in place, so
+    a hard link can't reach back into the theme folder."""
+    _clear(dst)
     try:
         os.link(src, dst)
     except OSError:
@@ -56,14 +74,13 @@ def _place(src, dst):
 
 def copy_trusted(src, dst):
     """Your own theme (or a stock one): copied as is, dotfiles skipped, symlinks kept."""
-    dst.mkdir(parents=True, exist_ok=True)
+    _subdir(dst)
     for entry in src.iterdir():
         if entry.name.startswith("."):
             continue
         target = dst / entry.name
         if entry.is_symlink():
-            if target.exists() or target.is_symlink():
-                shutil.rmtree(target) if target.is_dir() and not target.is_symlink() else target.unlink()
+            _clear(target)
             os.symlink(os.readlink(entry), target)
         elif entry.is_dir():
             copy_trusted(entry, target)
@@ -89,8 +106,10 @@ def _runs_code(entry):
 
 
 def copy_untrusted(src, dst, ignored, top=True, rel=""):
-    """A stranger's theme: never follow a symlink, and drop anything that runs code."""
-    dst.mkdir(parents=True, exist_ok=True)
+    """A stranger's theme: never follow a symlink, and drop anything that runs code.
+    Every file is a fresh copy: what the base theme staged there (hard links to its
+    own files, symlinks) is removed first, never written through."""
+    _subdir(dst)
     for entry in sorted(src.iterdir(), key=lambda p: p.name):
         name = entry.name
         if name.startswith("."):
@@ -103,7 +122,9 @@ def copy_untrusted(src, dst, ignored, top=True, rel=""):
         if entry.is_dir():
             copy_untrusted(entry, dst / name, ignored, top=False, rel=shown + "/")
         elif entry.is_file():
-            shutil.copyfile(entry, dst / name)
+            target = dst / name
+            _clear(target)
+            shutil.copyfile(entry, target, follow_symlinks=False)
         else:
             ignored.append(shown)
 
@@ -166,15 +187,8 @@ def stage(theme, next_dir):
         else:
             copy_trusted(theme.user, next_dir)
     if not (next_dir / "colors.toml").exists():
-        source = None
-        if theme.user and theme.git:
-            a = theme.user / "alacritty.toml"
-            if a.is_file() and not a.is_symlink():
-                source = a
-        elif (next_dir / "alacritty.toml").is_file():
-            source = next_dir / "alacritty.toml"
-        if source:
-            text = colors_from_alacritty(source.read_text(errors="replace"))
-            if text:
-                (next_dir / "colors.toml").write_text(text)
+        # An older theme with only an alacritty.toml (the same rule discovery uses).
+        text = theme.colors_text()
+        if text:
+            (next_dir / "colors.toml").write_text(text)
     return ignored

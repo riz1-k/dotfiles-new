@@ -131,6 +131,12 @@ export class RiceBar {
     }
 
     enable() {
+        // Everything _sync() reads, before anything that can call it.
+        this._events = [];
+        this._flash = null;
+        this._players = new Set();
+        this._sources = new Set();
+
         this._panel = Main.panel;
         this._dateMenu = this._panel.statusArea.dateMenu;
 
@@ -154,12 +160,12 @@ export class RiceBar {
 
         this._watchMedia();
         this._watchNotifications();
-        this._events = [];
         this._startCalendarHelper();
 
         this._sync();
     }
 
+    // Also undoes a partial enable() (one that threw), so every step checks.
     disable() {
         this._stopCalendarHelper();
 
@@ -173,26 +179,26 @@ export class RiceBar {
             source.disconnectObject(this);
         this._sources = null;
 
-        this._media.disconnectObject(this);
+        this._media?.disconnectObject(this);
         for (const player of this._players ?? [])
             player.disconnectObject(this);
         this._players = null;
         this._media = null;
 
-        this._clock.disconnectObject(this);
+        this._clock?.disconnectObject(this);
         this._clock = null;
 
-        this._capsule.destroy();
+        this._capsule?.destroy();
         this._capsule = null;
-        this._dateMenu._clockDisplay.show();
-        this._dateMenu.remove_style_class_name('rice-capsule');
+        this._dateMenu?._clockDisplay.show();
+        this._dateMenu?.remove_style_class_name('rice-capsule');
 
-        this._app.destroy();
+        this._app?.destroy();
         this._app = null;
 
-        this._interface.disconnectObject(this);
+        this._interface?.disconnectObject(this);
         this._interface = null;
-        this._panel.remove_style_class_name('rice-bar');
+        this._panel?.remove_style_class_name('rice-bar');
         Main.layoutManager.panelBox.remove_style_class_name('rice-bar-box');
         this._panel = null;
         this._dateMenu = null;

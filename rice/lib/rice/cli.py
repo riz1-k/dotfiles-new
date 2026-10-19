@@ -298,11 +298,13 @@ def apply_only(args):
     paths = paths_mod.get()
     settings = settings_mod.load(paths)
     from . import apps
-    ctx = activate.context(paths, settings, activate.current_generation(paths))
     unknown = set(args.apps) - set(apps.ALL)
     if unknown:
         die(f"unknown apps: {', '.join(sorted(unknown))} (known: {', '.join(apps.ALL)})")
-    failed = activate.run_group(ctx, apps.VISIBLE + apps.OTHER, only=set(args.apps))
+    # Both locks: neither a switch nor a background batch can run alongside.
+    with activate.locked(paths.lock), activate.locked(paths.retint_lock):
+        ctx = activate.context(paths, settings, activate.current_generation(paths))
+        failed = activate.run_group(ctx, apps.VISIBLE + apps.OTHER, only=set(args.apps))
     return 1 if failed else 0
 
 

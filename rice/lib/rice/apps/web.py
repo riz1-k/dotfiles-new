@@ -41,10 +41,25 @@ def zen(ctx):
             util.install_file(content, d / "userContent.css")
         # userChrome.css is only read when this pref is on.
         user_js = profile / "user.js"
-        pref = 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
         text = user_js.read_text() if user_js.is_file() else ""
-        if "legacyUserProfileCustomizations" not in text:
-            util.atomic_write(user_js, text + ("\n" if text and not text.endswith("\n") else "") + pref + "\n")
+        new = zen_enable_stylesheets(text)
+        if new != text:
+            util.atomic_write(user_js, new)
+
+
+STYLESHEETS_PREF = "toolkit.legacyUserProfileCustomizations.stylesheets"
+# An active user_pref line for it (not one in a comment), any quoting and spacing.
+_PREF_LINE = re.compile(r'(?m)^([ \t]*user_pref\(\s*(["\'])' + re.escape(STYLESHEETS_PREF)
+                        + r'\2\s*,\s*)(true|false)(\s*\)\s*;?)')
+
+
+def zen_enable_stylesheets(text):
+    """user.js with the stylesheet pref on; the last active line wins in Firefox, so
+    every one is set to true. Comments and other prefs are kept."""
+    if _PREF_LINE.search(text):
+        return _PREF_LINE.sub(lambda m: m.group(1) + "true" + m.group(4), text)
+    pref = f'user_pref("{STYLESHEETS_PREF}", true);'
+    return text + ("\n" if text and not text.endswith("\n") else "") + pref + "\n"
 
 
 POLICY_DIRS = ["/etc/opt/chrome/policies/managed", "/etc/opt/edge/policies/managed",

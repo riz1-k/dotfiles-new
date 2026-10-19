@@ -12,8 +12,14 @@ import re
 from . import colormath as cm
 
 KEY_OK = re.compile(r"^[A-Za-z0-9_-]+$")
-# Omarchy's value charset: hex, rgb()/rgba() lists, gradient angles, decimals, words.
-VALUE_OK = re.compile(r"^[A-Za-z0-9#(),._+/% -]*$")
+# Values end up inside configs that run code (tmux formats, zsh, shell CSS), so only
+# colours get through: #rgb, #rrggbb, #rrggbbaa and rgb()/rgba(), alone or as a
+# gradient (colours then an angle); numbers, and the light/dark words for `mode`.
+# Never a quote, $, backtick, #( or #{.
+_NUM = r"\d{1,3}(?:\.\d+)?%?"
+_COLOUR = (r"(?:#(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})"
+           rf"|rgba?\(\s*{_NUM}\s*,\s*{_NUM}\s*,\s*{_NUM}\s*(?:,\s*(?:\d*\.)?\d+%?\s*)?\))")
+VALUE_OK = re.compile(rf"^(?:|{_COLOUR}(?: +{_COLOUR})*(?: +\d{{1,3}}deg)?|\d+(?:\.\d+)?%?|light|dark)$")
 
 LEGACY_PALETTE_ALIAS = {
     "background": "bg",
@@ -87,7 +93,7 @@ def parse(text, warnings=None):
             continue
         if not VALUE_OK.match(value):
             if warnings is not None:
-                warnings.append(f"skipping {key}: unsupported characters in value")
+                warnings.append(f"skipping {key}: not a colour")
             continue
         colors[key] = value
     return colors

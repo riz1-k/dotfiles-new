@@ -25,23 +25,41 @@ python3 -c 'import PIL' 2>/dev/null ||
     echo "note: without python3-pil there are no picker thumbnails or previews (sudo apt install python3-pil)"
 
 # ---- 1. backup ------------------------------------------------------------------------
+# Every file rice edits in place (new files it adds, like themes/rice.json, aren't
+# needed to go back). Contents are stored; symlinks are listed in pre-rice.links too,
+# as rice writes through a link into the file it points at.
 backup=$STATE/rice/backup
 if [[ ! -e $backup/pre-rice.tar.gz ]]; then
     step "Backing up the configs rice manages"
     mkdir -p "$backup"
+    codex_home=${CODEX_HOME:-$HOME/.codex}
+    t3_home=${T3CODE_HOME:-$HOME/.t3}
+    candidates=(
+        "$CONFIG"/gtk-4.0/gtk.css "$CONFIG"/gtk-4.0/gtk-dark.css "$CONFIG"/gtk-3.0/gtk.css
+        "$CONFIG"/btop/btop.conf "$HOME"/.claude*/settings.json "$codex_home"/config.toml
+        "$t3_home"/userdata/settings.json
+        "$CONFIG"/Code/User/settings.json "$CONFIG"/Cursor/User/settings.json
+        "$HOME"/.vscode/extensions/extensions.json "$HOME"/.vscode/extensions/.obsolete
+        "$HOME"/.cursor/extensions/extensions.json "$HOME"/.cursor/extensions/.obsolete
+        "$CONFIG"/Vencord/settings/quickCss.css "$CONFIG"/vesktop/settings/quickCss.css
+        "$CONFIG"/vicinae/settings.json "$CONFIG"/lazygit/config.yml "$CONFIG"/gitui/theme.ron
+        "$CONFIG"/yazi/theme.toml "$CONFIG"/kitty/*-theme.auto.conf "$CONFIG"/herdr/config.toml
+        "$HOME"/.var/app/app.zen_browser.zen/.zen/*/chrome/user*.css "$HOME"/.zen/*/chrome/user*.css
+        "$HOME"/.var/app/app.zen_browser.zen/.zen/*/user.js "$HOME"/.zen/*/user.js
+    )
+    [[ -n ${CLAUDE_CONFIG_DIR:-} ]] && candidates+=("$CLAUDE_CONFIG_DIR"/settings.json)
     files=()
-    for f in "$CONFIG"/gtk-4.0/gtk.css "$CONFIG"/gtk-4.0/gtk-dark.css "$CONFIG"/gtk-3.0/gtk.css \
-             "$CONFIG"/btop/btop.conf "$HOME"/.claude*/settings.json "$HOME"/.codex/config.toml \
-             "$HOME"/.t3/userdata/settings.json "$CONFIG"/Code/User/settings.json "$CONFIG"/Cursor/User/settings.json \
-             "$CONFIG"/Vencord/settings/quickCss.css "$CONFIG"/vesktop/settings/quickCss.css \
-             "$CONFIG"/vicinae/settings.json "$CONFIG"/lazygit/config.yml "$CONFIG"/gitui/theme.ron \
-             "$CONFIG"/yazi/theme.toml "$CONFIG"/kitty/*-theme.auto.conf "$CONFIG"/herdr/config.toml \
-             "$HOME"/.var/app/app.zen_browser.zen/.zen/*/chrome/user*.css "$HOME"/.zen/*/chrome/user*.css; do
-        [[ -e $f ]] && files+=("${f#"$HOME"/}")
+    : > "$backup/pre-rice.links"
+    for f in "${candidates[@]}"; do
+        [[ -e $f ]] || continue
+        files+=("$(realpath -s "$f")")
+        [[ -L $f ]] && printf '%s -> %s\n' "$f" "$(readlink "$f")" >> "$backup/pre-rice.links"
     done
     dconf dump /org/gnome/ > "$backup/pre-rice.dconf"
-    tar -czf "$backup/pre-rice.tar.gz" -C "$HOME" --dereference "${files[@]}"
-    echo "    $backup/pre-rice.tar.gz and pre-rice.dconf"
+    # Absolute names (outside $HOME too, for CODEX_HOME and friends); restore with
+    # tar -xzf pre-rice.tar.gz -P, or -C / without -P.
+    tar -czPf "$backup/pre-rice.tar.gz" --dereference "${files[@]}"
+    echo "    $backup/pre-rice.tar.gz, pre-rice.links and pre-rice.dconf"
 fi
 
 # ---- 2. the command -------------------------------------------------------------------
