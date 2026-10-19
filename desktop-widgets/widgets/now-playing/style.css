@@ -1,0 +1,188 @@
+.player {
+    display: flex;
+    gap: 14px;
+    height: 100%;
+}
+
+.art {
+    position: relative;
+    flex: none;
+    width: 106px;
+    height: 106px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--track);
+}
+
+.art img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.art img:not([hidden]) + .note {
+    display: none;
+}
+
+.art .note {
+    position: absolute;
+    inset: 34px;
+}
+
+.note {
+    fill: none;
+    stroke: var(--faint);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.source {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 16px;
+}
+
+.track-title,
+.artist {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.track-title {
+    margin-top: 2px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.progress {
+    height: 4px;
+    margin-top: auto;
+    color: var(--accent);
+}
+
+.progress > i {
+    transition: width 1s linear, background-color 0.3s;
+}
+
+.bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--fg);
+    cursor: pointer;
+    transition: background-color 0.15s, opacity 0.15s;
+}
+
+button:hover {
+    background: var(--track);
+}
+
+button:disabled {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+button svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+button.play {
+    width: 30px;
+    height: 30px;
+    background: var(--accent);
+    color: var(--bg);
+}
+
+button.play:hover {
+    background: var(--accent);
+    opacity: 0.85;
+}
+
+button.play svg {
+    width: 15px;
+    height: 15px;
+}
+
+body.playing .icon-play,
+body:not(.playing) .icon-pause {
+    display: none;
+}
+
+button.switch {
+    width: 20px;
+    height: 20px;
+    margin-right: -4px;
+    color: var(--muted);
+}
+
+button.switch svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+body:not(.playing) .art img {
+    filter: saturate(0.6);
+}
+
+/* Nothing playing: collapse to a slim card at the top of the widget. */
+.idle-row {
+    display: none;
+    align-items: center;
+    gap: 10px;
+}
+
+.idle-row .note {
+    width: 16px;
+    height: 16px;
+}
+
+body.idle .card {
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+body.idle .player {
+    display: none;
+}
+
+body.idle .idle-row {
+    display: flex;
+}

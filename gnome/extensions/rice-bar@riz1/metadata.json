@@ -1,0 +1,8 @@
+{
+  "uuid": "rice-bar@riz1",
+  "name": "Rice Bar",
+  "description": "Floating top bar islands that match the desktop widgets, with a centre capsule for the clock, music, the next meeting and notifications.",
+  "shell-version": ["50"],
+  "url": "",
+  "version": 1
+}

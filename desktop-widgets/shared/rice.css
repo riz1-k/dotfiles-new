@@ -1,0 +1,128 @@
+/* Rice palette for desktop widgets: Flexoki Light (light) and Vesper (dark),
+ * taken from ~/dotfiles/theme-sync (panel colors, gtk4.css, btop and tmux themes).
+ * Gtk4-DING sets <body data-theme> from GNOME's light/dark style, so widgets
+ * switch together with theme-sync. */
+
+body {
+    --bg: rgba(242, 240, 229, 0.95);
+    --border: rgba(16, 15, 15, 0.12);
+    --fg: #100f0f;
+    --muted: #6f6e69;
+    --faint: #b7b5ac;
+    --track: #e6e4d9;
+    --divider: #dad8ce;
+    --accent: #bc5215;
+    --ok: #24837b;
+    --warn: #bc5215;
+    --crit: #af3029;
+    --info: #205ea6;
+    --cpu-start: #3aa99f;
+    --cpu-mid: #bc5215;
+    --cpu-end: #af3029;
+    --mem: #24837b;
+    --disk: #5e409d;
+    --down: #a02f6f;
+    --up: #bc5215;
+    --temp-start: #24837b;
+    --temp-mid: #ad8301;
+    --temp-end: #af3029;
+}
+
+body[data-theme="dark"] {
+    --bg: rgba(26, 26, 30, 0.95);
+    --border: rgba(255, 255, 255, 0.18);
+    --fg: #ffffff;
+    --muted: #a0a0a0;
+    --faint: #505050;
+    --track: rgba(255, 255, 255, 0.1);
+    --divider: rgba(255, 255, 255, 0.1);
+    --accent: #ffc799;
+    --ok: #99ffe4;
+    --warn: #ffc799;
+    --crit: #ff8080;
+    --info: #aca1cf;
+    --cpu-start: #bcffed;
+    --cpu-mid: #ffc799;
+    --cpu-end: #ff8080;
+    --mem: #99ffe4;
+    --disk: #aca1cf;
+    --down: #ea83a5;
+    --up: #ffc799;
+    --temp-start: #99ffe4;
+    --temp-mid: #e6b99d;
+    --temp-end: #ff8080;
+}
+
+/* Widgets toggle elements with the hidden attribute; don't let display rules undo it. */
+[hidden] {
+    display: none !important;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    background: transparent;
+}
+
+/* Gtk4-DING clips every widget to an 8px rounded rect. Insetting the card by
+ * 2px keeps its 6px corners (the rice's window radius) and border inside that clip. */
+body {
+    box-sizing: border-box;
+    padding: 2px;
+    font: 500 13px/1.35 "Inter", system-ui, sans-serif;
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+}
+
+.card {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    overflow: hidden;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.mono {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.title {
+    font-weight: 600;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.small {
+    font-size: 11.5px;
+}
+
+.bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--track);
+    overflow: hidden;
+}
+
+.bar > i {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: 3px;
+    background: currentColor;
+    transition: width 0.6s ease, background-color 0.3s;
+}
+
+.ok { color: var(--ok); }
+.warn { color: var(--warn); }
+.crit { color: var(--crit); }
+
+@media (prefers-reduced-motion: reduce) {
+    .card, .bar > i { transition: none; }
+}

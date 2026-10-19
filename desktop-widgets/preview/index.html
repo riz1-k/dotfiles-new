@@ -1,0 +1,63 @@
+<!doctype html>
+<!-- Design preview: every widget in both themes over the wallpaper, laid out like the
+     desktop and clipped to the 8px rounded frame Gtk4-DING draws. Serve the repo root
+     (see README) and open /preview/. Add ?idle to the now-playing URL to see its idle state. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Desktop widgets preview</title>
+  <style>
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 32px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background: url(wallpaper.jpg) center / cover;
+      font: 500 12px Inter, sans-serif;
+    }
+    figure { margin: 0; }
+    figcaption { margin-bottom: 8px; color: rgba(16, 15, 15, 0.7); }
+    .desk { display: flex; gap: 16px; align-items: flex-start; }
+    .column { display: flex; flex-direction: column; gap: 16px; }
+    iframe { display: block; width: 400px; border: 0; border-radius: 8px; }
+    .system-info { height: 292px; }
+    .ai-usage { height: 356px; }
+    .clock-weather { height: 670px; }
+    .github { height: 362px; }
+    .now-playing { height: 140px; }
+  </style>
+</head>
+<body>
+  <figure><figcaption>Flexoki Light</figcaption>
+    <div class="desk">
+      <div class="column">
+        <iframe class="clock-weather" src="../widgets/clock-weather/index.html?theme=light"></iframe>
+        <iframe class="github" src="../widgets/github/index.html?theme=light"></iframe>
+      </div>
+      <div class="column">
+        <iframe class="system-info" src="../widgets/system-info/index.html?theme=light"></iframe>
+        <iframe class="ai-usage" src="../widgets/ai-usage/index.html?theme=light"></iframe>
+        <iframe class="now-playing" src="../widgets/now-playing/index.html?theme=light"></iframe>
+      </div>
+    </div>
+  </figure>
+  <figure><figcaption>Vesper</figcaption>
+    <div class="desk">
+      <div class="column">
+        <iframe class="clock-weather" src="../widgets/clock-weather/index.html?theme=dark"></iframe>
+        <iframe class="github" src="../widgets/github/index.html?theme=dark"></iframe>
+      </div>
+      <div class="column">
+        <iframe class="system-info" src="../widgets/system-info/index.html?theme=dark"></iframe>
+        <iframe class="ai-usage" src="../widgets/ai-usage/index.html?theme=dark"></iframe>
+        <iframe class="now-playing" src="../widgets/now-playing/index.html?theme=dark&idle"></iframe>
+      </div>
+    </div>
+  </figure>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "id": "riz1.system-info",
+  "kind": "html",
+  "name": "System Info",
+  "description": "CPU graph, memory, disk, temperature, battery, network and Bluetooth, in the rice palette.",
+  "author": "riz1",
+  "version": "1.0",
+  "defaultWidth": 400,
+  "defaultHeight": 232,
+  "pinnable": true,
+  "defaultConfig": {
+    "intervalSec": 2
+  },
+  "backend": {
+    "command": "python3",
+    "args": [
+      "-I",
+      "backend.py"
+    ]
+  },
+  "chrome": {
+    "showCloseButton": false,
+    "showPrefsButton": false,
+    "showMoveButton": false,
+    "showPinButton": false
+  }
+}

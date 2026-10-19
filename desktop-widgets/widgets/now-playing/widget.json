@@ -1,0 +1,25 @@
+{
+  "id": "riz1.now-playing",
+  "kind": "html",
+  "name": "Now Playing",
+  "description": "Track, art and controls for whatever MPRIS player is active (Zen, Spotify, mpv...).",
+  "author": "riz1",
+  "version": "1.0",
+  "defaultWidth": 400,
+  "defaultHeight": 140,
+  "pinnable": true,
+  "defaultConfig": {},
+  "backend": {
+    "command": "gjs",
+    "args": [
+      "-m",
+      "backend.js"
+    ]
+  },
+  "chrome": {
+    "showCloseButton": false,
+    "showPrefsButton": false,
+    "showMoveButton": false,
+    "showPinButton": false
+  }
+}

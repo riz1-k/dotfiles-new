@@ -1,0 +1,280 @@
+/* Rice Bar. Colours are the desktop widgets' palette (rice.css). Selectors start
+   with "#panelBox #panel.rice-bar" and colours are !important so they win over the
+   Flexoki shell theme, which marks its panel colours !important too. */
+
+/* 10 + 34 + 10: windows and the widgets keep starting at y = 54. The side padding
+   is the widgets' 18px margin, so the islands line up with the widget columns. */
+#panelBox.rice-bar-box {
+  padding: 10px 18px;
+}
+
+#panelBox #panel.rice-bar,
+#panelBox #panel.rice-bar:overview {
+  height: 34px;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  font-family: "Geist", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ---- islands ----------------------------------------------------------- */
+
+#panelBox #panel.rice-bar #panelLeft,
+#panelBox #panel.rice-bar #panelRight {
+  padding: 0 4px;
+  border: 1px solid rgba(16, 15, 15, 0.12);
+  border-radius: 12px;
+  background-color: rgba(242, 240, 229, 0.95);
+}
+
+#panelBox #panel.rice-bar .panel-button {
+  -natural-hpadding: 8px;
+  -minimum-hpadding: 5px;
+  /* The transparent border insets the hover shape from the island's edge. */
+  border: 4px solid transparent !important;
+  border-radius: 9px !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  color: #100f0f !important;
+  font-weight: 500 !important;
+}
+
+#panelBox #panel.rice-bar .panel-button:hover,
+#panelBox #panel.rice-bar .panel-button:focus {
+  box-shadow: inset 0 0 0 100px rgba(16, 15, 15, 0.07) !important;
+}
+
+#panelBox #panel.rice-bar .panel-button:active,
+#panelBox #panel.rice-bar .panel-button:checked {
+  box-shadow: inset 0 0 0 100px rgba(16, 15, 15, 0.12) !important;
+}
+
+#panelBox #panel.rice-bar .panel-button StIcon,
+#panelBox #panel.rice-bar .panel-button StLabel {
+  color: #100f0f !important;
+}
+
+#panelBox #panel.rice-bar .panel-button .system-status-icon {
+  icon-size: 15px;
+  padding: 0;
+  margin: 0;
+}
+
+#panelBox #panel.rice-bar .panel-button .panel-status-indicators-box {
+  spacing: 11px;
+}
+
+/* ---- left: workspaces + focused app ------------------------------------- */
+
+#panelBox #panel.rice-bar .panel-button#panelActivities StBoxLayout {
+  padding: 0 3px;
+  spacing: 5px;
+}
+
+#panelBox #panel.rice-bar .panel-button#panelActivities .workspace-dot {
+  min-width: 6px;
+  min-height: 6px;
+  background-color: #100f0f !important;
+}
+
+#panelBox #panel.rice-bar .panel-button.rice-app {
+  -natural-hpadding: 4px;
+}
+
+#panelBox #panel.rice-bar .panel-button.rice-app StLabel {
+  max-width: 280px;
+  font-weight: 600 !important;
+}
+
+.rice-app-box {
+  spacing: 12px;
+}
+
+.rice-sep {
+  width: 1px;
+  height: 14px;
+  background-color: #dad8ce;
+}
+
+/* ---- right: status ------------------------------------------------------- */
+
+/* Numbers (battery, AI usage): Geist with even-width digits. Geist Mono's wide
+   "1" made "16" read as "1 6". */
+#panelBox #panel.rice-bar .panel-button.power-status StLabel,
+#panelBox #panel.rice-bar .ai-usage-value {
+  font-size: 12.5px;
+  font-weight: 600 !important;
+  font-feature-settings: "tnum";
+}
+
+#panelBox #panel.rice-bar .panel-button.power-status StLabel {
+  padding-left: 5px;
+}
+
+/* AI usage stays neutral until a window gets close to its limit. */
+#panelBox #panel.rice-bar .ai-usage-value.ai-usage-warn { color: #ad8301 !important; }
+#panelBox #panel.rice-bar .ai-usage-value.ai-usage-crit,
+#panelBox #panel.rice-bar .ai-usage-alert { color: #af3029 !important; }
+#panelBox #panel.rice-bar .ai-usage-value.ai-usage-dim { color: #b7b5ac !important; }
+
+/* ---- centre: the capsule ------------------------------------------------- */
+
+#panelBox #panel.rice-bar .panel-button.rice-capsule {
+  -natural-hpadding: 14px;
+  -minimum-hpadding: 10px;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background-color: #100f0f !important;
+}
+
+#panelBox #panel.rice-bar .panel-button.rice-capsule:hover,
+#panelBox #panel.rice-bar .panel-button.rice-capsule:focus {
+  box-shadow: none !important;
+  background-color: #2a2826 !important;
+}
+
+#panelBox #panel.rice-bar .panel-button.rice-capsule:active,
+#panelBox #panel.rice-bar .panel-button.rice-capsule:checked {
+  box-shadow: none !important;
+  background-color: #343230 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .clock-display-box {
+  spacing: 6px;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .messages-indicator {
+  color: #ffc799 !important;
+}
+
+.rice-capsule-box {
+  spacing: 8px;
+}
+
+.rice-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background-size: cover;
+}
+
+.rice-badge-icon {
+  icon-size: 16px;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-main {
+  max-width: 300px;
+  color: #f2f0e5 !important;
+  font-weight: 600 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-lead,
+#panelBox #panel.rice-bar .rice-capsule .rice-trail {
+  max-width: 200px;
+  color: #a8a69c !important;
+}
+
+/* idle: "Wed 15 Oct  12:22" */
+#panelBox #panel.rice-bar .rice-capsule .rice-idle .rice-lead,
+#panelBox #panel.rice-bar .rice-capsule .rice-idle .rice-main {
+  font-family: "Geist Mono", monospace;
+}
+
+/* meeting: orange badge, "in 8m" */
+.rice-meeting .rice-badge {
+  background-color: #bc5215;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-meeting .rice-badge-icon {
+  icon-size: 13px;
+  color: #fffcf0 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-meeting .rice-trail {
+  color: #ffc799 !important;
+  font-family: "Geist Mono", monospace;
+}
+
+/* notification: the app's icon on a soft tile */
+.rice-flash .rice-badge {
+  background-color: rgba(255, 252, 240, 0.12);
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-flash .rice-badge-icon {
+  color: #f2f0e5 !important;
+}
+
+/* ---- dark ---------------------------------------------------------------- */
+
+#panelBox #panel.rice-bar.rice-dark #panelLeft,
+#panelBox #panel.rice-bar.rice-dark #panelRight {
+  border-color: rgba(255, 255, 255, 0.18);
+  background-color: rgba(26, 26, 30, 0.95);
+}
+
+#panelBox #panel.rice-bar.rice-dark .panel-button,
+#panelBox #panel.rice-bar.rice-dark .panel-button StIcon,
+#panelBox #panel.rice-bar.rice-dark .panel-button StLabel {
+  color: #ffffff !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .panel-button:hover,
+#panelBox #panel.rice-bar.rice-dark .panel-button:focus {
+  box-shadow: inset 0 0 0 100px rgba(255, 255, 255, 0.08) !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .panel-button:active,
+#panelBox #panel.rice-bar.rice-dark .panel-button:checked {
+  box-shadow: inset 0 0 0 100px rgba(255, 255, 255, 0.14) !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .ai-usage-value.ai-usage-warn { color: #ffc799 !important; }
+#panelBox #panel.rice-bar.rice-dark .ai-usage-value.ai-usage-crit,
+#panelBox #panel.rice-bar.rice-dark .ai-usage-alert { color: #ff8080 !important; }
+#panelBox #panel.rice-bar.rice-dark .ai-usage-value.ai-usage-dim { color: #505050 !important; }
+
+#panelBox #panel.rice-bar.rice-dark .panel-button#panelActivities .workspace-dot {
+  background-color: #ffffff !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .rice-sep {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* In dark mode the capsule flips to light. */
+#panelBox #panel.rice-bar.rice-dark .panel-button.rice-capsule {
+  background-color: #f2f0e5 !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .panel-button.rice-capsule:hover,
+#panelBox #panel.rice-bar.rice-dark .panel-button.rice-capsule:focus {
+  background-color: #e6e4d9 !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .panel-button.rice-capsule:active,
+#panelBox #panel.rice-bar.rice-dark .panel-button.rice-capsule:checked {
+  background-color: #dad8ce !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .rice-capsule .rice-main {
+  color: #100f0f !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .rice-capsule .rice-lead,
+#panelBox #panel.rice-bar.rice-dark .rice-capsule .rice-trail {
+  color: #6f6e69 !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .rice-capsule .rice-meeting .rice-trail,
+#panelBox #panel.rice-bar.rice-dark .rice-capsule .messages-indicator {
+  color: #bc5215 !important;
+}
+
+#panelBox #panel.rice-bar.rice-dark .rice-capsule .rice-flash .rice-badge-icon {
+  color: #100f0f !important;
+}
+
+.rice-dark .rice-flash .rice-badge {
+  background-color: rgba(16, 15, 15, 0.08);
+}

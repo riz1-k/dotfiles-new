@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Vesper
+Comment=Vesper dark theme for GNOME Shell (https://github.com/raunofreiberg/vesper)
+
+[X-GNOME-Metatheme]
+GtkTheme=Yaru-dark
+MetacityTheme=Yaru-dark
+IconTheme=Colloid-Orange-Dark
+CursorTheme=Yaru
+ButtonLayout=close,minimize,maximize:menu

@@ -1,0 +1,94 @@
+{
+  "version": 4,
+  "instances": [
+    {
+      "instanceId": "bb5104b4-dd6b-4c12-a44d-684208ee5d41",
+      "widgetId": "riz1.clock-weather",
+      "monitorIndex": 0,
+      "kind": "html",
+      "normX": 0.009375,
+      "normY": 0.01364522417153996,
+      "width": 400,
+      "height": 988,
+      "pinnedGlobalX": 18,
+      "pinnedGlobalY": 68,
+      "config": {
+        "place": "Bengaluru",
+        "latitude": 12.9716,
+        "longitude": 77.5946,
+        "refreshMin": 15,
+        "browser": ""
+      },
+      "prefsUri": null,
+      "hasPreferences": false,
+      "pinnable": true,
+      "chrome": {
+        "showCloseButton": false,
+        "showPrefsButton": false,
+        "showMoveButton": false,
+        "showPinButton": false
+      },
+      "hasBackend": true,
+      "webConsent": true,
+      "backendConsent": true,
+      "pinned": true
+    },
+    {
+      "instanceId": "3cf2d64d-6e87-421a-8e3a-a78335b9d589",
+      "widgetId": "riz1.system-info",
+      "monitorIndex": 0,
+      "kind": "html",
+      "normX": 0.7822916666666667,
+      "normY": 0.01364522417153996,
+      "width": 400,
+      "height": 322,
+      "pinnedGlobalX": 1502,
+      "pinnedGlobalY": 68,
+      "config": {
+        "intervalSec": 2
+      },
+      "prefsUri": null,
+      "hasPreferences": false,
+      "pinnable": true,
+      "chrome": {
+        "showCloseButton": false,
+        "showPrefsButton": false,
+        "showMoveButton": false,
+        "showPinButton": false
+      },
+      "hasBackend": true,
+      "webConsent": true,
+      "backendConsent": true,
+      "pinned": true
+    },
+    {
+      "instanceId": "221f13fb-8a40-4b10-a9b2-ec1f5bcbc5eb",
+      "widgetId": "riz1.github",
+      "monitorIndex": 0,
+      "kind": "html",
+      "normX": 0.7822916666666667,
+      "normY": 0.34307992202729043,
+      "width": 400,
+      "height": 650,
+      "pinnedGlobalX": 1502,
+      "pinnedGlobalY": 406,
+      "config": {
+        "refreshSec": 120,
+        "browser": "island-browser.desktop"
+      },
+      "prefsUri": null,
+      "hasPreferences": false,
+      "pinnable": true,
+      "chrome": {
+        "showCloseButton": false,
+        "showPrefsButton": false,
+        "showMoveButton": false,
+        "showPinButton": false
+      },
+      "hasBackend": true,
+      "webConsent": true,
+      "backendConsent": true,
+      "pinned": true
+    }
+  ]
+}

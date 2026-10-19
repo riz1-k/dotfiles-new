@@ -1,0 +1,58 @@
+/* ---- panel ---- */
+.ai-usage-box { spacing: 10px; }
+.ai-usage-provider { spacing: 3px; }
+.ai-usage-icon { icon-size: 14px; }
+.ai-usage-value { font-weight: bold; font-feature-settings: "tnum"; }
+.ai-usage-alert { font-weight: bold; color: #f5c211; }
+
+/* dash-to-panel adds .vertical when the panel is on the left/right */
+.ai-usage-bar.vertical .ai-usage-box { spacing: 8px; }
+.ai-usage-bar.vertical .ai-usage-provider { spacing: 1px; }
+.ai-usage-bar.vertical .ai-usage-value { font-size: 9pt; }
+.ai-usage-bar.vertical .ai-usage-value.ai-usage-full { font-size: 7pt; }
+
+/* ---- shared levels ---- */
+.ai-usage-ok { color: #57e389; }
+.ai-usage-info { color: #62a0ea; }
+.ai-usage-warn { color: #f5c211; }
+.ai-usage-crit { color: #ff6b6b; }
+.ai-usage-dim { color: rgba(255, 255, 255, 0.45); }
+.ai-usage-muted { color: rgba(255, 255, 255, 0.6); }
+
+/* ---- menu ---- */
+.ai-usage-menu { min-width: 380px; }
+.ai-usage-header { spacing: 8px; }
+.ai-usage-menu-icon { icon-size: 18px; }
+.ai-usage-title { font-weight: bold; }
+.ai-usage-row { spacing: 10px; padding-top: 3px; padding-bottom: 3px; }
+.ai-usage-window-name { min-width: 110px; }
+.ai-usage-trough {
+  height: 8px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.ai-usage-fill { border-radius: 4px; background-color: #8fb4f0; }
+.ai-usage-fill.ai-usage-warn { background-color: #f5c211; }
+.ai-usage-fill.ai-usage-crit { background-color: #ff6b6b; }
+.ai-usage-pct { min-width: 40px; text-align: right; font-feature-settings: "tnum"; }
+.ai-usage-reset { font-size: 0.9em; }
+.ai-usage-dot { font-size: 0.8em; }
+
+/* ---- multiple accounts ---- */
+.ai-usage-tag { font-size: 7pt; font-weight: bold; color: #D97757; }
+.ai-usage-subtitle { font-size: 0.9em; }
+.ai-usage-service { min-width: 60px; font-weight: bold; }
+
+/* ---- light style (GNOME color-scheme != prefer-dark; class set in extension.js) ---- */
+.ai-usage-light .ai-usage-ok { color: #66800b; }
+.ai-usage-light .ai-usage-info { color: #205ea6; }
+.ai-usage-light .ai-usage-warn,
+.ai-usage-light .ai-usage-alert { color: #ad8301; }
+.ai-usage-light .ai-usage-crit { color: #af3029; }
+.ai-usage-light .ai-usage-dim { color: rgba(16, 15, 15, 0.45); }
+.ai-usage-light .ai-usage-muted { color: rgba(16, 15, 15, 0.6); }
+.ai-usage-light .ai-usage-trough { background-color: rgba(16, 15, 15, 0.1); }
+.ai-usage-light .ai-usage-fill { background-color: #4385be; }
+.ai-usage-light .ai-usage-fill.ai-usage-warn { background-color: #d0a215; }
+.ai-usage-light .ai-usage-fill.ai-usage-crit { background-color: #d14d41; }
+.ai-usage-light .ai-usage-tag { color: #bc5215; }

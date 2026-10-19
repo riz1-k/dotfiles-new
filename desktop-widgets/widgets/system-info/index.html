@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>System Info</title>
+  <link rel="stylesheet" href="./rice.css">
+  <link rel="stylesheet" href="./base.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="card">
+    <!-- CPU large, like the clock on the left, then four small meters, the network and Bluetooth. -->
+    <section class="system">
+      <header class="cpu">
+        <div class="cpu-now">
+          <div class="cpu-value"><span id="cpu-value">--</span><span class="unit">%</span></div>
+          <div class="caption" id="cpu-meta">CPU</div>
+        </div>
+        <div class="cpu-graph">
+          <div class="caption mono" id="uptime"></div>
+          <svg class="graph" viewBox="0 0 100 40" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="cpu-line-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="40" x2="0" y2="0">
+                <stop class="cpu-start" offset="0"/>
+                <stop class="cpu-mid" offset="0.55"/>
+                <stop class="cpu-end" offset="1"/>
+              </linearGradient>
+              <linearGradient id="cpu-area-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="40" x2="0" y2="0">
+                <stop class="cpu-start" offset="0" stop-opacity="0.04"/>
+                <stop class="cpu-mid" offset="0.55" stop-opacity="0.18"/>
+                <stop class="cpu-end" offset="1" stop-opacity="0.3"/>
+              </linearGradient>
+            </defs>
+            <path id="cpu-area" fill="url(#cpu-area-gradient)"/>
+            <polyline id="cpu-line" stroke="url(#cpu-line-gradient)"/>
+          </svg>
+        </div>
+      </header>
+
+      <div class="meters">
+        <div class="meter" id="ram"><span class="label">RAM</span><span class="value mono">—</span><div class="bar"><i></i></div></div>
+        <div class="meter" id="disk"><span class="label">Disk</span><span class="value mono">—</span><div class="bar"><i></i></div></div>
+        <div class="meter" id="temp"><span class="label">Temp</span><span class="value mono">—</span><div class="bar"><i></i></div></div>
+        <div class="meter" id="battery"><span class="label">Battery</span><span class="value mono">—</span><div class="bar"><i></i></div></div>
+      </div>
+
+      <!-- What we're connected through, whether the internet is actually reachable, and tunnels. -->
+      <div class="net">
+        <div class="net-row">
+          <button class="net-link" id="net-link" title="Network settings">
+            <svg class="net-icon" id="wifi-icon" viewBox="0 0 16 16">
+              <path class="arc a3" d="M1.4 6a9.4 9.4 0 0 1 13.2 0"/>
+              <path class="arc a2" d="M3.6 8.3a6.3 6.3 0 0 1 8.8 0"/>
+              <path class="arc a1" d="M5.8 10.6a3.2 3.2 0 0 1 4.4 0"/>
+              <circle class="arc a0" cx="8" cy="13" r="0.6"/>
+              <path class="slash" d="M3 2.5 13 13.5"/>
+            </svg>
+            <svg class="net-icon" id="ethernet-icon" viewBox="0 0 16 16" hidden>
+              <path d="M2.5 3.5h11v7h-3v2h-5v-2h-3z"/>
+              <path d="M5.5 6v2M8 6v2M10.5 6v2"/>
+            </svg>
+            <span class="net-name" id="net-name">—</span>
+            <span class="muted" id="net-detail"></span>
+          </button>
+          <span class="ping mono" id="ping"><i class="dot"></i><span id="ping-text">—</span></span>
+        </div>
+        <div class="net-row mono">
+          <span><b class="down">↓</b> <span id="down">—</span></span>
+          <span><b class="up">↑</b> <span id="up">—</span></span>
+          <span class="tunnels" id="tunnels"></span>
+        </div>
+      </div>
+
+      <!-- Paired Bluetooth devices, connected first: battery, and the audio profile for headphones. -->
+      <div class="bt" id="bt" hidden></div>
+    </section>
+  </main>
+  <script type="module" src="./widget.js"></script>
+</body>
+</html>

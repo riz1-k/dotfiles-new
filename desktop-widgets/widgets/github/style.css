@@ -1,0 +1,230 @@
+/* ---- github ---------------------------------------------------------------- */
+
+.github {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.gh-mark {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    fill: var(--fg);
+}
+
+.account-picker {
+    position: relative;
+    min-width: 0;
+    max-width: 200px;
+}
+
+.account-picker select {
+    appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    padding: 2px 17px 2px 4px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.account-picker select:hover:not(:disabled) {
+    color: var(--fg);
+    background: var(--track);
+}
+
+.account-picker select:disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.account-picker option {
+    background: var(--bg);
+    color: var(--fg);
+}
+
+.account-picker > svg {
+    position: absolute;
+    right: 3px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translateY(-50%);
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 1.5;
+    pointer-events: none;
+}
+
+#account-status {
+    margin-bottom: 6px;
+}
+
+.notifications {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: -3px -6px -3px auto;
+    padding: 2px 6px;
+    border-radius: 5px;
+    color: var(--muted);
+    font-size: 11.5px;
+    transition: background-color 0.15s;
+}
+
+.notifications svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linejoin: round;
+}
+
+.notifications.unread {
+    color: var(--accent);
+}
+
+.notifications:hover {
+    background: var(--track);
+}
+
+.gh-error {
+    margin-bottom: 6px;
+    color: var(--crit);
+}
+
+.gh-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.gh-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.gh-group-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0 -6px 3px;
+    padding: 0 6px;
+    border-radius: 5px;
+}
+
+.gh-group-head .note {
+    color: var(--muted);
+    font-size: 11.5px;
+}
+
+.gh-group-head .count {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 11.5px;
+    transition: color 0.15s;
+}
+
+.gh-group-head:hover .count {
+    color: var(--accent);
+}
+
+.gh-row {
+    display: grid;
+    grid-template-columns: 9px 1fr auto;
+    align-items: center;
+    column-gap: 8px;
+    margin: 0 -6px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    line-height: 18px;
+    transition: background-color 0.15s;
+}
+
+.gh-row:hover {
+    background: var(--track);
+}
+
+.gh-row .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--faint);
+}
+
+.gh-row .dot.ok { background: var(--ok); }
+
+.gh-row .check {
+    width: 9px;
+    height: 9px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.gh-row .check.warn {
+    stroke-width: 1.8;
+    animation: spin 1.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gh-row .check.warn { animation: none; }
+}
+
+.gh-row .pr-title {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.gh-row .age {
+    color: var(--muted);
+    font-size: 11.5px;
+}
+
+.gh-row .meta {
+    grid-column: 2 / -1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--muted);
+    font-size: 11.5px;
+    line-height: 16px;
+}
+
+.gh-row.draft .pr-title {
+    color: var(--muted);
+}
+
+.meta .base { color: var(--info); }
+.meta .ok { color: var(--ok); }
+.meta .crit { color: var(--crit); }
+
+.empty {
+    padding: 1px 0;
+    color: var(--muted);
+}
+
+.stale .gh-body {
+    opacity: 0.55;
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Notes</title>
+  <link rel="stylesheet" href="./rice.css">
+  <link rel="stylesheet" href="./base.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="card">
+    <!-- Enter adds a todo; starting with "- " (or the box button) makes it a plain note. -->
+    <section class="notes">
+      <header class="part-head">
+        <span class="title">Notes</span>
+        <span class="muted" id="notes-count"></span>
+        <button class="icon-button" id="open-file" title="Open the file">
+          <svg viewBox="0 0 16 16"><path d="M9.5 2.5h4v4M13.5 2.5 8 8M12 9.5v3a1 1 0 0 1-1 1H3.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3"/></svg>
+        </button>
+      </header>
+      <form class="add" id="add" autocomplete="off">
+        <button type="button" class="kind" id="kind" title="Todo · click for a note"><i class="box"></i></button>
+        <input id="add-input" placeholder="Add a todo" maxlength="500" spellcheck="true">
+      </form>
+      <div class="notes-list" id="notes-list"></div>
+      <div class="notes-empty" id="notes-empty" hidden>
+        Quick todos and notes,<br>kept in <span class="mono">~/Notes/inbox.md</span>
+      </div>
+    </section>
+    <div class="toast" id="toast" hidden>
+      <span id="toast-text"></span>
+      <button class="toast-action" id="toast-action">Undo</button>
+    </div>
+  </main>
+  <script type="module" src="./widget.js"></script>
+</body>
+</html>

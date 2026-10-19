@@ -1,0 +1,287 @@
+/* ---- notes ----------------------------------------------------------------- */
+
+.notes {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.add {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    padding: 0 9px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--track);
+    border: 1px solid transparent;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.add:focus-within {
+    border-color: var(--faint);
+    background: transparent;
+}
+
+.add input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: none;
+    color: var(--fg);
+    font: inherit;
+}
+
+.add input::placeholder {
+    color: var(--muted);
+}
+
+.kind {
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    margin: 0 -2px;
+    border-radius: 4px;
+}
+
+.kind:hover .box {
+    border-color: var(--fg);
+}
+
+/* The checkbox and the note bullet, shared by the add row and the list. */
+.box {
+    box-sizing: border-box;
+    display: block;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--muted);
+    border-radius: 4px;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.bullet {
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--muted);
+}
+
+.notes-list {
+    flex: 1;
+    min-height: 0;
+    margin: 6px -8px 0;
+    padding: 0 8px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.notes-list::-webkit-scrollbar {
+    display: none;
+}
+
+.notes-list:empty {
+    display: none;
+}
+
+.notes-empty {
+    margin: auto 0;
+    padding: 0 12px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+}
+
+.notes-empty .mono {
+    font-size: 11.5px;
+}
+
+/* Rows cut off at the bottom fade out, so it reads as a list that scrolls. */
+.notes-list.more {
+    -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 22px), transparent);
+}
+
+.notes-list .label {
+    display: flex;
+    align-items: baseline;
+    margin: 8px 0 2px;
+}
+
+.notes-list .label:first-child {
+    margin-top: 2px;
+}
+
+.notes-list .label button {
+    margin-left: auto;
+    color: var(--muted);
+    font: 600 12px "Geist", system-ui, sans-serif;
+    letter-spacing: 0;
+    text-transform: none;
+    transition: color 0.15s;
+}
+
+.notes-list .label button:hover {
+    color: var(--accent);
+}
+
+.item {
+    display: grid;
+    grid-template-columns: 18px 1fr 18px;
+    align-items: start;
+    column-gap: 8px;
+    margin: 0 -6px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    line-height: 18px;
+    transition: background-color 0.15s;
+}
+
+.item:hover {
+    background: var(--track);
+}
+
+.item .mark {
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+}
+
+.item .text {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    cursor: text;
+    /* Long notes show two lines; the whole text is in the tooltip and the editor. */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.item .text a {
+    color: var(--info);
+}
+
+.item .text a:hover {
+    text-decoration: underline;
+}
+
+.item .text code {
+    padding: 0 3px;
+    border-radius: 3px;
+    background: var(--track);
+    font: 500 12px "Geist Mono", ui-monospace, monospace;
+}
+
+.item:hover .text code {
+    background: var(--bg);
+}
+
+.item .delete {
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    color: var(--muted);
+    visibility: hidden;
+}
+
+.item:hover .delete {
+    visibility: visible;
+}
+
+.item .delete:hover {
+    color: var(--crit);
+}
+
+.item .delete svg {
+    width: 9px;
+    height: 9px;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+
+.item .mark:hover .box {
+    border-color: var(--fg);
+}
+
+.item.done .text {
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--faint);
+}
+
+.item.done .box {
+    border-color: var(--ok);
+    background: var(--ok);
+}
+
+/* The tick, drawn inside the filled box. */
+.item.done .box::after {
+    content: "";
+    display: block;
+    width: 3.5px;
+    height: 7px;
+    margin: 0.5px auto 0;
+    border: solid var(--bg);
+    border-width: 0 1.6px 1.6px 0;
+    transform: rotate(45deg);
+}
+
+.item.note .bullet {
+    background: var(--faint);
+}
+
+.item.editing {
+    background: var(--track);
+}
+
+.item .editor {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: none;
+    color: var(--fg);
+    font: inherit;
+    line-height: 18px;
+}
+
+/* ---- toast ----------------------------------------------------------------- */
+
+.toast {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 7px;
+    background: var(--fg);
+    color: var(--bg);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.toast.error {
+    background: var(--crit);
+}
+
+.toast-action {
+    margin-left: auto;
+    color: #bc5215;
+    font-weight: 600;
+}
+
+body[data-theme="light"] .toast-action {
+    color: #ffc799;
+}

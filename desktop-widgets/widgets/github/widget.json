@@ -1,0 +1,19 @@
+{
+  "id": "riz1.github",
+  "kind": "html",
+  "name": "GitHub",
+  "description": "Switch gh CLI accounts, see pull requests waiting on your review, open pull requests with CI state, and unread @mentions.",
+  "author": "riz1",
+  "version": "1.1",
+  "defaultWidth": 400,
+  "defaultHeight": 470,
+  "pinnable": true,
+  "defaultConfig": {
+    "refreshSec": 120,
+    "browser": "island-browser.desktop"
+  },
+  "backend": {
+    "command": "python3",
+    "args": ["-I", "backend.py"]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "riz1.notes",
+  "kind": "html",
+  "name": "Notes",
+  "description": "Quick todos and notes, kept in a Markdown file (~/Notes/inbox.md) you can also edit anywhere else.",
+  "author": "riz1",
+  "version": "1.0",
+  "defaultWidth": 400,
+  "defaultHeight": 254,
+  "pinnable": true,
+  "defaultConfig": {
+    "file": "~/Notes/inbox.md"
+  },
+  "backend": {
+    "command": "python3",
+    "args": [
+      "-I",
+      "backend.py"
+    ]
+  },
+  "chrome": {
+    "showCloseButton": false,
+    "showPrefsButton": false,
+    "showMoveButton": false,
+    "showPinButton": false
+  }
+}

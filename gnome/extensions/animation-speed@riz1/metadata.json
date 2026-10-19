@@ -1,0 +1,9 @@
+{
+  "uuid": "animation-speed@riz1",
+  "name": "Animation Speed",
+  "description": "Make desktop animations slightly faster, restoring the previous speed when disabled.",
+  "shell-version": [
+    "50"
+  ],
+  "version": 1
+}

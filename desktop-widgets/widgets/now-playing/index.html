@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Now Playing</title>
+  <link rel="stylesheet" href="./rice.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body class="idle">
+  <main class="card">
+    <div class="player">
+      <div class="art">
+        <img id="art" alt="" hidden>
+        <svg class="note" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+      </div>
+      <div class="info">
+        <div class="source">
+          <span class="small muted" id="source"></span>
+          <button class="switch" id="switch" title="Switch player" hidden>
+            <svg viewBox="0 0 24 24"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>
+          </button>
+        </div>
+        <div class="track-title" id="title"></div>
+        <div class="artist muted" id="artist"></div>
+        <div class="bar progress" id="progress"><i id="fill"></i></div>
+        <div class="bottom">
+          <span class="mono small muted" id="time"></span>
+          <div class="controls">
+            <button id="previous" title="Previous">
+              <svg viewBox="0 0 24 24"><path d="M6 5h2.5v14H6zM19 5v14L9 12z"/></svg>
+            </button>
+            <button class="play" id="play-pause" title="Play / Pause">
+              <svg class="icon-play" viewBox="0 0 24 24"><path d="M8.5 5.5v13l10-6.5z"/></svg>
+              <svg class="icon-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+            </button>
+            <button id="next" title="Next">
+              <svg viewBox="0 0 24 24"><path d="M15.5 5H18v14h-2.5zM5 5l10 7-10 7z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="idle-row">
+      <svg class="note" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+      <span class="muted">Nothing playing</span>
+    </div>
+  </main>
+  <script type="module" src="./widget.js"></script>
+</body>
+</html>

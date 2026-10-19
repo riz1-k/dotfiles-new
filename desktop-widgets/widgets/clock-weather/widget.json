@@ -1,0 +1,31 @@
+{
+  "id": "riz1.clock-weather",
+  "kind": "html",
+  "name": "Clock + Weather",
+  "description": "Clock, Open-Meteo weather with a 6-hour forecast, and your GNOME/Google Calendar events: on the forecast's timeline, in the month and in an agenda.",
+  "author": "riz1",
+  "version": "1.0",
+  "defaultWidth": 400,
+  "defaultHeight": 670,
+  "pinnable": true,
+  "defaultConfig": {
+    "place": "Bengaluru",
+    "latitude": 12.9716,
+    "longitude": 77.5946,
+    "refreshMin": 15,
+    "browser": ""
+  },
+  "backend": {
+    "command": "python3",
+    "args": [
+      "-I",
+      "backend.py"
+    ]
+  },
+  "chrome": {
+    "showCloseButton": false,
+    "showPrefsButton": false,
+    "showMoveButton": false,
+    "showPinButton": false
+  }
+}

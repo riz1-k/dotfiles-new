@@ -1,0 +1,27 @@
+{
+  "id": "riz1.ai-usage",
+  "kind": "html",
+  "name": "AI Usage",
+  "description": "Claude and Codex rate-limit usage and service status, from the ai-usage-bar extension.",
+  "author": "riz1",
+  "version": "1.0",
+  "defaultWidth": 400,
+  "defaultHeight": 356,
+  "pinnable": true,
+  "defaultConfig": {
+    "refreshSec": 300
+  },
+  "backend": {
+    "command": "gjs",
+    "args": [
+      "-m",
+      "backend.js"
+    ]
+  },
+  "chrome": {
+    "showCloseButton": false,
+    "showPrefsButton": false,
+    "showMoveButton": false,
+    "showPinButton": false
+  }
+}

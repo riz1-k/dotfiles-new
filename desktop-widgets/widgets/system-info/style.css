@@ -1,0 +1,283 @@
+/* ---- system ---------------------------------------------------------------- */
+
+.system {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: none;
+}
+
+.cpu {
+    display: flex;
+    align-items: flex-end;
+    gap: 18px;
+}
+
+.cpu-now {
+    flex: none;
+}
+
+.cpu-value {
+    font-size: 46px;
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+}
+
+.cpu-value .unit {
+    margin-left: 2px;
+    font-size: 20px;
+    font-weight: 350;
+    letter-spacing: 0;
+    color: var(--muted);
+}
+
+.cpu-now .caption {
+    margin-top: 8px;
+    white-space: nowrap;
+}
+
+.cpu-now .hog {
+    display: inline-block;
+    max-width: 130px;
+    overflow: hidden;
+    vertical-align: bottom;
+    text-overflow: ellipsis;
+    color: var(--warn);
+    font-weight: 600;
+}
+
+.cpu-graph {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.graph {
+    display: block;
+    width: 100%;
+    height: 48px;
+    border-bottom: 1px solid var(--divider);
+}
+
+#cpu-line {
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.cpu-start { stop-color: var(--cpu-start); }
+.cpu-mid { stop-color: var(--cpu-mid); }
+.cpu-end { stop-color: var(--cpu-end); }
+
+.meters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px 22px;
+}
+
+.meter {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    row-gap: 5px;
+}
+
+.meter .value {
+    font-size: 12px;
+}
+
+.meter .value .of {
+    color: var(--muted);
+}
+
+.meter .bar {
+    grid-column: 1 / -1;
+    height: 3px;
+    border-radius: 2px;
+}
+
+#ram .bar > i { color: var(--mem); }
+#disk .bar > i { color: var(--disk); }
+
+/* ---- network --------------------------------------------------------------- */
+
+.net {
+    display: grid;
+    gap: 5px;
+}
+
+.net-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.net-row.mono {
+    font-size: 11.5px;
+}
+
+.net-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    margin: -2px -6px;
+    padding: 2px 6px;
+    border-radius: 5px;
+    transition: background-color 0.15s;
+}
+
+.net-link:hover {
+    background: var(--track);
+}
+
+.net-icon {
+    flex: none;
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Arcs past the signal strength stay faint, like the top bar's icon. */
+#wifi-icon .arc { stroke: var(--faint); transition: stroke 0.3s; }
+#wifi-icon .arc.on { stroke: var(--fg); }
+#wifi-icon .slash { display: none; stroke: var(--crit); }
+.offline #wifi-icon .slash { display: inline; }
+
+.net-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 600;
+}
+
+.offline .net-name { color: var(--muted); }
+
+#net-detail {
+    font-size: 11.5px;
+    white-space: nowrap;
+}
+
+.ping {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    font-size: 11.5px;
+    white-space: nowrap;
+}
+
+.ping .dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--faint);
+}
+
+.ping.ok .dot { background: var(--ok); }
+.ping.warn .dot { background: var(--warn); }
+.ping.crit .dot { background: var(--crit); }
+.ping.ok { color: var(--fg); }
+
+.net .down { color: var(--down); }
+.net .up { color: var(--up); }
+
+.tunnels {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.tunnels .on { color: var(--fg); }
+.tunnels .via { color: var(--accent); }
+.tunnels .off { color: var(--faint); }
+
+/* ---- bluetooth ------------------------------------------------------------- */
+
+.bt {
+    display: grid;
+    gap: 5px;
+    padding-top: 11px;
+    border-top: 1px solid var(--divider);
+}
+
+.bt-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    margin: -2px -6px;
+    padding: 2px 6px;
+    border-radius: 5px;
+    text-align: left;
+    transition: background-color 0.15s;
+}
+
+.bt-row:hover {
+    background: var(--track);
+}
+
+.bt-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 600;
+}
+
+.bt-detail {
+    flex: none;
+    font-size: 11.5px;
+    white-space: nowrap;
+}
+
+.bt-row.off .net-icon,
+.bt-row.off .bt-name {
+    color: var(--muted);
+}
+
+.bt-row.off .bt-name {
+    font-weight: 500;
+}
+
+.bt-row.off .bt-detail {
+    color: var(--faint);
+}
+
+.bt-battery {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    font-size: 11.5px;
+    white-space: nowrap;
+}
+
+.bt-battery .pill {
+    width: 18px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--track);
+    overflow: hidden;
+}
+
+.bt-battery .pill b {
+    display: block;
+    height: 100%;
+    background: var(--ok);
+}
+
+.bt-battery.warn .pill b { background: var(--warn); }
+.bt-battery.crit .pill b { background: var(--crit); }

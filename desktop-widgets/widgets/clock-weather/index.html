@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Clock + Weather</title>
+  <link rel="stylesheet" href="./rice.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="card">
+    <header class="top">
+      <div class="clock">
+        <div class="time mono"><span id="time">--:--</span><span class="suffix" id="suffix"></span></div>
+        <div class="date" id="date"></div>
+      </div>
+      <div class="current">
+        <div class="current-main">
+          <span class="wx" id="current-icon"></span>
+          <span class="mono current-temp" id="current-temp">--°</span>
+        </div>
+        <div class="small" id="current-desc">Loading weather…</div>
+        <div class="small muted" id="current-meta"></div>
+      </div>
+    </header>
+
+    <!-- What's on now, or next: the one thing worth a glance. -->
+    <section class="focus" id="focus" hidden></section>
+
+    <!-- The next six hours: the forecast, and under it a track of your events on the same axis. -->
+    <section class="ahead">
+      <div class="hourly" id="hourly"></div>
+      <div class="track" id="track" hidden></div>
+    </section>
+
+    <!-- This week; the month title opens the whole month. -->
+    <section class="calendar">
+      <header class="calendar-head">
+        <button class="month-toggle" id="month-toggle" aria-expanded="false" aria-controls="calendar">
+          <span class="title" id="month"></span>
+          <svg viewBox="0 0 16 16"><path d="M4.5 6.5 8 10l3.5-3.5"/></svg>
+        </button>
+        <div class="month-nav">
+          <button class="today-button small" id="today" hidden>Today</button>
+          <button class="nav" id="prev" aria-label="Previous week">
+            <svg viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg>
+          </button>
+          <button class="nav" id="next" aria-label="Next week">
+            <svg viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
+          </button>
+        </div>
+      </header>
+      <div class="calendar-grid" id="calendar"></div>
+    </section>
+
+    <section class="agenda" id="agenda" hidden>
+      <div class="agenda-body" id="agenda-body">
+        <div class="agenda-list" id="agenda-list"></div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./widget.js"></script>
+</body>
+</html>
