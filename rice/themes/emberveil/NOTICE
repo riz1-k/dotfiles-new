@@ -1,0 +1,15 @@
+Emberveil is derived from Vengeance (https://github.com/Grey-007/vengeance)
+by Grey-007, which is also MIT licensed. The original palette, terminal/Zed/GTK
+file layout and the general structure of this theme come from that project; the
+palette values, the selection treatment and the border gradient were reworked
+for this theme.
+
+Neovim support targets ashen.nvim (https://github.com/ficcdaf/ashen.nvim), used
+as a separate dependency and not redistributed as part of this theme.
+
+The bundled wallpaper, backgrounds/BG2.webp, was generated with AI image tools
+(ChatGPT and Gemini) and is released under the same MIT license as the theme. It
+was veiled and re-encoded for this theme but is otherwise unmodified in content.
+
+Third-party components referenced by this theme remain under their own licenses
+and are not distributed here.

@@ -1,0 +1,62 @@
+# Rose of Dune (https://github.com/HANCORE-linux/omarchy-roseofdune-theme, d53c6ac, MIT): a light
+# theme of dark brown ink on dune cream, with rose, wine and terracotta accents. Upstream's
+# file as is, bar its two Hyprland lines. No rice pins: it already sets a subtle selection
+# for rows, readable selected text and dim text, and its own darker backgrounds.
+
+accent = "#76634c"
+cursor = "#DEA193"
+foreground = "#35302a"
+background = "#F5E6D3"
+selection_foreground = "#35302a"
+selection_background = "#c68d95"
+
+mode = "light"
+
+selection = "#ddc3c9"
+muted = "#756454"
+
+# rice: Hyprland-only, and in Hyprland's rgba(rrggbbaa) form, which rice reads as
+# not a colour (a warning on every switch).
+# hyprland_active_border = "rgba(9e4f5bff)"
+# hyprland_inactive_border = "rgba(c8ac86ff)"
+
+dark_background = "#ecdcc6"
+darker_background = "#e3d2bb"
+lighter_background = "#fdf7ee"
+
+dark_foreground = "#6b5e52"
+light_foreground = "#2a2620"
+bright_foreground = "#a94a34"
+
+red = "#a02b16"
+yellow = "#644535"
+orange = "#9b5625"
+green = "#9e4f5b"
+cyan = "#713a56"
+blue = "#76634c"
+magenta = "#78292e"
+brown = "#6e4a3a"
+
+bright_red = "#a02b16"
+bright_yellow = "#694C45"
+bright_green = "#9e4f5b"
+bright_cyan = "#713a56"
+bright_blue = "#76634c"
+bright_magenta = "#78292e"
+
+color0 = "#F5E6D3"
+color1 = "#a02b16"
+color2 = "#9e4f5b"
+color3 = "#644535"
+color4 = "#76634c"
+color5 = "#78292e"
+color6 = "#713a56"
+color7 = "#a94a34"
+color8 = "#C8AC86"
+color9 = "#a02b16"
+color10 = "#9e4f5b"
+color11 = "#694C45"
+color12 = "#76634c"
+color13 = "#78292e"
+color14 = "#713a56"
+color15 = "#a94a34"

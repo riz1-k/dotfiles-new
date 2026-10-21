@@ -1,0 +1,43 @@
+# Osaka Jade (https://github.com/basecamp/omarchy, themes/osaka-jade on the quattro
+# branch, 81fd2d2, MIT): Omarchy's own, jade and moss greens with cream text on a deep
+# green-black. Upstream's file as is, then rice's pins at the end.
+mode = "dark"
+
+accent = "#509475"
+selection = "#32473B"
+muted = "#53685B"
+
+background = "#111c18"
+dark_background = "#0c1512"
+darker_background = "#090f0d"
+lighter_background = "#23372B"
+
+foreground = "#C1C497"
+dark_foreground = "#81B8A8"
+light_foreground = "#D6D5BC"
+bright_foreground = "#F7E8B2"
+
+red = "#FF5345"
+yellow = "#459451"
+orange = "#a2734b"
+green = "#549e6a"
+cyan = "#2DD5B7"
+blue = "#509475"
+magenta = "#D2689C"
+brown = "#513925"
+
+bright_red = "#db9f9c"
+bright_yellow = "#E5C736"
+bright_green = "#63b07a"
+bright_cyan = "#8CD3CB"
+bright_blue = "#ACD4CF"
+bright_magenta = "#75bbb3"
+
+# rice: rows and hovers (lazygit, btop, yazi, vicinae...) use selection, which here is
+# Omarchy 4's text-selection colour: text on it is 5.5:1, and the accent 2.8:1.
+# Upstream's lighter_background instead (7:1), and #32473B kept for selected text.
+selection = "#23372B"
+selection_background = "#32473B"
+# Upstream's yellow is a green (#459451), so warnings (GTK, the bar, yazi, Discord)
+# looked like successes (#549e6a). The palette's one yellow instead.
+ui_warning = "#E5C736"

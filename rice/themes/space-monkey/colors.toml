@@ -1,0 +1,48 @@
+# Space Monkey (https://github.com/TyRichards/omarchy-space-monkey-theme, 814af89, GPL-3.0):
+# golden text and rust accents on deep brown, a warm mid-century-modern space theme and
+# an Omarchy 4 palette. Upstream's file as is, then the rice pins at the end.
+
+mode = "dark"
+
+accent = "#bd4924"
+selection = "#f4cc5d"
+selection_foreground = "#1c0e00"
+muted = "#948a8b"
+
+background = "#1c0e00"
+dark_background = "#160b00"
+darker_background = "#0f0700"
+lighter_background = "#291603"
+
+foreground = "#e7aa5a"
+dark_foreground = "#948a8b"
+light_foreground = "#e6d9db"
+bright_foreground = "#f1e5e7"
+
+red = "#fd6883"
+yellow = "#f9cc6c"
+orange = "#df782d"
+green = "#df782d"
+cyan = "#bd4924"
+blue = "#66a891"
+magenta = "#a8a9eb"
+brown = "#968773"
+
+bright_red = "#ff8297"
+bright_yellow = "#fcd675"
+bright_green = "#c8e292"
+bright_cyan = "#9bf1e1"
+bright_blue = "#f8a788"
+bright_magenta = "#bebffd"
+
+# Warm stone borders stay independent from Space Monkey's rust accent.
+# rice: Hyprland-only, and in Hyprland's rgba(rrggbbaa) form, which rice reads as
+# not a colour (a warning on every switch).
+# hyprland_active_border = "rgba(a89984de)"
+# hyprland_inactive_border = "rgba(a8998480)"
+
+# rice: rows and hovers (btop, lazygit, yazi, vicinae...) use selection, which here is
+# the strong gold (Omarchy 4's meaning): gold text on it is 1.3:1. Upstream's own raised
+# surface instead (its launcher input and controls), and the gold kept for selected text.
+selection = "#291603"
+selection_background = "#f4cc5d"

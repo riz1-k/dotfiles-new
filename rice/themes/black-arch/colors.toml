@@ -1,0 +1,38 @@
+# Black Arch (https://github.com/ankur311sudo/black_arch, fe2c966): greys on pure black,
+# "a dead simple theme for the digital minimalist". The palette is upstream's as is;
+# as in Omarchy, color0 and color7 become the background and foreground.
+accent = "#989898"
+cursor = "#FFFFFF"
+foreground = "#FFFFFF"
+background = "#000000"
+
+selection_foreground = "#000000"
+selection_background = "#FFFFFF"
+
+color0  = "#262626"
+color1  = "#646464"
+color2  = "#8E8E8E"
+color3  = "#B9B9B9"
+color4  = "#989898"
+color5  = "#747474"
+color6  = "#585858"
+color7  = "#D4D4D4"
+
+color8  = "#262626"
+color9  = "#646464"
+color10 = "#8E8E8E"
+color11 = "#B9B9B9"
+color12 = "#989898"
+color13 = "#747474"
+color14 = "#585858"
+color15 = "#D4D4D4"
+
+# rice: Omarchy fills muted and dark_foreground from color8, but #262626 is too dark
+# to read on black (comments, line numbers, autosuggestions, borders). Two of the
+# palette's own greys instead. The templates' terminal colour 8 is muted, so it
+# lightens too.
+muted = "#747474"
+dark_foreground = "#8E8E8E"
+# Without it, selection is selection_background, and white rows hide their text in
+# lazygit, btop, yazi and vicinae. Selected text stays white on black.
+selection = "#262626"

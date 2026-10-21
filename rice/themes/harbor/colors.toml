@@ -1,0 +1,67 @@
+# Harbor (https://github.com/HANCORE-linux/omarchy-harbor-theme, 022eeb5, MIT): calm and
+# paper-light, green-black ink and cool Nordic blue accents on pale sage paper.
+accent = "#5e81ac"
+cursor = "#1c2d28"
+foreground = "#1c2d28"
+background = "#dfe4c4"
+selection_foreground = "#1c2d28"
+selection_background = "#5e81ac"
+
+mode = "light"
+
+selection = "#c8d4a8"
+muted = "#606c68"
+
+# rice: Hyprland-only, and in a hex rgba()/rgb() form rice's colour reader rejects
+# ("not a colour" on every switch). rice doesn't use hyprland_* keys.
+# hyprland_active_border = "rgba(253631ee)"
+# hyprland_inactive_border = "rgb(7d8794)"
+
+dark_background = "#dfe4c4"
+darker_background = "#d8d9b8"
+lighter_background = "#ecebbd"
+
+dark_foreground = "#606c68"
+light_foreground = "#253631"
+bright_foreground = "#1c2d28"
+
+red = "#b14752"
+yellow = "#dc8164"
+orange = "#9d4b25"
+green = "#556753"
+cyan = "#3d727d"
+blue = "#4c6c94"
+magenta = "#8a5b81"
+brown = "#835665"
+
+bright_red = "#b14752"
+bright_yellow = "#dc8164"
+bright_green = "#556753"
+bright_cyan = "#3d727d"
+bright_blue = "#4c6c94"
+bright_magenta = "#8a5b81"
+
+color0 = "#dfe4c4"
+color1 = "#b14752"
+color2 = "#556753"
+color3 = "#dc8164"
+color4 = "#4c6c94"
+color5 = "#8a5b81"
+color6 = "#3d727d"
+color7 = "#384f54"
+color8 = "#7d8794"
+color9 = "#b14752"
+color10 = "#556753"
+color11 = "#dc8164"
+color12 = "#4c6c94"
+color13 = "#8a5b81"
+color14 = "#3d727d"
+color15 = "#1c2d28"
+
+# rice: ink on the blue selection is 3.6:1 and paper on it 3.1:1, so selected text
+# is the ink taken most of the way to black (4.7:1). The blue stays.
+selection_foreground = "#0b1210"
+# Warnings (GTK, yazi, Vesktop, the widgets) take the yellow, a salmon at 2.2:1 on
+# the paper. Upstream's own darker Neovim yellow instead (4.6:1); the terminal's
+# yellow stays.
+ui_warning = "#8f5424"

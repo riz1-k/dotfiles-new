@@ -1,0 +1,47 @@
+# Emberveil (https://github.com/amaurisd97/omarchy-emberveil-theme, b6dcf62, MIT): one ember accent
+# on a warm near-black, derived from Grey-007's Vengeance. Upstream's file as is, then the rice
+# pins at the end.
+
+mode = "dark"
+
+accent = "#c96f75"
+cursor = "#f8f7f6"
+selection = "#3a2427"
+selection_foreground = "#110e0e"
+selection_background = "#d4545c"
+
+# Degradado del borde activo. Sin angulo = horizontal (izq->der).
+# El wallpaper es muy rojo, asi que los tonos medios usan un gris frio (#443c44)
+# en vez de rojo oscuro: contrasta contra el fondo sin romper el efecto de
+# fundido. Medido contra las zonas del fondo, el gris sube el contraste de
+# 1.05-1.13 (invisible) a 1.41-1.67 (visible).
+# rice: Hyprland-only, and a five-stop gradient rather than one colour, which rice
+# reads as not a colour (a warning on every switch).
+# hyprland_active_border = "#c96f75 #443c44 #2e2a30 #443c44 #c96f75"
+
+background = "#110e0e"
+foreground = "#e4e0dd"
+
+color0 = "#110e0e"
+color1 = "#d16168"
+color2 = "#d98364"
+color3 = "#cf777d"
+color4 = "#d06269"
+color5 = "#d26a71"
+color6 = "#d7b29a"
+color7 = "#e4e0dd"
+color8 = "#504b55"
+color9 = "#edc0c3"
+color10 = "#f7e4d4"
+color11 = "#efd2d4"
+color12 = "#ecc0c3"
+color13 = "#efc8cb"
+color14 = "#f8e8dd"
+color15 = "#f8f7f6"
+
+# rice: Omarchy fills muted and dark_foreground from color8, but #504b55 is 2.3:1 on the
+# background (comments, line numbers, hints, borders, terminal colour 8). Two of upstream's
+# own greys instead: #7d7472 (4.2:1), the muted it documents and the color8 of its terminal
+# and Discord files, and #8f8783 (5.5:1), its lock screen's placeholder text.
+muted = "#7d7472"
+dark_foreground = "#8f8783"

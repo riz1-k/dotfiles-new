@@ -48,6 +48,18 @@
   background-color: #f2f0e5 !important;
 }
 
+/* Icons and labels another extension puts in the capsule (notification-icons' app
+   icons and unread count) read on it, not in the islands' foreground, which it hides. */
+#panelBox #panel.rice-bar .rice-capsule StIcon,
+#panelBox #panel.rice-bar .rice-capsule StLabel {
+  color: #100f0f !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .notification-count {
+  color: #fffcf0 !important;
+  background-color: #bc5215 !important;
+}
+
 #panelBox #panel.rice-bar .panel-button.rice-capsule:hover,
 #panelBox #panel.rice-bar .panel-button.rice-capsule:focus {
   box-shadow: none !important;
@@ -88,6 +100,86 @@
 
 #panelBox #panel.rice-bar .rice-capsule .rice-flash .rice-badge-icon {
   color: #100f0f !important;
+}
+
+/* ---- notifications: the countdown and the card ------------------------------- */
+
+#panelBox #panel.rice-bar .rice-capsule .rice-timer,
+.rice-card .rice-timer {
+  background-color: rgba(16, 15, 15, 0.10) !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-timer-fill,
+.rice-card .rice-timer-fill {
+  background-color: #bc5215 !important;
+}
+
+.rice-card {
+  color: #100f0f !important;
+  background-color: #f2f0e5 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36) !important;
+}
+
+.rice-card .rice-card-icon,
+.rice-card .rice-card-app,
+.rice-card .rice-card-title,
+.rice-card .rice-card-body {
+  color: #100f0f !important;
+}
+
+.rice-card .rice-card-paused,
+.rice-card .rice-card-close StIcon {
+  color: #6f6e69 !important;
+}
+
+.rice-card .rice-card-close:hover,
+.rice-card .rice-card-action {
+  color: #100f0f !important;
+  background-color: rgba(16, 15, 15, 0.08) !important;
+}
+
+.rice-card .rice-card-action:hover {
+  background-color: rgba(16, 15, 15, 0.14) !important;
+}
+
+.rice-card .rice-card-action.rice-card-primary {
+  color: #fffcf0 !important;
+  background-color: #bc5215 !important;
+}
+
+.rice-card .rice-card-action.rice-card-primary:hover {
+  background-color: #a74a14 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-count {
+  color: #fffcf0 !important;
+  background-color: #bc5215 !important;
+  box-shadow: 0 0 0 2px #f2f0e5 !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-queue {
+  background-color: rgba(16, 15, 15, 0.08) !important;
+}
+
+#panelBox #panel.rice-bar .rice-capsule .rice-queue .rice-queue-label {
+  color: #6f6e69 !important;
+}
+
+/* an urgent notification: a ring on the capsule and the card, until it's acted on */
+#panelBox #panel.rice-bar .panel-button.rice-capsule.rice-urgent,
+#panelBox #panel.rice-bar .panel-button.rice-capsule.rice-urgent:hover,
+#panelBox #panel.rice-bar .panel-button.rice-capsule.rice-urgent:focus,
+#panelBox #panel.rice-bar .panel-button.rice-capsule.rice-urgent:active,
+#panelBox #panel.rice-bar .panel-button.rice-capsule.rice-urgent:checked {
+  box-shadow: inset 0 0 0 2px #bc5215 !important;
+}
+
+.rice-card.rice-urgent {
+  border: 2px solid #bc5215 !important;
+}
+
+.rice-card .rice-card-more {
+  color: #6f6e69 !important;
 }
 
 /* ---- pickers ------------------------------------------------------------------- */

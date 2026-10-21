@@ -1,0 +1,32 @@
+accent = "#a32f1a"
+cursor = "#4d2e1a"
+foreground = "#4d2e1a"
+background = "#f3e4cb"
+selection_foreground = "#4d2e1a"
+selection_background = "#a32f1a"
+
+color0 = "#f3e4cb"
+color1 = "#a4373c"
+color2 = "#a46d2d"
+color3 = "#a8611f"
+color4 = "#a32f1a"
+color5 = "#9c3521"
+color6 = "#755833"
+color7 = "#080503"
+color8 = "#9f8253"
+color9 = "#d2656a"
+color10 = "#d89b55"
+color11 = "#e48e3e"
+color12 = "#e84d31"
+color13 = "#de553a"
+color14 = "#b8884c"
+color15 = "#4d2e1a"
+
+# rice: Omarchy derives the darker backgrounds as 25%/50% black, a dark tan on
+# paper (cards, popovers, sidebars). Slightly darker paper instead.
+dark_background = "#e6d5bd"
+darker_background = "#dac9b0"
+# Ink on the blood-red selection is 1.7:1; paper on it is 5.6:1.
+selection_foreground = "#f3e4cb"
+# Selected rows and hovers (lazygit, btop, yazi...) would otherwise be red under ink.
+selection = "#dfceb6"
